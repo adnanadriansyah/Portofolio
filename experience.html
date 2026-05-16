@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience - Adnan Ardiansyah</title>
+<meta name="description" content="Pengalaman kerja dan pendidikan Adnan Ardiansyah - full-stack developer dan UI/UX enthusiast.">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>(function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); })();</script>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div class="bg-fx" aria-hidden="true">
+  <div class="bg-noise"></div><div class="bg-glow1"></div><div class="bg-glow2"></div><div class="bg-grid"></div>
+</div>
+
+<nav id="nav">
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>Adnan Ardiansyah</a>
+  <div class="nav-right">
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="experience.html" class="on" aria-current="page">Experience</a></li>
+      <li><a href="contact.html" class="cta">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="t-icon icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="t-icon icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    </button>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a>
+  <a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="contact.html">Contact</a>
+  <div class="mobile-theme"><button class="mobile-theme-btn theme-toggle" aria-label="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><span class="theme-label">Light Mode</span></button></div>
+</div>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <span class="label-tag rv">Experience</span>
+    <h1 class="rv d1">Career <em>Highlights</em></h1>
+    <p class="rv d2">Perjalanan profesional saya di dunia full-stack development, SaaS, dan UI/UX design · diceritakan lewat peran, tanggung jawab, dan hasil nyata.</p>
+  </div>
+</div>
+
+<section id="experience">
+  <div class="section-inner">
+    <div class="exp-grid">
+      <aside class="exp-sidebar">
+        <button class="exp-sidebar-item on" type="button">
+          <div class="exp-sidebar-yr">2024 · Sekarang</div>
+          <div class="exp-sidebar-title">Full-Stack Developer · SnapNext</div>
+        </button>
+        <button class="exp-sidebar-item" type="button">
+          <div class="exp-sidebar-yr">2022 · 2024</div>
+          <div class="exp-sidebar-title">Product Engineer · Startup Fintech</div>
+        </button>
+        <button class="exp-sidebar-item" type="button">
+          <div class="exp-sidebar-yr">2021 · 2022</div>
+          <div class="exp-sidebar-title">UI/UX Developer · Freelance Projects</div>
+        </button>
+      </aside>
+
+      <div>
+        <article class="exp-entry">
+          <div class="exp-date">2024 · Sekarang</div>
+          <h3>Full-Stack Developer</h3>
+          <div class="exp-where"><strong>SnapNext</strong> · Remote / Lhokseumawe</div>
+          <p class="exp-body">Memimpin pengembangan end-to-end platform SaaS photo booth profesional yang melayani vendor event dan pelanggan ritel. Bertanggung jawab atas arsitektur front-end, API backend, integrasi pembayaran QRIS, serta optimasi performa dan uptime.</p>
+          <div class="exp-tags">
+            <span class="ptag">Next.js</span>
+            <span class="ptag">TypeScript</span>
+            <span class="ptag">Node.js</span>
+            <span class="ptag">PostgreSQL</span>
+            <span class="ptag">SaaS</span>
+          </div>
+        </article>
+
+        <article class="exp-entry">
+          <div class="exp-date">2022 · 2024</div>
+          <h3>Product Engineer</h3>
+          <div class="exp-where"><strong>Startup Fintech</strong> · Medan</div>
+          <p class="exp-body">Mengembangkan sistem marketplace dan dashboard analytics untuk produk finansial digital. Berkolaborasi dengan tim desain dan produk untuk menghadirkan fitur onboarding, pemantauan transaksi, dan reporting otomatis yang meningkatkan retensi pengguna.</p>
+          <div class="exp-tags">
+            <span class="ptag">React</span>
+            <span class="ptag">FastAPI</span>
+            <span class="ptag">Docker</span>
+            <span class="ptag">CI/CD</span>
+            <span class="ptag">UI/UX</span>
+          </div>
+        </article>
+
+        <article class="exp-entry">
+          <div class="exp-date">2021 · 2022</div>
+          <h3>UI/UX Developer</h3>
+          <div class="exp-where"><strong>Freelance</strong> · Aceh</div>
+          <p class="exp-body">Mendesain dan mengimplementasikan antarmuka untuk website brand lokal dan aplikasi internal. Fokus pada prototype interaktif, sistem gaya, dan pengalaman pengguna yang mudah diadopsi oleh klien dengan berbagai latar belakang bisnis.</p>
+          <div class="exp-tags">
+            <span class="ptag">Figma</span>
+            <span class="ptag">HTML</span>
+            <span class="ptag">CSS</span>
+            <span class="ptag">JavaScript</span>
+            <span class="ptag">Branding</span>
+          </div>
+        </article>
+
+        <div class="edu-block">
+          <div class="edu-yr">2024 · 2028</div>
+          <h3>D4 Teknologi Rekayasa Komputer & Jaringan</h3>
+          <div class="edu-school">Politeknik Negeri Lhokseumawe</div>
+          <p>Mendalami arsitektur jaringan, perangkat lunak embedded, dan pengembangan sistem. Pengalaman akademis mendukung kemampuan saya dalam mengintegrasikan solusi teknis yang kuat dengan produk digital yang mudah digunakan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-l">Designed &amp; Built by <strong>Adnan Ardiansyah</strong> · 2025</div>
+  <ul class="foot-links"><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li></ul>
+  <div class="foot-r">AA · Portfolio</div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

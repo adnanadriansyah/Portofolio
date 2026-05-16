@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Adnan Ardiansyah</title>
+<meta name="description" content="Tentang Adnan Ardiansyah — Full-Stack Developer & UI/UX Designer dari Lhokseumawe, Aceh.">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>(function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); })();</script>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div class="bg-fx" aria-hidden="true">
+  <div class="bg-noise"></div><div class="bg-glow1"></div><div class="bg-glow2"></div><div class="bg-grid"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>Adnan Ardiansyah</a>
+  <div class="nav-right">
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="on" aria-current="page">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="contact.html" class="cta">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="t-icon icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="t-icon icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    </button>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a>
+  <a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="contact.html">Contact</a>
+  <div class="mobile-theme"><button class="mobile-theme-btn theme-toggle" aria-label="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><span class="theme-label">Light Mode</span></button></div>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <span class="label-tag rv">Who I Am</span>
+    <h1 class="rv d1">The Person <em>Behind the Code</em></h1>
+    <p class="rv d2">Full-Stack Developer & UI/UX enthusiast dari Lhokseumawe, Aceh — membangun produk digital yang bermakna.</p>
+  </div>
+</div>
+
+<!-- ABOUT SECTION -->
+<section id="about" style="padding:7rem 0;">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="rv d1">
+        <div class="about-img-wrap">
+          <img src="image.png" alt="Adnan Ardiansyah" loading="lazy">
+          <div class="about-img-caption">Adnan Ardiansyah — Lhokseumawe, Aceh</div>
+        </div>
+      </div>
+      <div>
+        <div class="about-intro rv d2">Passionate builder of <em>digital products</em> that live at the intersection of code and craft.</div>
+        <p class="about-body rv d3">Halo! Saya <strong>Adnan Ardiansyah</strong>, seorang Full-Stack Developer dari Medan, Indonesia. Saya percaya bahwa kode yang baik adalah seni tersendiri — dan pengalaman digital yang hebat lahir dari perpaduan teknik yang solid dengan desain yang thoughtful.</p>
+        <p class="about-body rv d4">Dengan pengalaman di berbagai proyek mulai dari <strong>startup lokal</strong> hingga platform <strong>SaaS multi-tenant</strong>, saya membawa perspektif unik dalam setiap pekerjaan — menggabungkan keindahan desain dengan ketangguhan engineering.</p>
+        <p class="about-body rv d4">Di luar koding, saya suka mengeksplorasi tren desain terkini, berkontribusi di komunitas developer lokal, dan sesekali bermain-main dengan proyek hardware. Bagi saya, belajar adalah proses yang tidak pernah selesai.</p>
+        <div class="about-facts rv d4">
+          <div class="fact-row"><span class="fact-k">Domisili</span><span class="fact-v">Medan, Indonesia</span></div>
+          <div class="fact-row"><span class="fact-k">Pendidikan</span><span class="fact-v">D4 Teknologi Rekayasa Komputer & Jaringan — PNL</span></div>
+          <div class="fact-row"><span class="fact-k">Fokus</span><span class="fact-v">Full-Stack Dev · UI/UX · SaaS</span></div>
+          <div class="fact-row"><span class="fact-k">Status</span><span class="fact-v" style="color:var(--gold)">Open to Opportunities</span></div>
+          <div class="fact-row"><span class="fact-k">Email</span><span class="fact-v"><a href="mailto:adnanadriansyah5@gmail.com">adnanadriansyah5@gmail.com</a></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS SECTION -->
+<section style="padding:0 0 7rem;background:var(--bg2);">
+  <div class="section-inner" style="padding-top:5rem;">
+    <div class="rv"><span class="label-tag">Skills & Expertise</span></div>
+    <h2 class="section-heading rv d1" style="margin-bottom:3rem;">What I <em>Bring</em></h2>
+    <div class="skills-grid">
+      <div class="sk-card rv d1">
+        <div class="sk-icon">⚡</div>
+        <h4>Frontend Development</h4>
+        <p>React, Next.js, TypeScript — pixel-perfect interfaces dengan performa tinggi dan aksesibilitas baik.</p>
+        <div class="sk-bar"><div class="sk-fill" style="width:90%"></div></div>
+        <div class="sk-pct">React / Next.js — 90%</div>
+      </div>
+      <div class="sk-card rv d2">
+        <div class="sk-icon">🛠</div>
+        <h4>Backend Development</h4>
+        <p>Node.js, FastAPI, Python — scalable REST APIs dan microservices dengan arsitektur yang clean.</p>
+        <div class="sk-bar"><div class="sk-fill" style="width:82%"></div></div>
+        <div class="sk-pct">Node / Python / FastAPI — 82%</div>
+      </div>
+      <div class="sk-card rv d2">
+        <div class="sk-icon">🎨</div>
+        <h4>UI/UX Design</h4>
+        <p>Figma, design systems, high-fidelity prototypes — dari research hingga handoff ke developer.</p>
+        <div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div>
+        <div class="sk-pct">Figma / Design Systems — 85%</div>
+      </div>
+      <div class="sk-card rv d3">
+        <div class="sk-icon">🗄</div>
+        <h4>Database & DevOps</h4>
+        <p>PostgreSQL, Docker, CI/CD pipelines — deployment yang reliable dan monitoring yang efektif.</p>
+        <div class="sk-bar"><div class="sk-fill" style="width:75%"></div></div>
+        <div class="sk-pct">PostgreSQL / Docker — 75%</div>
+      </div>
+      <div class="sk-card rv d3">
+        <div class="sk-icon">📱</div>
+        <h4>Mobile Development</h4>
+        <p>React Native, Expo — aplikasi cross-platform dengan pengalaman native yang smooth.</p>
+        <div class="sk-bar"><div class="sk-fill" style="width:68%"></div></div>
+        <div class="sk-pct">React Native / Expo — 68%</div>
+      </div>
+      <div class="sk-card rv d4">
+        <div class="sk-icon">🤖</div>
+        <h4>AI Integration</h4>
+        <p>OpenAI API, LangChain, Hugging Face — integrasi AI ke dalam aplikasi web modern.</p>
+        <div class="sk-bar"><div class="sk-fill" style="width:72%"></div></div>
+        <div class="sk-pct">AI APIs / LangChain — 72%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:7rem 0;">
+  <div class="section-inner" style="text-align:center;">
+    <div class="rv"><span class="label-tag" style="justify-content:center;">Next Step</span></div>
+    <h2 class="section-heading rv d1" style="margin-bottom:1.5rem;">Ready to <em>Collaborate?</em></h2>
+    <p class="rv d2" style="color:var(--muted2);max-width:440px;margin:0 auto 2.5rem;line-height:1.9;">Mari wujudkan ide kamu menjadi produk digital yang luar biasa bersama.</p>
+    <div class="hero-actions rv d3" style="justify-content:center;">
+      <a href="contact.html" class="btn-primary">Get In Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="projects.html" class="btn-secondary">See My Work</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-l">Designed &amp; Built by <strong>Adnan Ardiansyah</strong> · 2025</div>
+  <ul class="foot-links"><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li></ul>
+  <div class="foot-r">AA · Portfolio</div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
