@@ -204,7 +204,7 @@ function initContactForm() {
     btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0"/></svg> Mengirim...';
 
     try {
-      // ⚠️  GANTI "YOUR_FORM_ID" dengan ID form Formspree kamu
+      // GANTI "YOUR_FORM_ID" dengan ID form Formspree kamu
       // Daftar gratis di https://formspree.io → New Form → copy ID-nya
       const FORMSPREE_ID = 'YOUR_FORM_ID';
 
@@ -215,7 +215,7 @@ function initContactForm() {
       });
 
       if (res.ok) {
-        showStatus('success', '✓ Pesan terkirim! Saya akan membalas dalam 1–2 hari kerja.');
+        showStatus('success', 'Pesan terkirim! Saya akan membalas dalam 1–2 hari kerja.');
         form.reset();
       } else {
         const data = await res.json();

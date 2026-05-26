@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,291 +8,425 @@
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dist/output.css">
 <script>
-  // Apply theme before paint to avoid flash
-  (function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); })();
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          serif:  ['Playfair Display', 'Georgia', 'serif'],
+          sans:   ['Outfit', 'sans-serif'],
+          mono:   ['JetBrains Mono', 'monospace'],
+        },
+        colors: {
+          gold: {
+            DEFAULT: '#c8a96d',
+            light:   '#e8cc94',
+            dark:    '#9a7035',
+            muted:   'rgba(200,169,109,0.12)',
+          },
+        },
+        animation: {
+          'fade-up':   'fadeUp 0.75s cubic-bezier(0.16,1,0.3,1) forwards',
+          'pulse-dot': 'pulseDot 2s ease-in-out infinite',
+          'nav-in':    'navIn 0.7s cubic-bezier(0.16,1,0.3,1) both',
+          'spin-slow': 'spin 1s linear infinite',
+        },
+        keyframes: {
+          fadeUp:   { from:{ opacity:'0', transform:'translateY(28px)' }, to:{ opacity:'1', transform:'none' } },
+          pulseDot: { '0%,100%':{ opacity:'1',transform:'scale(1)' }, '50%':{ opacity:'.4',transform:'scale(.7)' } },
+          navIn:    { from:{ transform:'translateY(-100%)',opacity:'0' }, to:{ transform:'none',opacity:'1' } },
+        },
+      },
+    },
+  }
 </script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #080810; color: #f0f0f5; font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; min-height: 100vh; transition: background .4s ease, color .4s ease; }
+  body.light-mode { background: #f8f7f2; color: #1a1810; }
+  #cur-dot, #cur-ring { position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; transform: translate(-50%,-50%); will-change: left, top; }
+  #cur-dot  { width:5px; height:5px; background:#c8a96d; transition: width .18s, height .18s; }
+  #cur-ring { width:28px; height:28px; border:1.5px solid rgba(200,169,109,0.5); transition: width .22s, height .22s; }
+  body.cursor-h #cur-dot  { width:8px; height:8px; background:#e8cc94; }
+  body.cursor-h #cur-ring { width:44px; height:44px; border-color:rgba(200,169,109,0.22); }
+  @media (pointer:coarse) { #cur-dot, #cur-ring { display:none; } body { cursor:auto; } }
+  .bg-noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+  .rv { opacity:0; transform:translateY(40px) scale(0.96); filter:blur(4px); transition: opacity .9s cubic-bezier(0.16,1,0.3,1), transform .9s cubic-bezier(0.16,1,0.3,1), filter .9s cubic-bezier(0.16,1,0.3,1); }
+  .rv.d1 { transition-delay:.10s; } .rv.d2 { transition-delay:.18s; } .rv.d3 { transition-delay:.26s; }
+  .rv.d4 { transition-delay:.34s; } .rv.d5 { transition-delay:.42s; } .rv.d6 { transition-delay:.50s; }
+  .rv.in { opacity:1; transform:none; filter:blur(0); }
+  #scrollProgress { position:fixed; top:0; left:0; width:0%; height:2px; background:linear-gradient(90deg,#c8a96d,#e8cc94); z-index:9999; transition:width .1s linear; pointer-events:none; }
+  .parallax-bg { will-change:transform; }
+  .text-gold-gradient { background: linear-gradient(135deg, #c8a96d, #e8cc94); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
+  @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .marquee-track { animation: marquee 22s linear infinite; }
+  .marquee-section:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .svc-card { transition: border-color .35s, transform .35s, background .35s; }
+  .svc-card:hover { border-color: rgba(200,169,109,0.25) !important; transform: translateY(-4px); }
+  .proj-card { transition: border-color .35s, transform .35s; }
+  .proj-card:hover { border-color: rgba(200,169,109,0.22) !important; transform: translateY(-3px); }
+  .proj-card:hover .proj-thumb-inner { transform: scale(1.04); }
+  .proj-thumb-inner { transition: transform .65s cubic-bezier(0.16,1,0.3,1); }
+  .hstat { transition: border-color .3s, transform .3s; }
+  .hstat:hover { border-color: rgba(200,169,109,0.28); transform: translateY(-3px); }
+  body.light-mode .svc-card { background: #ffffff !important; }
+  body.light-mode .proj-card { background: #ffffff !important; }
+  body.light-mode .hstat { background: #ffffff !important; }
+  body.light-mode .nav-bar { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode footer { background: rgba(238,234,224,0.7) !important; }
+  body.light-mode .text-\[#8888aa\] { color: #65604e !important; }
+  body.light-mode .text-\[#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[#f0f0f5\] { color: #1a1810 !important; }
+  body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
+  body.light-mode .marquee-section { background: rgba(238,234,224,0.6) !important; }
+  .hero-photo-wrap::before { content:''; position:absolute; top:12px; right:12px; width:36px; height:36px; border-top:2px solid #c8a96d; border-right:2px solid #c8a96d; border-radius:0 4px 0 0; opacity:.5; z-index:2; }
+  .hero-photo-wrap::after { content:''; position:absolute; bottom:12px; left:12px; width:36px; height:36px; border-bottom:2px solid #c8a96d; border-left:2px solid #c8a96d; border-radius:0 0 0 4px; opacity:.5; z-index:2; }
+  .about-img-wrap::before { content:''; position:absolute; top:12px; right:12px; width:28px; height:28px; border-top:2px solid #c8a96d; border-right:2px solid #c8a96d; border-radius:0 3px 0 0; opacity:.4; z-index:2; }
+  .about-img-wrap::after { content:''; position:absolute; bottom:12px; left:12px; width:28px; height:28px; border-bottom:2px solid #c8a96d; border-left:2px solid #c8a96d; border-radius:0 0 0 3px; opacity:.4; z-index:2; }
+  body.light-mode .bg-\[#10101e\] { background: #ffffff !important; }
+  body.light-mode .bg-\[#080810\] { background: #f8f7f2 !important; }
+</style>
 </head>
 <body>
 
-<!-- CURSOR -->
+<div id="scrollProgress"></div>
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
 
-<!-- BG -->
-<div class="bg-fx" aria-hidden="true">
-  <div class="bg-noise"></div>
-  <div class="bg-glow1"></div>
-  <div class="bg-glow2"></div>
-  <div class="bg-grid"></div>
+<div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+  <div class="bg-noise absolute inset-0 opacity-[0.035]"></div>
+  <div class="absolute w-[700px] h-[700px] rounded-full -top-48 -right-24 parallax-bg" data-speed="0.3" style="background:radial-gradient(circle,rgba(200,169,109,0.06) 0%,transparent 70%)"></div>
+  <div class="absolute w-[600px] h-[600px] rounded-full bottom-1/4 -left-36 parallax-bg" data-speed="-0.15" style="background:radial-gradient(circle,rgba(79,142,247,0.04) 0%,transparent 70%)"></div>
+  <div class="absolute inset-0" style="background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;"></div>
 </div>
 
-<!-- NAV -->
-<nav id="nav">
-  <a class="nav-logo" href="index.html">
-    <span class="nav-logo-dot"></span>
+<nav id="nav" class="nav-bar fixed top-0 left-0 right-0 z-[800] h-[68px] flex items-center justify-between px-10 md:px-20 border-b border-white/[0.06]" style="background:rgba(8,8,16,0.85);backdrop-filter:blur(20px) saturate(1.6);animation:navIn .7s cubic-bezier(0.16,1,0.3,1) both;">
+  <a href="index.html" class="flex items-center gap-2 font-serif text-xl font-bold text-[#c8a96d] tracking-tight no-underline">
+    <span class="w-1.5 h-1.5 rounded-full bg-[#c8a96d]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
     Adnan Ardiansyah
   </a>
-  <div class="nav-right">
-    <ul class="nav-menu">
-      <li><a href="index.html" class="on" aria-current="page">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="experience.html">Experience</a></li>
-      <li><a href="contact.html" class="cta">Contact</a></li>
+  <div class="flex items-center gap-1">
+    <ul class="hidden md:flex items-center gap-0.5 list-none">
+      <li><a href="index.html" aria-current="page" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#f0f0f5] bg-white/[.07] no-underline">Home</a></li>
+      <li><a href="about.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">About</a></li>
+      <li><a href="services.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Services</a></li>
+      <li><a href="projects.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Projects</a></li>
+      <li><a href="experience.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Experience</a></li>
+      <li><a href="contact.html" class="px-4 py-1.5 rounded-full text-[.82rem] font-medium tracking-widest uppercase text-[#c8a96d] border border-[rgba(200,169,109,0.35)] bg-[rgba(200,169,109,0.08)] hover:bg-[rgba(200,169,109,0.1)] hover:border-[#c8a96d] transition-all no-underline ml-1">Contact</a></li>
     </ul>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-      <span class="t-icon icon-moon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-      </span>
-      <span class="t-icon icon-sun">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      </span>
+    <button id="themeToggle" class="w-10 h-10 rounded-lg border border-white/10 bg-transparent flex items-center justify-center text-[#8888aa] ml-2 hover:border-[#c8a96d] hover:text-[#c8a96d] hover:bg-[rgba(200,169,109,0.12)] transition-all" aria-label="Toggle theme">
+      <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
+    <button id="hamburger" class="flex md:hidden flex-col gap-1.5 p-2 bg-transparent border-none ml-1" aria-label="Menu">
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb1"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300" id="hb2"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb3"></span>
     </button>
   </div>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="services.html">Services</a>
-  <a href="projects.html">Projects</a>
-  <a href="experience.html">Experience</a>
-  <a href="contact.html">Contact</a>
-  <div class="mobile-theme">
-    <button class="mobile-theme-btn theme-toggle" aria-label="Toggle theme">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-      <span class="theme-label">Light Mode</span>
-    </button>
-  </div>
+<div id="mobileMenu" class="md:hidden fixed top-[68px] left-0 right-0 bottom-0 z-[700] flex-col p-6 pt-4 border-t border-white/[0.06] overflow-y-auto" style="background:rgba(8,8,16,0.97);backdrop-filter:blur(24px);display:none;">
+  <a href="index.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#c8a96d] text-base no-underline">Home <span class="opacity-35">→</span></a>
+  <a href="about.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">About <span class="opacity-35">→</span></a>
+  <a href="services.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Services <span class="opacity-35">→</span></a>
+  <a href="projects.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Projects <span class="opacity-35">→</span></a>
+  <a href="experience.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Experience <span class="opacity-35">→</span></a>
+  <a href="contact.html" class="flex justify-between items-center py-4 text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Contact <span class="opacity-35">→</span></a>
 </div>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section id="hero">
-  <div class="hero-wrap">
-    <div class="hero-left">
-      <div class="hero-badge"><span class="hero-badge-dot">●</span> Open to Opportunities</div>
-      <h1 class="hero-name">
+<section id="hero" class="relative z-10 min-h-screen flex items-center px-10 md:px-20 pt-[90px] pb-16">
+  <div class="max-w-[1300px] mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-16 items-center">
+    <div>
+      <div class="rv flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(200,169,109,0.25)] bg-[rgba(200,169,109,0.05)] w-fit mb-8">
+        <span class="w-2 h-2 rounded-full bg-[#4ade80]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+        <span class="font-mono text-[.72rem] tracking-[.08em] text-[#c8a96d]">Open to Opportunities</span>
+      </div>
+      <h1 class="rv d1 font-serif font-black leading-[.9] tracking-[-0.03em]" style="font-size:clamp(3.5rem,7vw,8rem);">
         Adnan
-        <span>Ardiansyah</span>
+        <span class="block italic font-normal text-gold-gradient" style="font-size:clamp(2.8rem,6vw,7rem);">Ardiansyah</span>
       </h1>
-      <p class="hero-desc">
-        Crafting <strong>digital experiences</strong> that merge design &amp; engineering —
+      <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[440px] mt-7">
+        Crafting <strong class="text-[#f0f0f5] font-medium">digital experiences</strong> that merge design &amp; engineering —
         full-stack developer &amp; UI/UX enthusiast building products people love to use.
       </p>
-      <div class="hero-actions">
-        <a href="projects.html" class="btn-primary">
+      <div class="rv d3 flex gap-3 mt-8 flex-wrap">
+        <a href="projects.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
           See My Work
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="contact.html" class="btn-secondary">Get In Touch</a>
+        <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-[#8888aa] border border-white/10 rounded text-sm font-medium hover:text-[#f0f0f5] hover:border-white/20 hover:-translate-y-0.5 transition-all no-underline">
+          Get In Touch
+        </a>
       </div>
     </div>
-
-    <div class="hero-right">
-      <div class="hero-photo-wrap">
-        <img src="image.png" alt="Adnan Ardiansyah" loading="eager">
-        <div class="hero-photo-overlay">
-          <div class="hero-photo-name">Adnan Ardiansyah</div>
-          <div class="hero-photo-role">Full-Stack Developer · UI/UX</div>
+    <div class="rv d2">
+      <div class="hero-photo-wrap relative aspect-[4/5] rounded-xl overflow-hidden border border-white/[0.1] bg-[#10101e] max-w-[380px] mx-auto shadow-[0_40px_80px_rgba(0,0,0,0.5)] transition-shadow duration-400 hover:shadow-[0_50px_100px_rgba(0,0,0,0.6)]">
+        <img src="image.png" alt="Adnan Ardiansyah" loading="eager" class="w-full h-full object-cover object-top block">
+        <div class="absolute bottom-0 left-0 right-0 p-6 pt-8" style="background:linear-gradient(to top,rgba(5,5,15,0.97),transparent);">
+          <div class="font-serif text-lg font-bold text-[#f0f0f5] mb-1">Adnan Ardiansyah</div>
+          <div class="font-mono text-[.78rem] text-[#c8a96d] tracking-[.08em]">Full-Stack Developer · UI/UX</div>
         </div>
       </div>
-      <div class="hero-stats">
-        <div class="hstat">
-          <div class="hstat-num" data-count="25" data-suffix="+">0+</div>
-          <div class="hstat-lbl">Projects Done</div>
+      <div class="grid grid-cols-2 gap-3 max-w-[380px] mx-auto mt-4 w-full">
+        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+          <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="25" data-suffix="+">0+</div>
+          <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Projects Done</div>
         </div>
-        <div class="hstat">
-          <div class="hstat-num" data-count="3" data-suffix="+">0+</div>
-          <div class="hstat-lbl">Years Exp.</div>
+        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+          <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="3" data-suffix="+">0+</div>
+          <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Years Exp.</div>
         </div>
-        <div class="hstat">
-          <div class="hstat-num" data-count="15" data-suffix="+">0+</div>
-          <div class="hstat-lbl">Happy Clients</div>
+        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+          <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="15" data-suffix="+">0+</div>
+          <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Happy Clients</div>
         </div>
-        <div class="hstat">
-          <div class="hstat-num" data-count="50" data-suffix="+">0+</div>
-          <div class="hstat-lbl">Outlets Served</div>
+        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+          <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="50" data-suffix="+">0+</div>
+          <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Outlets Served</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-section" aria-hidden="true">
-  <div class="marquee-track">
-    <span class="mitem">React.js</span><span class="mitem">Next.js</span>
-    <span class="mitem">TypeScript</span><span class="mitem">Node.js</span>
-    <span class="mitem">Python</span><span class="mitem">FastAPI</span>
-    <span class="mitem">Figma</span><span class="mitem">UI/UX Design</span>
-    <span class="mitem">PostgreSQL</span><span class="mitem">Docker</span>
-    <span class="mitem">Tailwind CSS</span><span class="mitem">SaaS</span>
-    <span class="mitem">React.js</span><span class="mitem">Next.js</span>
-    <span class="mitem">TypeScript</span><span class="mitem">Node.js</span>
-    <span class="mitem">Python</span><span class="mitem">FastAPI</span>
-    <span class="mitem">Figma</span><span class="mitem">UI/UX Design</span>
-    <span class="mitem">PostgreSQL</span><span class="mitem">Docker</span>
-    <span class="mitem">Tailwind CSS</span><span class="mitem">SaaS</span>
+<div class="marquee-section relative z-10 border-b border-white/[0.06] py-3 overflow-hidden" style="background:rgba(13,13,24,0.5);" aria-hidden="true">
+  <div class="marquee-track flex gap-8 w-max">
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">React.js</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Next.js</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">TypeScript</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Node.js</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Python</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">FastAPI</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Figma</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">PostgreSQL</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Docker</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">SaaS</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Tailwind CSS</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">UI/UX Design</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">React.js</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Next.js</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">TypeScript</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Node.js</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Python</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">FastAPI</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Figma</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">PostgreSQL</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Docker</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">SaaS</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Tailwind CSS</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">UI/UX Design</span>
   </div>
 </div>
 
-<!-- ═══════════ ABOUT TEASER ═══════════ -->
-<section id="about" style="padding:7rem 0;">
-  <div class="section-inner">
-    <div class="rv"><span class="label-tag">About Me</span></div>
-    <h2 class="section-heading rv d1">The Person <em>Behind the Code</em></h2>
-    <div class="about-grid">
+<section class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv"><span class="inline-flex items-center gap-2.5 font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d] before:content-[''] before:block before:w-7 before:h-[1px] before:bg-[#c8a96d]">About Me</span></div>
+    <h2 class="rv d1 font-serif font-bold leading-[1.05] tracking-[-0.02em] mt-5 mb-8" style="font-size:clamp(2.5rem,4.5vw,4.5rem);">
+      The Person <em class="italic text-gold-gradient">Behind the Code</em>
+    </h2>
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
       <div class="rv d1">
-        <div class="about-img-wrap">
-          <img src="image.png" alt="Adnan Ardiansyah" loading="lazy">
-          <div class="about-img-caption">Adnan Ardiansyah — Lhokseumawe, Aceh</div>
+        <div class="about-img-wrap relative aspect-[3/4] max-w-[380px] rounded-lg overflow-hidden border border-white/[0.1] bg-[#10101e] sticky top-24">
+          <img src="image.png" alt="Adnan Ardiansyah" loading="lazy" class="w-full h-full object-cover object-top block">
+          <div class="absolute bottom-0 left-0 right-0 p-5 font-mono text-[.7rem] text-[#cccccc] tracking-[.06em]" style="background:linear-gradient(to top,rgba(5,5,15,0.92),transparent);">Adnan Ardiansyah — Medan, Indonesia</div>
         </div>
       </div>
       <div>
-        <div class="about-intro rv d2">Passionate builder of <em>digital products</em> that live at the intersection of code and craft.</div>
-        <p class="about-body rv d3">Halo! Saya <strong>Adnan Ardiansyah</strong>, seorang Full-Stack Developer dari Lhokseumawe, Aceh, Indonesia. Saya percaya bahwa kode yang baik adalah seni tersendiri — dan pengalaman digital yang hebat lahir dari perpaduan teknik yang solid dengan desain yang thoughtful.</p>
-        <p class="about-body rv d4">Dengan pengalaman di berbagai proyek mulai dari <strong>startup lokal</strong> hingga platform <strong>SaaS multi-tenant</strong>, saya membawa perspektif unik dalam setiap pekerjaan.</p>
-        <div class="rv d5" style="margin-top:2rem;">
-          <a href="about.html" class="btn-secondary">Read Full Story →</a>
+        <div class="rv d2 font-serif text-[1.4rem] leading-[1.55] tracking-[-0.01em] mb-6 lg:text-[1.6rem]">
+          Passionate builder of <em class="italic text-gold-gradient">digital products</em> that live at the intersection of code and craft.
+        </div>
+        <p class="rv d3 text-[#8888aa] text-[.95rem] leading-[1.95] mb-5">Halo! Saya <strong class="text-[#f0f0f5] font-medium">Adnan Ardiansyah</strong>, seorang Full-Stack Developer dari Medan, Indonesia. Saya percaya bahwa kode yang baik adalah seni tersendiri — dan pengalaman digital yang hebat lahir dari perpaduan teknik yang solid dengan desain yang thoughtful.</p>
+        <p class="rv d4 text-[#8888aa] text-[.95rem] leading-[1.95] mb-5">Dengan pengalaman di berbagai proyek mulai dari <strong class="text-[#f0f0f5] font-medium">startup lokal</strong> hingga platform <strong class="text-[#f0f0f5] font-medium">SaaS multi-tenant</strong>, saya membawa perspektif unik dalam setiap pekerjaan — menggabungkan keindahan desain dengan ketangguhan engineering.</p>
+        <div class="rv d5 mt-6">
+          <a href="about.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-[#8888aa] border border-white/10 rounded text-sm font-medium hover:text-[#f0f0f5] hover:border-white/20 hover:-translate-y-0.5 transition-all no-underline">
+            Read Full Story
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ SERVICES TEASER ═══════════ -->
-<section id="services" style="padding:7rem 0;background:var(--bg2);">
-  <div class="section-inner">
-    <div class="rv"><span class="label-tag">What I Do</span></div>
-    <h2 class="section-heading rv d1">Services <em>Tailored</em> for You</h2>
-    <p class="services-intro rv d2">Solusi digital end-to-end — dari desain konsep hingga deployment produksi.</p>
-    <div class="services-grid rv d2">
-      <div class="svc">
-        <div class="svc-num">01</div>
-        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <h3>Web Development</h3>
-        <p>Aplikasi web full-stack yang cepat, scalable, dan maintainable dengan React, Next.js, dan Node.js.</p>
-        <a href="services.html" class="svc-arrow">Pelajari lebih lanjut <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+<section class="relative z-10 py-24 px-10 md:px-20" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv"><span class="inline-flex items-center gap-2.5 font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d] before:content-[''] before:block before:w-7 before:h-[1px] before:bg-[#c8a96d]">What I Do</span></div>
+    <h2 class="rv d1 font-serif font-bold leading-[1.05] tracking-[-0.02em] mt-5 mb-3" style="font-size:clamp(2.5rem,4.5vw,4.5rem);">
+      Services <em class="italic text-gold-gradient">Tailored</em> for You
+    </h2>
+    <p class="rv d2 text-[#8888aa] text-[.97rem] leading-[1.9] max-w-[560px] mb-12">Solusi digital end-to-end — dari desain konsep hingga deployment produksi.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden">
+        <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">01</div>
+        <div class="w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d] transition-all duration-300">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3 class="font-serif text-[1.25rem] font-semibold mb-3">Web Development</h3>
+        <p class="text-[#8888aa] text-[.87rem] leading-[1.8]">Aplikasi web full-stack yang cepat, scalable, dan maintainable dengan React, Next.js, dan Node.js.</p>
+        <a href="services.html" class="inline-flex items-center gap-2 mt-5 text-[.78rem] text-[#c8a96d] no-underline hover:gap-3 transition-all">
+          Pelajari lebih lanjut
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
-      <div class="svc">
-        <div class="svc-num">02</div>
-        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-        <h3>UI/UX Design</h3>
-        <p>Pengalaman pengguna yang intuitif dan visual yang memukau — dari wireframe hingga prototype interaktif.</p>
-        <a href="services.html" class="svc-arrow">Pelajari lebih lanjut <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden">
+        <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">02</div>
+        <div class="w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d] transition-all duration-300">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3 class="font-serif text-[1.25rem] font-semibold mb-3">UI/UX Design</h3>
+        <p class="text-[#8888aa] text-[.87rem] leading-[1.8]">Pengalaman pengguna yang intuitif dan visual yang memukau — dari wireframe hingga prototype interaktif.</p>
+        <a href="services.html" class="inline-flex items-center gap-2 mt-5 text-[.78rem] text-[#c8a96d] no-underline hover:gap-3 transition-all">
+          Pelajari lebih lanjut
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
-      <div class="svc">
-        <div class="svc-num">03</div>
-        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
-        <h3>SaaS Development</h3>
-        <p>Platform SaaS multi-tenant dengan arsitektur solid, billing terintegrasi, dan manajemen yang mudah.</p>
-        <a href="services.html" class="svc-arrow">Pelajari lebih lanjut <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden">
+        <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">03</div>
+        <div class="w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d] transition-all duration-300">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        </div>
+        <h3 class="font-serif text-[1.25rem] font-semibold mb-3">SaaS Development</h3>
+        <p class="text-[#8888aa] text-[.87rem] leading-[1.8]">Platform SaaS multi-tenant dengan arsitektur solid, billing terintegrasi, dan manajemen yang mudah.</p>
+        <a href="services.html" class="inline-flex items-center gap-2 mt-5 text-[.78rem] text-[#c8a96d] no-underline hover:gap-3 transition-all">
+          Pelajari lebih lanjut
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ PROJECTS TEASER ═══════════ -->
-<section id="projects" style="padding:7rem 0;">
-  <div class="section-inner">
-    <div class="proj-header">
+<section class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="flex items-end justify-between mb-12">
       <div>
-        <div class="rv"><span class="label-tag">Portfolio</span></div>
-        <h2 class="section-heading rv d1">Featured <em>Projects</em></h2>
+        <div class="rv"><span class="inline-flex items-center gap-2.5 font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d] before:content-[''] before:block before:w-7 before:h-[1px] before:bg-[#c8a96d]">Portfolio</span></div>
+        <h2 class="rv d1 font-serif font-bold leading-[1.05] tracking-[-0.02em] mt-5" style="font-size:clamp(2.5rem,4.5vw,4.5rem);">
+          Featured <em class="italic text-gold-gradient">Projects</em>
+        </h2>
       </div>
-      <div class="proj-header-right rv d2"><a href="projects.html">View all projects →</a></div>
+      <div class="rv d2 hidden md:block">
+        <a href="projects.html" class="text-[.84rem] text-[#c8a96d] no-underline hover:underline">View all projects →</a>
+      </div>
     </div>
-    <div class="proj-grid rv d2">
-      <!-- SNAPNEXT -->
-      <div class="proj-card wide">
-        <div class="proj-thumb">
-          <div class="proj-thumb-inner mock-snap">
-            <div class="sbox" style="max-width:480px;">
-              <div class="sbar">
-                <div class="sdot" style="background:#ff5f57"></div><div class="sdot" style="background:#febc2e"></div><div class="sdot" style="background:#28c840"></div>
-                <span style="margin-left:8px;font-size:9px;color:#666;font-family:monospace">snapnext.app</span>
+    <div class="rv d2">
+      <div class="proj-card bg-[#10101e] border border-white/[0.06] rounded-xl overflow-hidden lg:grid lg:grid-cols-[1fr_1.2fr]">
+        <div class="h-[320px] overflow-hidden">
+          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-8" style="background:linear-gradient(135deg,#ede9fe 0%,#f3e8ff 50%,#fce7f3 100%);">
+            <div class="max-w-[480px] w-full bg-white rounded-md overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]" style="transform:perspective(600px) rotateX(2deg);">
+              <div class="flex items-center gap-1 px-2 py-1" style="background:#f0f0f0;">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#ff5f57"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#febc2e"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#28c840"></span>
+                <span class="ml-2 font-mono text-[9px] text-[#666]">snapnext.app</span>
               </div>
-              <div class="sbody" style="background:linear-gradient(140deg,#f3e8ff,#ede9fe);padding:24px;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-                  <div style="width:22px;height:22px;background:linear-gradient(135deg,#a855f7,#ec4899);border-radius:6px;"></div>
-                  <span style="font-weight:700;font-size:12px;color:#7c3aed;">SnapNext</span>
-                  <div style="margin-left:auto;background:#a855f7;border-radius:8px;padding:3px 10px;"><span style="font-size:9px;color:#fff;font-weight:600;">Login</span></div>
+              <div class="p-6" style="background:linear-gradient(140deg,#f3e8ff,#ede9fe);">
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-[22px] h-[22px] rounded-md" style="background:linear-gradient(135deg,#a855f7,#ec4899);"></div>
+                  <span class="font-bold text-xs" style="color:#7c3aed;">SnapNext</span>
+                  <div class="ml-auto rounded-md px-2 py-0.5" style="background:#a855f7;"><span class="text-[9px] text-white font-semibold">Login</span></div>
                 </div>
-                <div style="font-size:20px;font-weight:800;color:#1a1a2e;line-height:1.15;margin-bottom:8px;">Solusi SaaS<br><span style="color:#a855f7;">Photo Box</span> All-in-One</div>
-                <div style="font-size:10px;color:#6b7280;margin-bottom:14px;line-height:1.6;">Platform photo booth profesional dengan QRIS, printing instan & GIF engine.</div>
-                <div style="display:flex;gap:8px;">
-                  <div style="background:#a855f7;border-radius:6px;padding:7px 16px;"><span style="font-size:10px;color:#fff;font-weight:600;">Mulai Sesi →</span></div>
-                  <div style="border:1px solid #d1d5db;border-radius:6px;padding:7px 12px;background:#fff;"><span style="font-size:10px;color:#374151;">Pelajari</span></div>
+                <div class="text-xl font-extrabold leading-tight mb-2" style="color:#1a1a2e;">Solusi SaaS<br><span style="color:#a855f7;">Photo Box</span> All-in-One</div>
+                <div class="text-[10px] leading-relaxed mb-3" style="color:#6b7280;">Platform photo booth profesional dengan QRIS, printing instan &amp; GIF engine.</div>
+                <div class="flex gap-2">
+                  <div class="rounded-md px-4 py-1.5 text-[10px] text-white font-semibold" style="background:#a855f7;">Mulai Sesi →</div>
+                  <div class="rounded-md px-3 py-1.5 text-[10px] border bg-white" style="border-color:#d1d5db;color:#374151;">Pelajari</div>
                 </div>
-                <div style="display:flex;gap:20px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(168,85,247,.15);">
-                  <span style="font-size:10px;color:#7c3aed;font-weight:700;">10K+ Photos</span>
-                  <span style="font-size:10px;color:#7c3aed;font-weight:700;">50 Outlets</span>
-                  <span style="font-size:10px;color:#7c3aed;font-weight:700;">99.9% Uptime</span>
+                <div class="flex gap-5 mt-3 pt-3" style="border-top:1px solid rgba(168,85,247,0.15);">
+                  <span class="text-[10px] font-bold" style="color:#7c3aed;">10K+ Photos</span>
+                  <span class="text-[10px] font-bold" style="color:#7c3aed;">50 Outlets</span>
+                  <span class="text-[10px] font-bold" style="color:#7c3aed;">99.9% Uptime</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="proj-info">
-          <div class="proj-no">01 · Featured Project</div>
-          <h3>SnapNext — SaaS Photo Booth Platform</h3>
-          <p>Platform photo booth profesional all-in-one: pembayaran QRIS, silent printing, GIF engine, galeri digital, dan CMS multi-tenant untuk vendor di seluruh Indonesia.</p>
-          <div class="proj-metrics">
-            <div class="pmetric"><strong>10K+</strong> Photos</div>
-            <div class="pmetric"><strong>50</strong> Outlets</div>
-            <div class="pmetric"><strong>99.9%</strong> Uptime</div>
+        <div class="p-8 flex flex-col">
+          <div class="font-mono text-[.67rem] tracking-[.1em] text-[#5a5a78] mb-2">01 · Featured Project</div>
+          <h3 class="font-serif text-[1.3rem] font-semibold leading-tight mb-3">SnapNext — SaaS Photo Booth Platform</h3>
+          <p class="text-[#8888aa] text-[.87rem] leading-[1.85] flex-1">Platform photo booth profesional all-in-one: pembayaran QRIS, silent printing, GIF engine, galeri digital, dan CMS multi-tenant untuk vendor di seluruh Indonesia.</p>
+          <div class="flex gap-5 my-3">
+            <div class="text-[.77rem] text-[#5a5a78]"><strong class="block font-serif text-lg text-[#c8a96d]">10K+</strong> Photos</div>
+            <div class="text-[.77rem] text-[#5a5a78]"><strong class="block font-serif text-lg text-[#c8a96d]">50</strong> Outlets</div>
+            <div class="text-[.77rem] text-[#5a5a78]"><strong class="block font-serif text-lg text-[#c8a96d]">99.9%</strong> Uptime</div>
           </div>
-          <div class="proj-tags">
-            <span class="ptag">Next.js</span><span class="ptag">TypeScript</span><span class="ptag">QRIS</span><span class="ptag">SaaS</span><span class="ptag">Multi-tenant</span>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[.7rem] text-[#c8a96d]">Next.js</span>
+            <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[.7rem] text-[#c8a96d]">TypeScript</span>
+            <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[.7rem] text-[#c8a96d]">QRIS</span>
+            <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[.7rem] text-[#c8a96d]">SaaS</span>
+            <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[.7rem] text-[#c8a96d]">Multi-tenant</span>
           </div>
-          <div class="proj-foot">
-            <a href="https://photobox-saas-main-ews1.vercel.app/" target="_blank" rel="noopener" class="proj-link">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg> Live Demo
+          <div class="flex gap-4 pt-3 border-t border-white/[0.06]">
+            <a href="https://photobox-saas-main-ews1.vercel.app/" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-[.78rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg> Live Demo
             </a>
-            <a href="#" class="proj-link">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77A5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg> GitHub
+            <a href="#" class="flex items-center gap-1.5 text-[.78rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77A5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg> GitHub
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:2.5rem;" class="rv d3">
-      <a href="projects.html" class="btn-secondary">Lihat Semua Project →</a>
+    <div class="rv d3 text-center mt-10 md:hidden">
+      <a href="projects.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-[#8888aa] border border-white/10 rounded text-sm font-medium hover:text-[#f0f0f5] hover:border-white/20 hover:-translate-y-0.5 transition-all no-underline">
+        Lihat Semua Project
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ CONTACT CTA ═══════════ -->
-<section style="padding:7rem 0;background:var(--bg2);">
-  <div class="section-inner" style="text-align:center;">
-    <div class="rv"><span class="label-tag" style="justify-content:center;">Let's Connect</span></div>
-    <h2 class="section-heading rv d1" style="margin-bottom:1.5rem;">Got a project <em>in mind?</em></h2>
-    <p class="rv d2" style="color:var(--muted2);max-width:480px;margin:0 auto 2.5rem;line-height:1.9;">Saya selalu terbuka untuk peluang baru, kolaborasi kreatif, atau sekadar ngobrol tentang teknologi.</p>
-    <div class="hero-actions rv d3" style="justify-content:center;">
-      <a href="contact.html" class="btn-primary">Hubungi Saya <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="mailto:adnanadriansyah5@gmail.com" class="btn-secondary">Email Langsung</a>
+<section class="relative z-10 py-24 px-10 md:px-20 text-center" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv"><span class="inline-flex items-center gap-2.5 font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d] before:content-[''] before:block before:w-7 before:h-[1px] before:bg-[#c8a96d]">Let's Connect</span></div>
+    <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mt-5 mb-6" style="font-size:clamp(2.2rem,4vw,3.5rem);">
+      Got a project <em class="italic text-gold-gradient">in mind?</em>
+    </h2>
+    <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[480px] mx-auto mb-10">Saya selalu terbuka untuk peluang baru, kolaborasi kreatif, atau sekadar ngobrol tentang teknologi.</p>
+    <div class="rv d3 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
+        Hubungi Saya
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="mailto:adnanadriansyah5@gmail.com" class="inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-[#8888aa] border border-white/10 rounded text-sm font-medium hover:text-[#f0f0f5] hover:border-white/20 hover:-translate-y-0.5 transition-all no-underline">
+        Email Langsung
+      </a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="foot-l">Designed &amp; Built by <strong>Adnan Ardiansyah</strong> · 2025</div>
-  <ul class="foot-links">
-    <li><a href="about.html">About</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="contact.html">Contact</a></li>
+<footer class="relative z-10 border-t border-white/[0.06] px-10 md:px-20 py-8 flex flex-col md:flex-row items-center justify-between gap-4" style="background:rgba(5,5,12,0.7);">
+  <div class="text-[.82rem] text-[#5a5a78]">Designed &amp; Built by <strong class="text-[#c8a96d] font-medium">Adnan Ardiansyah</strong> · 2025</div>
+  <ul class="flex gap-5 list-none">
+    <li><a href="about.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">About</a></li>
+    <li><a href="projects.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Projects</a></li>
+    <li><a href="contact.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Contact</a></li>
   </ul>
-  <div class="foot-r">AA · Portfolio</div>
+  <div class="font-mono text-[.7rem] text-[#5a5a78] tracking-[.05em]">AA · Portfolio</div>
 </footer>
 
-<script src="script.js"></script>
+<script>
+(function(){ const saved = localStorage.getItem('theme') || 'dark'; if (saved === 'light') { document.body.classList.add('light-mode'); document.getElementById('icon-moon').classList.add('hidden'); document.getElementById('icon-sun').classList.remove('hidden'); } })();
+document.getElementById('themeToggle').addEventListener('click', () => { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); document.getElementById('icon-moon').classList.toggle('hidden', isLight); document.getElementById('icon-sun').classList.toggle('hidden', !isLight); });
+(function(){ const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'); if(!dot||window.matchMedia('(pointer:coarse)').matches) return; let mx=-100,my=-100,rx=-100,ry=-100; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';}); (function anim(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})(); document.querySelectorAll('a,button,.svc-card,.proj-card,.hstat').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-h'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-h'));}); })();
+window.addEventListener('scroll',()=>{const nav=document.getElementById('nav');nav.style.backdropFilter=window.scrollY>50?'blur(28px) saturate(1.8)':'blur(20px) saturate(1.6)';},{passive:true});
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu'),hb1=document.getElementById('hb1'),hb2=document.getElementById('hb2'),hb3=document.getElementById('hb3'); let menuOpen=false; hamburger.addEventListener('click',()=>{menuOpen=!menuOpen;mobileMenu.style.display=menuOpen?'flex':'none';document.body.style.overflow=menuOpen?'hidden':'';if(menuOpen){hb1.style.transform='rotate(45deg) translate(5px,5px)';hb2.style.opacity='0';hb2.style.transform='scaleX(0)';hb3.style.transform='rotate(-45deg) translate(5px,-5px)';}else{hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';}}); mobileMenu.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{menuOpen=false;mobileMenu.style.display='none';document.body.style.overflow='';hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';});});
+/* ── Scroll progress ── */
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);document.getElementById('scrollProgress').style.width=p*100+'%';},{passive:true});
+/* ── Parallax ── */
+window.addEventListener('scroll',()=>{document.querySelectorAll('.parallax-bg').forEach(el=>{const s=parseFloat(el.dataset.speed||'0.3');el.style.transform=`translateY(${window.scrollY*s}px)`;});},{passive:true});
+/* ── Reveal ── */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{threshold:0.08}); document.querySelectorAll('.rv').forEach(el=>revObs.observe(el));
+const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;const target=parseInt(el.dataset.count);const suffix=el.dataset.suffix||'+';let cur=0;const step=target/(900/16);const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=Math.round(cur)+suffix;if(cur>=target)clearInterval(t);},16);cObs.unobserve(el);});},{threshold:0.5}); document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+</script>
 </body>
 </html>

@@ -1,155 +1,316 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About — Adnan Ardiansyah</title>
-<meta name="description" content="Tentang Adnan Ardiansyah — Full-Stack Developer & UI/UX Designer dari Lhokseumawe, Aceh.">
+<meta name="description" content="Tentang Adnan Ardiansyah — Full-Stack Developer & UI/UX Designer dari Medan, Indonesia.">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script>(function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); })();</script>
+<link rel="stylesheet" href="dist/output.css">
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          serif:  ['Playfair Display', 'Georgia', 'serif'],
+          sans:   ['Outfit', 'sans-serif'],
+          mono:   ['JetBrains Mono', 'monospace'],
+        },
+        colors: {
+          gold: {
+            DEFAULT: '#c8a96d',
+            light:   '#e8cc94',
+            dark:    '#9a7035',
+            muted:   'rgba(200,169,109,0.12)',
+          },
+        },
+        animation: {
+          'fade-up':   'fadeUp 0.75s cubic-bezier(0.16,1,0.3,1) forwards',
+          'pulse-dot': 'pulseDot 2s ease-in-out infinite',
+          'nav-in':    'navIn 0.7s cubic-bezier(0.16,1,0.3,1) both',
+          'spin-slow': 'spin 1s linear infinite',
+        },
+        keyframes: {
+          fadeUp:   { from:{ opacity:'0', transform:'translateY(28px)' }, to:{ opacity:'1', transform:'none' } },
+          pulseDot: { '0%,100%':{ opacity:'1',transform:'scale(1)' }, '50%':{ opacity:'.4',transform:'scale(.7)' } },
+          navIn:    { from:{ transform:'translateY(-100%)',opacity:'0' }, to:{ transform:'none',opacity:'1' } },
+        },
+      },
+    },
+  }
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #080810; color: #f0f0f5; font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; min-height: 100vh; transition: background .4s ease, color .4s ease; }
+  body.light-mode { background: #f8f7f2; color: #1a1810; }
+  #cur-dot, #cur-ring { position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; transform: translate(-50%,-50%); will-change: left, top; }
+  #cur-dot  { width:5px; height:5px; background:#c8a96d; transition: width .18s, height .18s; }
+  #cur-ring { width:28px; height:28px; border:1.5px solid rgba(200,169,109,0.5); transition: width .22s, height .22s; }
+  body.cursor-h #cur-dot  { width:8px; height:8px; background:#e8cc94; }
+  body.cursor-h #cur-ring { width:44px; height:44px; border-color:rgba(200,169,109,0.22); }
+  @media (pointer:coarse) { #cur-dot, #cur-ring { display:none; } body { cursor:auto; } }
+  .bg-noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+  .rv { opacity:0; transform:translateY(40px) scale(0.96); filter:blur(4px); transition: opacity .9s cubic-bezier(0.16,1,0.3,1), transform .9s cubic-bezier(0.16,1,0.3,1), filter .9s cubic-bezier(0.16,1,0.3,1); }
+  .rv.d1 { transition-delay:.10s; } .rv.d2 { transition-delay:.18s; } .rv.d3 { transition-delay:.26s; }
+  .rv.d4 { transition-delay:.34s; } .rv.d5 { transition-delay:.42s; } .rv.d6 { transition-delay:.50s; }
+  .rv.in { opacity:1; transform:none; filter:blur(0); }
+  #scrollProgress { position:fixed; top:0; left:0; width:0%; height:2px; background:linear-gradient(90deg,#c8a96d,#e8cc94); z-index:9999; transition:width .1s linear; pointer-events:none; }
+  .parallax-bg { will-change:transform; }
+  .text-gold-gradient { background: linear-gradient(135deg, #c8a96d, #e8cc94); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
+  @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .sk-card { transition: border-color .35s, transform .35s; }
+  .sk-card:hover { border-color: rgba(200,169,109,0.22) !important; transform: translateY(-3px); }
+  .sk-fill { transform-origin: left; transform: scaleX(0); transition: transform 1.1s cubic-bezier(0.16,1,0.3,1); }
+  .sk-card.in .sk-fill { transform: scaleX(1); }
+  .about-img-wrap::before { content:''; position:absolute; top:12px; right:12px; width:28px; height:28px; border-top:2px solid #c8a96d; border-right:2px solid #c8a96d; border-radius:0 3px 0 0; opacity:.4; z-index:2; }
+  .about-img-wrap::after { content:''; position:absolute; bottom:12px; left:12px; width:28px; height:28px; border-bottom:2px solid #c8a96d; border-left:2px solid #c8a96d; border-radius:0 0 0 3px; opacity:.4; z-index:2; }
+  body.light-mode .sk-card { background: #ffffff !important; }
+  body.light-mode .sk-card .text-\[#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .nav-bar { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode footer { background: rgba(238,234,224,0.7) !important; }
+  body.light-mode .text-\[#8888aa\] { color: #65604e !important; }
+  body.light-mode .text-\[#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[#f0f0f5\] { color: #1a1810 !important; }
+  body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
+  body.light-mode .bg-\[#10101e\] { background: #ffffff !important; }
+  body.light-mode .bg-\[#080810\] { background: #f8f7f2 !important; }
+  body.light-mode .page-section { background: #eeeae0 !important; }
+  .fact-row { transition: background .25s; }
+  .fact-row:hover { background: rgba(200,169,109,0.04); }
+</style>
 </head>
 <body>
 
+<div id="scrollProgress"></div>
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
-<div class="bg-fx" aria-hidden="true">
-  <div class="bg-noise"></div><div class="bg-glow1"></div><div class="bg-glow2"></div><div class="bg-grid"></div>
+
+<div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+  <div class="bg-noise absolute inset-0 opacity-[0.035]"></div>
+  <div class="absolute w-[700px] h-[700px] rounded-full -top-48 -right-24 parallax-bg" data-speed="0.3" style="background:radial-gradient(circle,rgba(200,169,109,0.06) 0%,transparent 70%)"></div>
+  <div class="absolute w-[600px] h-[600px] rounded-full bottom-1/4 -left-36 parallax-bg" data-speed="-0.15" style="background:radial-gradient(circle,rgba(79,142,247,0.04) 0%,transparent 70%)"></div>
+  <div class="absolute inset-0" style="background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;"></div>
 </div>
 
-<!-- NAV -->
-<nav id="nav">
-  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>Adnan Ardiansyah</a>
-  <div class="nav-right">
-    <ul class="nav-menu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html" class="on" aria-current="page">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="experience.html">Experience</a></li>
-      <li><a href="contact.html" class="cta">Contact</a></li>
+<nav id="nav" class="nav-bar fixed top-0 left-0 right-0 z-[800] h-[68px] flex items-center justify-between px-10 md:px-20 border-b border-white/[0.06]" style="background:rgba(8,8,16,0.85);backdrop-filter:blur(20px) saturate(1.6);animation:navIn .7s cubic-bezier(0.16,1,0.3,1) both;">
+  <a href="index.html" class="flex items-center gap-2 font-serif text-xl font-bold text-[#c8a96d] tracking-tight no-underline">
+    <span class="w-1.5 h-1.5 rounded-full bg-[#c8a96d]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+    Adnan Ardiansyah
+  </a>
+  <div class="flex items-center gap-1">
+    <ul class="hidden md:flex items-center gap-0.5 list-none">
+      <li><a href="index.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Home</a></li>
+      <li><a href="about.html" aria-current="page" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#f0f0f5] bg-white/[.07] no-underline">About</a></li>
+      <li><a href="services.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Services</a></li>
+      <li><a href="projects.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Projects</a></li>
+      <li><a href="experience.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Experience</a></li>
+      <li><a href="contact.html" class="px-4 py-1.5 rounded-full text-[.82rem] font-medium tracking-widest uppercase text-[#c8a96d] border border-[rgba(200,169,109,0.35)] bg-[rgba(200,169,109,0.08)] hover:bg-[rgba(200,169,109,0.1)] hover:border-[#c8a96d] transition-all no-underline ml-1">Contact</a></li>
     </ul>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-      <span class="t-icon icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
-      <span class="t-icon icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    <button id="themeToggle" class="w-10 h-10 rounded-lg border border-white/10 bg-transparent flex items-center justify-center text-[#8888aa] ml-2 hover:border-[#c8a96d] hover:text-[#c8a96d] hover:bg-[rgba(200,169,109,0.12)] transition-all" aria-label="Toggle theme">
+      <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button id="hamburger" class="flex md:hidden flex-col gap-1.5 p-2 bg-transparent border-none ml-1" aria-label="Menu">
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb1"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300" id="hb2"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb3"></span>
+    </button>
   </div>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a>
-  <a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="contact.html">Contact</a>
-  <div class="mobile-theme"><button class="mobile-theme-btn theme-toggle" aria-label="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><span class="theme-label">Light Mode</span></button></div>
+
+<div id="mobileMenu" class="md:hidden fixed top-[68px] left-0 right-0 bottom-0 z-[700] flex-col p-6 pt-4 border-t border-white/[0.06] overflow-y-auto" style="background:rgba(8,8,16,0.97);backdrop-filter:blur(24px);display:none;">
+  <a href="index.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Home <span class="opacity-35">→</span></a>
+  <a href="about.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#c8a96d] text-base no-underline">About <span class="opacity-35">→</span></a>
+  <a href="services.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Services <span class="opacity-35">→</span></a>
+  <a href="projects.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Projects <span class="opacity-35">→</span></a>
+  <a href="experience.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Experience <span class="opacity-35">→</span></a>
+  <a href="contact.html" class="flex justify-between items-center py-4 text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Contact <span class="opacity-35">→</span></a>
 </div>
 
-<!-- PAGE HEADER -->
-<div class="page-header">
-  <div class="page-header-inner">
-    <span class="label-tag rv">Who I Am</span>
-    <h1 class="rv d1">The Person <em>Behind the Code</em></h1>
-    <p class="rv d2">Full-Stack Developer & UI/UX enthusiast dari Medan, Indonesia — membangun produk digital yang bermakna.</p>
+<div class="relative z-10 min-h-[40vh] flex items-end px-10 md:px-20 pb-16 pt-[120px] border-b border-white/[0.06]">
+  <div class="max-w-[1280px] mx-auto w-full">
+    <div class="rv flex items-center gap-3 mb-5">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Who I Am</span>
+    </div>
+    <h1 class="rv d1 font-serif font-black leading-[.93] tracking-[-0.03em] mb-5" style="font-size:clamp(3rem,6vw,6rem);">
+      The Person <em class="not-italic text-gold-gradient">Behind the Code</em>
+    </h1>
+    <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[520px]">Full-Stack Developer &amp; UI/UX enthusiast dari Medan, Indonesia — membangun produk digital yang bermakna.</p>
   </div>
 </div>
 
-<!-- ABOUT SECTION -->
-<section id="about" style="padding:7rem 0;">
-  <div class="section-inner">
-    <div class="about-grid">
+<section class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
       <div class="rv d1">
-        <div class="about-img-wrap">
-          <img src="image.png" alt="Adnan Ardiansyah" loading="lazy">
-          <div class="about-img-caption">Adnan Ardiansyah — Medan, Indonesia</div>
+        <div class="about-img-wrap relative aspect-[3/4] max-w-[380px] rounded-lg overflow-hidden border border-white/[0.1] bg-[#10101e] sticky top-24">
+          <img src="image.png" alt="Adnan Ardiansyah" loading="lazy" class="w-full h-full object-cover object-top block">
+          <div class="absolute bottom-0 left-0 right-0 p-5 font-mono text-[.7rem] text-[#cccccc] tracking-[.06em]" style="background:linear-gradient(to top,rgba(5,5,15,0.92),transparent);">Adnan Ardiansyah — Medan, Indonesia</div>
         </div>
       </div>
       <div>
-        <div class="about-intro rv d2">Passionate builder of <em>digital products</em> that live at the intersection of code and craft.</div>
-        <p class="about-body rv d3">Halo! Saya <strong>Adnan Ardiansyah</strong>, seorang Full-Stack Developer dari Medan, Indonesia. Saya percaya bahwa kode yang baik adalah seni tersendiri — dan pengalaman digital yang hebat lahir dari perpaduan teknik yang solid dengan desain yang thoughtful.</p>
-        <p class="about-body rv d4">Dengan pengalaman di berbagai proyek mulai dari <strong>startup lokal</strong> hingga platform <strong>SaaS multi-tenant</strong>, saya membawa perspektif unik dalam setiap pekerjaan — menggabungkan keindahan desain dengan ketangguhan engineering.</p>
-        <p class="about-body rv d4">Di luar koding, saya suka mengeksplorasi tren desain terkini, berkontribusi di komunitas developer lokal, dan sesekali bermain-main dengan proyek hardware. Bagi saya, belajar adalah proses yang tidak pernah selesai.</p>
-        <div class="about-facts rv d4">
-          <div class="fact-row"><span class="fact-k">Domisili</span><span class="fact-v">Medan, Indonesia</span></div>
-          <div class="fact-row"><span class="fact-k">Pendidikan</span><span class="fact-v">D4 Teknologi Rekayasa Komputer & Jaringan — PNL</span></div>
-          <div class="fact-row"><span class="fact-k">Fokus</span><span class="fact-v">Full-Stack Dev · UI/UX · SaaS</span></div>
-          <div class="fact-row"><span class="fact-k">Status</span><span class="fact-v" style="color:var(--gold)">Open to Opportunities</span></div>
-          <div class="fact-row"><span class="fact-k">Email</span><span class="fact-v"><a href="mailto:adnanadriansyah5@gmail.com">adnanadriansyah5@gmail.com</a></span></div>
+        <div class="rv d2 font-serif text-[1.4rem] leading-[1.55] tracking-[-0.01em] mb-6 lg:text-[1.6rem]">
+          Passionate builder of <em class="italic text-gold-gradient">digital products</em> that live at the intersection of code and craft.
+        </div>
+        <p class="rv d3 text-[#8888aa] text-[.95rem] leading-[1.95] mb-5">Halo! Saya <strong class="text-[#f0f0f5] font-medium">Adnan Ardiansyah</strong>, seorang Full-Stack Developer dari Medan, Indonesia. Saya percaya bahwa kode yang baik adalah seni tersendiri — dan pengalaman digital yang hebat lahir dari perpaduan teknik yang solid dengan desain yang thoughtful.</p>
+        <p class="rv d4 text-[#8888aa] text-[.95rem] leading-[1.95] mb-5">Dengan pengalaman di berbagai proyek mulai dari <strong class="text-[#f0f0f5] font-medium">startup lokal</strong> hingga platform <strong class="text-[#f0f0f5] font-medium">SaaS multi-tenant</strong>, saya membawa perspektif unik dalam setiap pekerjaan — menggabungkan keindahan desain dengan ketangguhan engineering.</p>
+        <p class="rv d4 text-[#8888aa] text-[.95rem] leading-[1.95] mb-5">Di luar koding, saya suka mengeksplorasi tren desain terkini, berkontribusi di komunitas developer lokal, dan sesekali bermain-main dengan proyek hardware. Bagi saya, belajar adalah proses yang tidak pernah selesai.</p>
+        <div class="rv d4 border border-white/[0.06] rounded-lg overflow-hidden mt-6">
+          <div class="fact-row grid grid-cols-[110px_1fr] items-center px-5 py-3.5 border-b border-white/[0.06] text-[.88rem] gap-3">
+            <span class="font-mono text-[.68rem] tracking-[.08em] uppercase text-[#5a5a78]">Domisili</span>
+            <span class="text-[#f0f0f5]">Medan, Indonesia</span>
+          </div>
+          <div class="fact-row grid grid-cols-[110px_1fr] items-center px-5 py-3.5 border-b border-white/[0.06] text-[.88rem] gap-3">
+            <span class="font-mono text-[.68rem] tracking-[.08em] uppercase text-[#5a5a78]">Pendidikan</span>
+            <span class="text-[#f0f0f5]">D4 Teknologi Rekayasa Komputer &amp; Jaringan — PNL</span>
+          </div>
+          <div class="fact-row grid grid-cols-[110px_1fr] items-center px-5 py-3.5 border-b border-white/[0.06] text-[.88rem] gap-3">
+            <span class="font-mono text-[.68rem] tracking-[.08em] uppercase text-[#5a5a78]">Fokus</span>
+            <span class="text-[#f0f0f5]">Full-Stack Dev · UI/UX · SaaS</span>
+          </div>
+          <div class="fact-row grid grid-cols-[110px_1fr] items-center px-5 py-3.5 border-b border-white/[0.06] text-[.88rem] gap-3">
+            <span class="font-mono text-[.68rem] tracking-[.08em] uppercase text-[#5a5a78]">Status</span>
+            <span class="text-[#4ade80] font-medium">Open to Opportunities</span>
+          </div>
+          <div class="fact-row grid grid-cols-[110px_1fr] items-center px-5 py-3.5 text-[.88rem] gap-3">
+            <span class="font-mono text-[.68rem] tracking-[.08em] uppercase text-[#5a5a78]">Email</span>
+            <span><a href="mailto:adnanadriansyah5@gmail.com" class="text-[#f0f0f5] no-underline hover:text-[#c8a96d] transition-colors">adnanadriansyah5@gmail.com</a></span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SKILLS SECTION -->
-<section style="padding:0 0 7rem;background:var(--bg2);">
-  <div class="section-inner" style="padding-top:5rem;">
-    <div class="rv"><span class="label-tag">Skills & Expertise</span></div>
-    <h2 class="section-heading rv d1" style="margin-bottom:3rem;">What I <em>Bring</em></h2>
-    <div class="skills-grid">
-      <div class="sk-card rv d1">
-        <div class="sk-icon">⚡</div>
-        <h4>Frontend Development</h4>
-        <p>React, Next.js, TypeScript — pixel-perfect interfaces dengan performa tinggi dan aksesibilitas baik.</p>
-        <div class="sk-bar"><div class="sk-fill" style="width:90%"></div></div>
-        <div class="sk-pct">React / Next.js — 90%</div>
+<section class="page-section relative z-10 py-24 px-10 md:px-20" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv flex items-center gap-3 mb-3">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Skills &amp; Expertise</span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-[1.05] tracking-[-0.02em] mb-12" style="font-size:clamp(2.5rem,4.5vw,4.5rem);">
+      What I <em class="italic text-gold-gradient">Bring</em>
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="sk-card bg-[#10101e] border border-white/[0.06] rounded-xl p-6 relative overflow-hidden" style="cursor:default;">
+        <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-[#c8a96d] mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h6"/></svg>
+        </div>
+        <h4 class="font-serif text-base font-semibold mb-2">Frontend Development</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">React, Next.js, TypeScript — pixel-perfect interfaces dengan performa tinggi dan aksesibilitas baik.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1">
+          <div class="sk-fill h-full rounded-full" style="width:90%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div>
+        </div>
+        <div class="font-mono text-[.65rem] text-[#5a5a78]">React / Next.js — 90%</div>
       </div>
-      <div class="sk-card rv d2">
-        <div class="sk-icon">🛠</div>
-        <h4>Backend Development</h4>
-        <p>Node.js, FastAPI, Python — scalable REST APIs dan microservices dengan arsitektur yang clean.</p>
-        <div class="sk-bar"><div class="sk-fill" style="width:82%"></div></div>
-        <div class="sk-pct">Node / Python / FastAPI — 82%</div>
+      <div class="sk-card bg-[#10101e] border border-white/[0.06] rounded-xl p-6 relative overflow-hidden" style="cursor:default;">
+        <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-[#c8a96d] mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <h4 class="font-serif text-base font-semibold mb-2">Backend Development</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">Node.js, FastAPI, Python — scalable REST APIs dan microservices dengan arsitektur clean.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1">
+          <div class="sk-fill h-full rounded-full" style="width:82%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div>
+        </div>
+        <div class="font-mono text-[.65rem] text-[#5a5a78]">Node / Python / FastAPI — 82%</div>
       </div>
-      <div class="sk-card rv d2">
-        <div class="sk-icon">🎨</div>
-        <h4>UI/UX Design</h4>
-        <p>Figma, design systems, high-fidelity prototypes — dari research hingga handoff ke developer.</p>
-        <div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div>
-        <div class="sk-pct">Figma / Design Systems — 85%</div>
+      <div class="sk-card bg-[#10101e] border border-white/[0.06] rounded-xl p-6 relative overflow-hidden" style="cursor:default;">
+        <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-[#c8a96d] mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h4 class="font-serif text-base font-semibold mb-2">UI/UX Design</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">Figma, design systems, high-fidelity prototypes — dari research hingga handoff ke developer.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1">
+          <div class="sk-fill h-full rounded-full" style="width:85%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div>
+        </div>
+        <div class="font-mono text-[.65rem] text-[#5a5a78]">Figma / Design Systems — 85%</div>
       </div>
-      <div class="sk-card rv d3">
-        <div class="sk-icon">🗄</div>
-        <h4>Database & DevOps</h4>
-        <p>PostgreSQL, Docker, CI/CD pipelines — deployment yang reliable dan monitoring yang efektif.</p>
-        <div class="sk-bar"><div class="sk-fill" style="width:75%"></div></div>
-        <div class="sk-pct">PostgreSQL / Docker — 75%</div>
+      <div class="sk-card bg-[#10101e] border border-white/[0.06] rounded-xl p-6 relative overflow-hidden" style="cursor:default;">
+        <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-[#c8a96d] mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <h4 class="font-serif text-base font-semibold mb-2">Database &amp; DevOps</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">PostgreSQL, Docker, CI/CD pipelines — deployment reliable dan monitoring efektif.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1">
+          <div class="sk-fill h-full rounded-full" style="width:75%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div>
+        </div>
+        <div class="font-mono text-[.65rem] text-[#5a5a78]">PostgreSQL / Docker — 75%</div>
       </div>
-      <div class="sk-card rv d3">
-        <div class="sk-icon">📱</div>
-        <h4>Mobile Development</h4>
-        <p>React Native, Expo — aplikasi cross-platform dengan pengalaman native yang smooth.</p>
-        <div class="sk-bar"><div class="sk-fill" style="width:68%"></div></div>
-        <div class="sk-pct">React Native / Expo — 68%</div>
+      <div class="sk-card bg-[#10101e] border border-white/[0.06] rounded-xl p-6 relative overflow-hidden" style="cursor:default;">
+        <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-[#c8a96d] mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 18h.01M8 21h8"/><path d="M16 3H8a2 2 0 00-2 2v14a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2z"/></svg>
+        </div>
+        <h4 class="font-serif text-base font-semibold mb-2">Mobile Development</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">React Native, Expo — aplikasi cross-platform dengan pengalaman native yang smooth.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1">
+          <div class="sk-fill h-full rounded-full" style="width:68%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div>
+        </div>
+        <div class="font-mono text-[.65rem] text-[#5a5a78]">React Native / Expo — 68%</div>
       </div>
-      <div class="sk-card rv d4">
-        <div class="sk-icon">🤖</div>
-        <h4>AI Integration</h4>
-        <p>OpenAI API, LangChain, Hugging Face — integrasi AI ke dalam aplikasi web modern.</p>
-        <div class="sk-bar"><div class="sk-fill" style="width:72%"></div></div>
-        <div class="sk-pct">AI APIs / LangChain — 72%</div>
+      <div class="sk-card bg-[#10101e] border border-white/[0.06] rounded-xl p-6 relative overflow-hidden" style="cursor:default;">
+        <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-[#c8a96d] mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a4 4 0 014 4c0 2-2 4-4 4s-4-2-4-4a4 4 0 014-4z"/><path d="M16 22v-2a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><path d="M8 14h8"/><path d="M12 14v3"/></svg>
+        </div>
+        <h4 class="font-serif text-base font-semibold mb-2">AI Integration</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">OpenAI API, LangChain, Hugging Face — integrasi AI ke dalam aplikasi web modern.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1">
+          <div class="sk-fill h-full rounded-full" style="width:72%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div>
+        </div>
+        <div class="font-mono text-[.65rem] text-[#5a5a78]">AI APIs / LangChain — 72%</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section style="padding:7rem 0;">
-  <div class="section-inner" style="text-align:center;">
-    <div class="rv"><span class="label-tag" style="justify-content:center;">Next Step</span></div>
-    <h2 class="section-heading rv d1" style="margin-bottom:1.5rem;">Ready to <em>Collaborate?</em></h2>
-    <p class="rv d2" style="color:var(--muted2);max-width:440px;margin:0 auto 2.5rem;line-height:1.9;">Mari wujudkan ide kamu menjadi produk digital yang luar biasa bersama.</p>
-    <div class="hero-actions rv d3" style="justify-content:center;">
-      <a href="contact.html" class="btn-primary">Get In Touch <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="projects.html" class="btn-secondary">See My Work</a>
+<section class="relative z-10 py-28 px-10 md:px-20 text-center">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv"><span class="inline-flex items-center gap-2.5 font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d] before:content-[''] before:block before:w-7 before:h-[1px] before:bg-[#c8a96d]">Next Step</span></div>
+    <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mt-5 mb-6" style="font-size:clamp(2.2rem,4vw,3.5rem);">
+      Ready to <em class="italic text-gold-gradient">Collaborate?</em>
+    </h2>
+    <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[440px] mx-auto mb-10">Mari wujudkan ide kamu menjadi produk digital yang luar biasa bersama.</p>
+    <div class="rv d3 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
+        Get In Touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="projects.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-[#8888aa] border border-white/10 rounded text-sm font-medium hover:text-[#f0f0f5] hover:border-white/20 hover:-translate-y-0.5 transition-all no-underline">
+        See My Work
+      </a>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-l">Designed &amp; Built by <strong>Adnan Ardiansyah</strong> · 2025</div>
-  <ul class="foot-links"><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li></ul>
-  <div class="foot-r">AA · Portfolio</div>
+<footer class="relative z-10 border-t border-white/[0.06] px-10 md:px-20 py-8 flex flex-col md:flex-row items-center justify-between gap-4" style="background:rgba(5,5,12,0.7);">
+  <div class="text-[.82rem] text-[#5a5a78]">Designed &amp; Built by <strong class="text-[#c8a96d] font-medium">Adnan Ardiansyah</strong> · 2025</div>
+  <ul class="flex gap-5 list-none">
+    <li><a href="about.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">About</a></li>
+    <li><a href="projects.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Projects</a></li>
+    <li><a href="contact.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Contact</a></li>
+  </ul>
+  <div class="font-mono text-[.7rem] text-[#5a5a78] tracking-[.05em]">AA · Portfolio</div>
 </footer>
-<script src="script.js"></script>
+
+<script>
+(function(){ const saved = localStorage.getItem('theme') || 'dark'; if (saved === 'light') { document.body.classList.add('light-mode'); document.getElementById('icon-moon').classList.add('hidden'); document.getElementById('icon-sun').classList.remove('hidden'); } })();
+document.getElementById('themeToggle').addEventListener('click', () => { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); document.getElementById('icon-moon').classList.toggle('hidden', isLight); document.getElementById('icon-sun').classList.toggle('hidden', !isLight); });
+(function(){ const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'); if(!dot||window.matchMedia('(pointer:coarse)').matches) return; let mx=-100,my=-100,rx=-100,ry=-100; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';}); (function anim(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})(); document.querySelectorAll('a,button,.sk-card').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-h'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-h'));}); })();
+window.addEventListener('scroll',()=>{const nav=document.getElementById('nav');nav.style.backdropFilter=window.scrollY>50?'blur(28px) saturate(1.8)':'blur(20px) saturate(1.6)';},{passive:true});
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu'),hb1=document.getElementById('hb1'),hb2=document.getElementById('hb2'),hb3=document.getElementById('hb3'); let menuOpen=false; hamburger.addEventListener('click',()=>{menuOpen=!menuOpen;mobileMenu.style.display=menuOpen?'flex':'none';document.body.style.overflow=menuOpen?'hidden':'';if(menuOpen){hb1.style.transform='rotate(45deg) translate(5px,5px)';hb2.style.opacity='0';hb2.style.transform='scaleX(0)';hb3.style.transform='rotate(-45deg) translate(5px,-5px)';}else{hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';}}); mobileMenu.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{menuOpen=false;mobileMenu.style.display='none';document.body.style.overflow='';hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';});});
+/* ── Scroll progress ── */
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);document.getElementById('scrollProgress').style.width=p*100+'%';},{passive:true});
+/* ── Parallax ── */
+window.addEventListener('scroll',()=>{document.querySelectorAll('.parallax-bg').forEach(el=>{const s=parseFloat(el.dataset.speed||'0.3');el.style.transform=`translateY(${window.scrollY*s}px)`;});},{passive:true});
+/* ── Reveal ── */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{threshold:0.08}); document.querySelectorAll('.rv,.sk-card').forEach(el=>revObs.observe(el));
+</script>
 </body>
 </html>

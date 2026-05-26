@@ -1,210 +1,326 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Services — Adnan Ardiansyah</title>
 <meta name="description" content="Layanan Web Development, UI/UX Design, dan SaaS Development oleh Adnan Ardiansyah.">
-<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="icon" href="favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script>(function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); })();</script>
+<link rel="stylesheet" href="dist/output.css">
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          serif:  ['Playfair Display', 'Georgia', 'serif'],
+          sans:   ['Outfit', 'sans-serif'],
+          mono:   ['JetBrains Mono', 'monospace'],
+        },
+        colors: {
+          gold: {
+            DEFAULT: '#c8a96d',
+            light:   '#e8cc94',
+            dark:    '#9a7035',
+            muted:   'rgba(200,169,109,0.12)',
+          },
+        },
+        animation: {
+          'fade-up':   'fadeUp 0.75s cubic-bezier(0.16,1,0.3,1) forwards',
+          'pulse-dot': 'pulseDot 2s ease-in-out infinite',
+          'nav-in':    'navIn 0.7s cubic-bezier(0.16,1,0.3,1) both',
+          'spin-slow': 'spin 1s linear infinite',
+        },
+        keyframes: {
+          fadeUp:   { from:{ opacity:'0', transform:'translateY(28px)' }, to:{ opacity:'1', transform:'none' } },
+          pulseDot: { '0%,100%':{ opacity:'1',transform:'scale(1)' }, '50%':{ opacity:'.4',transform:'scale(.7)' } },
+          navIn:    { from:{ transform:'translateY(-100%)',opacity:'0' }, to:{ transform:'none',opacity:'1' } },
+        },
+      },
+    },
+  }
+</script>
 <style>
-.pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
-.pricing-card {
-  border:1px solid var(--border); border-radius:10px;
-  background:var(--card); padding:2rem;
-  transition:border-color .3s, transform .3s, background .4s;
-  position:relative; overflow:hidden;
-}
-.pricing-card:hover { border-color:rgba(200,169,109,.25); transform:translateY(-4px); }
-.pricing-card.featured { border-color:rgba(200,169,109,.4); background:var(--card2); }
-.pricing-card.featured::before { content:'Popular'; position:absolute; top:1.2rem; right:1.2rem; font-family:var(--mono); font-size:.65rem; letter-spacing:.1em; color:var(--gold); border:1px solid rgba(200,169,109,.3); padding:.2rem .6rem; border-radius:2px; }
-.pricing-name { font-family:var(--mono); font-size:.72rem; color:var(--gold); letter-spacing:.12em; text-transform:uppercase; margin-bottom:1rem; }
-.pricing-price { font-family:var(--serif); font-size:2.8rem; font-weight:700; line-height:1; margin-bottom:.3rem; }
-.pricing-price span { font-size:1rem; font-weight:400; color:var(--muted2); font-family:var(--sans); }
-.pricing-desc { font-size:.85rem; color:var(--muted2); line-height:1.7; margin:1rem 0 1.5rem; }
-.pricing-features { list-style:none; display:flex; flex-direction:column; gap:.6rem; margin-bottom:2rem; }
-.pricing-features li { font-size:.85rem; color:var(--muted2); display:flex; align-items:center; gap:.6rem; }
-.pricing-features li::before { content:'✓'; color:var(--gold); font-size:.8rem; flex-shrink:0; }
-.pricing-btn { width:100%; padding:.8rem; border-radius:4px; font-family:var(--sans); font-size:.88rem; font-weight:600; cursor:pointer; transition:all .25s; text-decoration:none; display:flex; align-items:center; justify-content:center; }
-.pricing-btn.outline { background:transparent; color:var(--text); border:1px solid var(--border2); }
-.pricing-btn.outline:hover { border-color:var(--gold); color:var(--gold); background:var(--gold3); }
-.pricing-btn.filled { background:var(--gold); color:#05050a; border:none; }
-.pricing-btn.filled:hover { background:var(--gold2); transform:translateY(-1px); }
-.process-list { display:flex; flex-direction:column; gap:0; margin-top:3rem; counter-reset:step; }
-.process-item { display:grid; grid-template-columns:60px 1fr; gap:2rem; padding:2.5rem 0; border-bottom:1px solid var(--border); align-items:start; counter-increment:step; }
-.process-item:last-child { border-bottom:none; }
-.process-num { width:48px; height:48px; border:1px solid rgba(200,169,109,.3); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:.75rem; color:var(--gold); flex-shrink:0; margin-top:.2rem; }
-.process-item h3 { font-family:var(--serif); font-size:1.3rem; font-weight:600; margin-bottom:.5rem; }
-.process-item p  { font-size:.9rem; color:var(--muted2); line-height:1.85; }
-@media(max-width:900px){ .pricing-grid{grid-template-columns:1fr;} }
-@media(max-width:640px){ .process-item{grid-template-columns:1fr;gap:1rem;} }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #080810; color: #f0f0f5; font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; min-height: 100vh; transition: background .4s ease, color .4s ease; }
+  body.light-mode { background: #f8f7f2; color: #1a1810; }
+  #cur-dot, #cur-ring { position: fixed; pointer-events: none; z-index: 9999; border-radius: 50%; transform: translate(-50%,-50%); will-change: left, top; }
+  #cur-dot  { width:5px; height:5px; background:#c8a96d; transition: width .18s, height .18s; }
+  #cur-ring { width:28px; height:28px; border:1.5px solid rgba(200,169,109,0.5); transition: width .22s, height .22s; }
+  body.cursor-h #cur-dot  { width:8px; height:8px; background:#e8cc94; }
+  body.cursor-h #cur-ring { width:44px; height:44px; border-color:rgba(200,169,109,0.22); }
+  @media (pointer:coarse) { #cur-dot, #cur-ring { display:none; } body { cursor:auto; } }
+  .bg-noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+  .rv { opacity:0; transform:translateY(40px) scale(0.96); filter:blur(4px); transition: opacity .9s cubic-bezier(0.16,1,0.3,1), transform .9s cubic-bezier(0.16,1,0.3,1), filter .9s cubic-bezier(0.16,1,0.3,1); }
+  .rv.d1 { transition-delay:.10s; } .rv.d2 { transition-delay:.18s; } .rv.d3 { transition-delay:.26s; }
+  .rv.d4 { transition-delay:.34s; } .rv.d5 { transition-delay:.42s; } .rv.d6 { transition-delay:.50s; }
+  .rv.in { opacity:1; transform:none; filter:blur(0); }
+  #scrollProgress { position:fixed; top:0; left:0; width:0%; height:2px; background:linear-gradient(90deg,#c8a96d,#e8cc94); z-index:9999; transition:width .1s linear; pointer-events:none; }
+  .parallax-bg { will-change:transform; }
+  .text-gold-gradient { background: linear-gradient(135deg, #c8a96d, #e8cc94); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
+  @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .svc-card { transition: border-color .35s, transform .35s, background .35s; position: relative; overflow: hidden; }
+  .svc-card:hover { border-color: rgba(200,169,109,0.25) !important; transform: translateY(-4px); }
+  .svc-card:hover .svc-icon { border-color: rgba(200,169,109,0.4); background: rgba(200,169,109,0.12); }
+  .svc-icon { transition: border-color .3s, background .3s; }
+  .pricing-card { transition: border-color .3s, transform .3s, background .4s; position: relative; overflow: hidden; }
+  .pricing-card:hover { border-color: rgba(200,169,109,0.25) !important; transform: translateY(-4px); }
+  .pricing-card.featured { border-color: rgba(200,169,109,0.4); }
+  .process-item { border-bottom: 1px solid rgba(255,255,255,0.06); transition: background .25s; }
+  .process-item:last-child { border-bottom: none; }
+  .process-item:hover { background: rgba(200,169,109,0.02); }
+  body.light-mode .svc-card { background: #ffffff !important; }
+  body.light-mode .pricing-card { background: #ffffff !important; }
+  body.light-mode .process-item:hover { background: rgba(154,112,53,0.03); }
+  body.light-mode .nav-bar { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode footer { background: rgba(238,234,224,0.7) !important; }
+  body.light-mode .text-\[#8888aa\] { color: #65604e !important; }
+  body.light-mode .text-\[#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[#f0f0f5\] { color: #1a1810 !important; }
+  body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
+  body.light-mode .bg-\[#10101e\] { background: #ffffff !important; }
+  body.light-mode .bg-\[#080810\] { background: #f8f7f2 !important; }
+  body.light-mode .page-section { background: #eeeae0 !important; }
+  .process-num { width: 48px; height: 48px; border: 1px solid rgba(200,169,109,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: #c8a96d; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
+<div id="scrollProgress"></div>
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
-<div class="bg-fx" aria-hidden="true">
-  <div class="bg-noise"></div><div class="bg-glow1"></div><div class="bg-glow2"></div><div class="bg-grid"></div>
+
+<div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+  <div class="bg-noise absolute inset-0 opacity-[0.035]"></div>
+  <div class="absolute w-[700px] h-[700px] rounded-full -top-48 -right-24 parallax-bg" data-speed="0.3" style="background:radial-gradient(circle,rgba(200,169,109,0.06) 0%,transparent 70%)"></div>
+  <div class="absolute w-[600px] h-[600px] rounded-full bottom-1/4 -left-36 parallax-bg" data-speed="-0.15" style="background:radial-gradient(circle,rgba(79,142,247,0.04) 0%,transparent 70%)"></div>
+  <div class="absolute inset-0" style="background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;"></div>
 </div>
 
-<nav id="nav">
-  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>Adnan Ardiansyah</a>
-  <div class="nav-right">
-    <ul class="nav-menu">
-      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
-      <li><a href="services.html" class="on" aria-current="page">Services</a></li>
-      <li><a href="projects.html">Projects</a></li><li><a href="experience.html">Experience</a></li>
-      <li><a href="contact.html" class="cta">Contact</a></li>
+<nav id="nav" class="nav-bar fixed top-0 left-0 right-0 z-[800] h-[68px] flex items-center justify-between px-10 md:px-20 border-b border-white/[0.06]" style="background:rgba(8,8,16,0.85);backdrop-filter:blur(20px) saturate(1.6);animation:navIn .7s cubic-bezier(0.16,1,0.3,1) both;">
+  <a href="index.html" class="flex items-center gap-2 font-serif text-xl font-bold text-[#c8a96d] tracking-tight no-underline">
+    <span class="w-1.5 h-1.5 rounded-full bg-[#c8a96d]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+    Adnan Ardiansyah
+  </a>
+  <div class="flex items-center gap-1">
+    <ul class="hidden md:flex items-center gap-0.5 list-none">
+      <li><a href="index.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Home</a></li>
+      <li><a href="about.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">About</a></li>
+      <li><a href="services.html" aria-current="page" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#f0f0f5] bg-white/[.07] no-underline">Services</a></li>
+      <li><a href="projects.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Projects</a></li>
+      <li><a href="experience.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Experience</a></li>
+      <li><a href="contact.html" class="px-4 py-1.5 rounded-full text-[.82rem] font-medium tracking-widest uppercase text-[#c8a96d] border border-[rgba(200,169,109,0.35)] bg-[rgba(200,169,109,0.08)] hover:bg-[rgba(200,169,109,0.1)] hover:border-[#c8a96d] transition-all no-underline ml-1">Contact</a></li>
     </ul>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-      <span class="t-icon icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
-      <span class="t-icon icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    <button id="themeToggle" class="w-10 h-10 rounded-lg border border-white/10 bg-transparent flex items-center justify-center text-[#8888aa] ml-2 hover:border-[#c8a96d] hover:text-[#c8a96d] hover:bg-[rgba(200,169,109,0.12)] transition-all" aria-label="Toggle theme">
+      <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button id="hamburger" class="flex md:hidden flex-col gap-1.5 p-2 bg-transparent border-none ml-1" aria-label="Menu">
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb1"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300" id="hb2"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb3"></span>
+    </button>
   </div>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a>
-  <a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="contact.html">Contact</a>
-  <div class="mobile-theme"><button class="mobile-theme-btn theme-toggle" aria-label="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><span class="theme-label">Light Mode</span></button></div>
+
+<div id="mobileMenu" class="md:hidden fixed top-[68px] left-0 right-0 bottom-0 z-[700] flex-col p-6 pt-4 border-t border-white/[0.06] overflow-y-auto" style="background:rgba(8,8,16,0.97);backdrop-filter:blur(24px);display:none;">
+  <a href="index.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Home <span class="opacity-35">→</span></a>
+  <a href="about.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">About <span class="opacity-35">→</span></a>
+  <a href="services.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#c8a96d] text-base no-underline">Services <span class="opacity-35">→</span></a>
+  <a href="projects.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Projects <span class="opacity-35">→</span></a>
+  <a href="experience.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Experience <span class="opacity-35">→</span></a>
+  <a href="contact.html" class="flex justify-between items-center py-4 text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Contact <span class="opacity-35">→</span></a>
 </div>
 
-<div class="page-header">
-  <div class="page-header-inner">
-    <span class="label-tag rv">What I Do</span>
-    <h1 class="rv d1">Services <em>Tailored</em> for You</h1>
-    <p class="rv d2">Solusi digital end-to-end — dari desain konsep hingga deployment produksi — dengan standar kualitas yang tidak kompromi.</p>
+<div class="relative z-10 min-h-[40vh] flex items-end px-10 md:px-20 pb-16 pt-[120px] border-b border-white/[0.06]">
+  <div class="max-w-[1280px] mx-auto w-full">
+    <div class="rv flex items-center gap-3 mb-5">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">What I Do</span>
+    </div>
+    <h1 class="rv d1 font-serif font-black leading-[.93] tracking-[-0.03em] mb-5" style="font-size:clamp(3rem,6vw,6rem);">
+      Services <em class="not-italic text-gold-gradient">Tailored</em> for You
+    </h1>
+    <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[520px]">Solusi digital end-to-end — dari desain konsep hingga deployment produksi — dengan standar kualitas yang tidak kompromi.</p>
   </div>
 </div>
 
-<!-- SERVICES -->
-<section id="services" style="padding:7rem 0;">
-  <div class="section-inner">
-    <div class="services-grid rv d1">
-      <div class="svc">
-        <div class="svc-num">01</div>
-        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-        <h3>Web Development</h3>
-        <p>Membangun aplikasi web full-stack yang cepat, scalable, dan maintainable — dengan React, Next.js, dan Node.js sebagai fondasi utama. Termasuk integrasi database, autentikasi, dan deployment.</p>
-        <a href="contact.html" class="svc-arrow">Diskusi Proyek <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+<section class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 border border-white/[0.06] rounded-xl overflow-hidden" style="gap:0;">
+      <div class="svc-card bg-[#10101e] p-8 md:border-r border-white/[0.06] relative overflow-hidden">
+        <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">01</div>
+        <div class="svc-icon w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d]">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3 class="font-serif text-[1.25rem] font-semibold mb-3">Web Development</h3>
+        <p class="text-[#8888aa] text-[.87rem] leading-[1.8]">Membangun aplikasi web full-stack yang cepat, scalable, dan maintainable — dengan React, Next.js, dan Node.js sebagai fondasi utama. Termasuk integrasi database, autentikasi, dan deployment.</p>
+        <a href="contact.html" class="inline-flex items-center gap-2 mt-5 text-[.78rem] text-[#c8a96d] no-underline hover:gap-3 transition-all">
+          Diskusi Proyek
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
-      <div class="svc">
-        <div class="svc-num">02</div>
-        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-        <h3>UI/UX Design</h3>
-        <p>Merancang pengalaman pengguna yang intuitif dan tampilan visual yang memukau — dari wireframe, user research, hingga prototype interaktif siap handover ke developer.</p>
-        <a href="contact.html" class="svc-arrow">Diskusi Proyek <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="svc-card bg-[#10101e] p-8 md:border-r border-white/[0.06] relative overflow-hidden">
+        <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">02</div>
+        <div class="svc-icon w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d]">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3 class="font-serif text-[1.25rem] font-semibold mb-3">UI/UX Design</h3>
+        <p class="text-[#8888aa] text-[.87rem] leading-[1.8]">Merancang pengalaman pengguna yang intuitif dan tampilan visual yang memukau — dari wireframe, user research, hingga prototype interaktif siap handover ke developer.</p>
+        <a href="contact.html" class="inline-flex items-center gap-2 mt-5 text-[.78rem] text-[#c8a96d] no-underline hover:gap-3 transition-all">
+          Diskusi Proyek
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
-      <div class="svc">
-        <div class="svc-num">03</div>
-        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
-        <h3>SaaS Development</h3>
-        <p>Membangun platform SaaS multi-tenant dengan arsitektur yang solid, billing terintegrasi, sistem manajemen yang mudah dioperasikan, dan skalabilitas untuk ribuan user.</p>
-        <a href="contact.html" class="svc-arrow">Diskusi Proyek <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="svc-card bg-[#10101e] p-8 relative overflow-hidden">
+        <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">03</div>
+        <div class="svc-icon w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d]">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        </div>
+        <h3 class="font-serif text-[1.25rem] font-semibold mb-3">SaaS Development</h3>
+        <p class="text-[#8888aa] text-[.87rem] leading-[1.8]">Membangun platform SaaS multi-tenant dengan arsitektur yang solid, billing terintegrasi, sistem manajemen yang mudah dioperasikan, dan skalabilitas untuk ribuan user.</p>
+        <a href="contact.html" class="inline-flex items-center gap-2 mt-5 text-[.78rem] text-[#c8a96d] no-underline hover:gap-3 transition-all">
+          Diskusi Proyek
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROCESS -->
-<section style="padding:0 0 7rem;background:var(--bg2);">
-  <div class="section-inner" style="padding-top:5rem;">
-    <div class="rv"><span class="label-tag">How I Work</span></div>
-    <h2 class="section-heading rv d1">The <em>Process</em></h2>
-    <div class="process-list">
-      <div class="process-item rv d1">
+<section class="page-section relative z-10 py-24 px-10 md:px-20" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv flex items-center gap-3 mb-3">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">How I Work</span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-[1.05] tracking-[-0.02em] mb-12" style="font-size:clamp(2.5rem,4.5vw,4.5rem);">
+      The <em class="italic text-gold-gradient">Process</em>
+    </h2>
+    <div class="max-w-[800px]">
+      <div class="process-item flex gap-8 py-8 items-start border-b border-white/[0.06] rv d1">
         <div class="process-num">01</div>
         <div>
-          <h3>Discovery & Konsultasi</h3>
-          <p>Kami mulai dengan memahami kebutuhan, tujuan bisnis, dan target pengguna kamu. Saya akan mengajukan pertanyaan yang tepat untuk memastikan solusi yang dibangun benar-benar relevan dan efektif.</p>
+          <h3 class="font-serif text-[1.3rem] font-semibold mb-2">Discovery &amp; Konsultasi</h3>
+          <p class="text-[#8888aa] text-[.9rem] leading-[1.85]">Kami mulai dengan memahami kebutuhan, tujuan bisnis, dan target pengguna kamu. Saya akan mengajukan pertanyaan yang tepat untuk memastikan solusi yang dibangun benar-benar relevan dan efektif.</p>
         </div>
       </div>
-      <div class="process-item rv d2">
+      <div class="process-item flex gap-8 py-8 items-start border-b border-white/[0.06] rv d2">
         <div class="process-num">02</div>
         <div>
-          <h3>Desain & Prototype</h3>
-          <p>Membuat wireframe, mockup, dan prototype interaktif di Figma. Iterasi cepat berdasarkan feedback kamu sebelum masuk ke fase development, menghemat waktu dan biaya.</p>
+          <h3 class="font-serif text-[1.3rem] font-semibold mb-2">Desain &amp; Prototype</h3>
+          <p class="text-[#8888aa] text-[.9rem] leading-[1.85]">Membuat wireframe, mockup, dan prototype interaktif di Figma. Iterasi cepat berdasarkan feedback kamu sebelum masuk ke fase development, menghemat waktu dan biaya.</p>
         </div>
       </div>
-      <div class="process-item rv d3">
+      <div class="process-item flex gap-8 py-8 items-start border-b border-white/[0.06] rv d3">
         <div class="process-num">03</div>
         <div>
-          <h3>Development & Testing</h3>
-          <p>Membangun produk dengan kode yang bersih, terdokumentasi, dan dapat di-maintain. Setiap fitur di-test secara menyeluruh sebelum masuk ke staging environment.</p>
+          <h3 class="font-serif text-[1.3rem] font-semibold mb-2">Development &amp; Testing</h3>
+          <p class="text-[#8888aa] text-[.9rem] leading-[1.85]">Membangun produk dengan kode yang bersih, terdokumentasi, dan dapat di-maintain. Setiap fitur di-test secara menyeluruh sebelum masuk ke staging environment.</p>
         </div>
       </div>
-      <div class="process-item rv d4">
+      <div class="process-item flex gap-8 py-8 items-start rv d4">
         <div class="process-num">04</div>
         <div>
-          <h3>Launch & Support</h3>
-          <p>Deployment ke production dengan monitoring aktif. Saya memberikan support pasca-launch dan siap membantu iterasi produk berdasarkan feedback pengguna nyata.</p>
+          <h3 class="font-serif text-[1.3rem] font-semibold mb-2">Launch &amp; Support</h3>
+          <p class="text-[#8888aa] text-[.9rem] leading-[1.85]">Deployment ke production dengan monitoring aktif. Saya memberikan support pasca-launch dan siap membantu iterasi produk berdasarkan feedback pengguna nyata.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section style="padding:7rem 0;">
-  <div class="section-inner">
-    <div class="rv"><span class="label-tag">Investment</span></div>
-    <h2 class="section-heading rv d1">Pricing <em>Packages</em></h2>
-    <p class="rv d2" style="color:var(--muted2);margin-top:.5rem;margin-bottom:0;max-width:480px;line-height:1.9;">Paket fleksibel sesuai kebutuhan dan skala projekmu. Harga dapat disesuaikan untuk kebutuhan spesifik.</p>
-    <div class="pricing-grid">
-      <div class="pricing-card rv d1">
-        <div class="pricing-name">Starter</div>
-        <div class="pricing-price">Rp 3 <span>jt / project</span></div>
-        <div class="pricing-desc">Cocok untuk landing page, portfolio, atau aplikasi sederhana.</div>
-        <ul class="pricing-features">
-          <li>Landing page / portfolio</li>
-          <li>Responsive design</li>
-          <li>Hingga 5 halaman</li>
-          <li>Basic SEO setup</li>
-          <li>1 bulan support</li>
+<section class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv flex items-center gap-3 mb-3">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Investment</span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-[1.05] tracking-[-0.02em] mb-3" style="font-size:clamp(2.5rem,4.5vw,4.5rem);">
+      Pricing <em class="italic text-gold-gradient">Packages</em>
+    </h2>
+    <p class="rv d2 text-[#8888aa] text-[.97rem] leading-[1.9] max-w-[480px] mb-10">Paket fleksibel sesuai kebutuhan dan skala projekmu. Harga dapat disesuaikan untuk kebutuhan spesifik.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="pricing-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 rv d1">
+        <div class="font-mono text-[.72rem] tracking-[.12em] uppercase text-[#c8a96d] mb-4">Starter</div>
+        <div class="font-serif text-[2.8rem] font-bold leading-none mb-1">Rp 3 <span class="text-base font-normal text-[#8888aa] font-sans">jt / project</span></div>
+        <div class="text-[#8888aa] text-[.85rem] leading-[1.7] my-4">Cocok untuk landing page, portfolio, atau aplikasi sederhana.</div>
+        <ul class="flex flex-col gap-2 mb-6">
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Landing page / portfolio</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Responsive design</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Hingga 5 halaman</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Basic SEO setup</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>1 bulan support</li>
         </ul>
-        <a href="contact.html" class="pricing-btn outline">Hubungi Saya</a>
+        <a href="contact.html" class="block w-full text-center py-3 border border-white/10 rounded text-sm text-[#8888aa] font-medium hover:text-[#c8a96d] hover:border-[#c8a96d] hover:bg-[rgba(200,169,109,0.08)] transition-all no-underline">
+          Hubungi Saya
+        </a>
       </div>
-      <div class="pricing-card featured rv d2">
-        <div class="pricing-name">Professional</div>
-        <div class="pricing-price">Rp 8 <span>jt / project</span></div>
-        <div class="pricing-desc">Untuk web app full-stack dengan fitur lengkap dan backend.</div>
-        <ul class="pricing-features">
-          <li>Web application full-stack</li>
-          <li>Custom UI/UX design</li>
-          <li>Database & backend API</li>
-          <li>Autentikasi & manajemen user</li>
-          <li>Dashboard admin</li>
-          <li>3 bulan support</li>
+      <div class="pricing-card featured bg-[#10101e] border rounded-xl p-8 rv d2 relative" style="border-color:rgba(200,169,109,0.4);">
+        <div class="absolute top-5 right-5 font-mono text-[.65rem] tracking-[.1em] text-[#c8a96d] border border-[rgba(200,169,109,0.3)] px-2 py-0.5 rounded-sm">Popular</div>
+        <div class="font-mono text-[.72rem] tracking-[.12em] uppercase text-[#c8a96d] mb-4">Professional</div>
+        <div class="font-serif text-[2.8rem] font-bold leading-none mb-1">Rp 8 <span class="text-base font-normal text-[#8888aa] font-sans">jt / project</span></div>
+        <div class="text-[#8888aa] text-[.85rem] leading-[1.7] my-4">Untuk web app full-stack dengan fitur lengkap dan backend.</div>
+        <ul class="flex flex-col gap-2 mb-6">
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Web application full-stack</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Custom UI/UX design</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Database &amp; backend API</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Autentikasi &amp; manajemen user</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Dashboard admin</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>3 bulan support</li>
         </ul>
-        <a href="contact.html" class="pricing-btn filled">Mulai Sekarang</a>
+        <a href="contact.html" class="block w-full text-center py-3 bg-[#c8a96d] text-[#05050a] rounded text-sm font-semibold hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,169,109,0.25)] transition-all no-underline">
+          Mulai Sekarang
+        </a>
       </div>
-      <div class="pricing-card rv d3">
-        <div class="pricing-name">Enterprise</div>
-        <div class="pricing-price">Custom <span>/ negotiable</span></div>
-        <div class="pricing-desc">Untuk platform SaaS, sistem kompleks, atau proyek skala besar.</div>
-        <ul class="pricing-features">
-          <li>Platform SaaS multi-tenant</li>
-          <li>Arsitektur microservices</li>
-          <li>Billing & payment integration</li>
-          <li>CI/CD & DevOps setup</li>
-          <li>API documentation</li>
-          <li>6 bulan support prioritas</li>
+      <div class="pricing-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 rv d3">
+        <div class="font-mono text-[.72rem] tracking-[.12em] uppercase text-[#c8a96d] mb-4">Enterprise</div>
+        <div class="font-serif text-[2.8rem] font-bold leading-none mb-1">Custom <span class="text-base font-normal text-[#8888aa] font-sans">/ negotiable</span></div>
+        <div class="text-[#8888aa] text-[.85rem] leading-[1.7] my-4">Untuk platform SaaS, sistem kompleks, atau proyek skala besar.</div>
+        <ul class="flex flex-col gap-2 mb-6">
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Platform SaaS multi-tenant</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Arsitektur microservices</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Billing &amp; payment integration</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>CI/CD &amp; DevOps setup</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>API documentation</li>
+          <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>6 bulan support prioritas</li>
         </ul>
-        <a href="contact.html" class="pricing-btn outline">Diskusi Lebih Lanjut</a>
+        <a href="contact.html" class="block w-full text-center py-3 border border-white/10 rounded text-sm text-[#8888aa] font-medium hover:text-[#c8a96d] hover:border-[#c8a96d] hover:bg-[rgba(200,169,109,0.08)] transition-all no-underline">
+          Diskusi Lebih Lanjut
+        </a>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-l">Designed &amp; Built by <strong>Adnan Ardiansyah</strong> · 2025</div>
-  <ul class="foot-links"><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li></ul>
-  <div class="foot-r">AA · Portfolio</div>
+<footer class="relative z-10 border-t border-white/[0.06] px-10 md:px-20 py-8 flex flex-col md:flex-row items-center justify-between gap-4" style="background:rgba(5,5,12,0.7);">
+  <div class="text-[.82rem] text-[#5a5a78]">Designed &amp; Built by <strong class="text-[#c8a96d] font-medium">Adnan Ardiansyah</strong> · 2025</div>
+  <ul class="flex gap-5 list-none">
+    <li><a href="about.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">About</a></li>
+    <li><a href="projects.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Projects</a></li>
+    <li><a href="contact.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Contact</a></li>
+  </ul>
+  <div class="font-mono text-[.7rem] text-[#5a5a78] tracking-[.05em]">AA · Portfolio</div>
 </footer>
-<script src="script.js"></script>
+
+<script>
+(function(){ const saved = localStorage.getItem('theme') || 'dark'; if (saved === 'light') { document.body.classList.add('light-mode'); document.getElementById('icon-moon').classList.add('hidden'); document.getElementById('icon-sun').classList.remove('hidden'); } })();
+document.getElementById('themeToggle').addEventListener('click', () => { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); document.getElementById('icon-moon').classList.toggle('hidden', isLight); document.getElementById('icon-sun').classList.toggle('hidden', !isLight); });
+(function(){ const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'); if(!dot||window.matchMedia('(pointer:coarse)').matches) return; let mx=-100,my=-100,rx=-100,ry=-100; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';}); (function anim(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})(); document.querySelectorAll('a,button,.svc-card,.pricing-card,.process-item').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-h'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-h'));}); })();
+window.addEventListener('scroll',()=>{const nav=document.getElementById('nav');nav.style.backdropFilter=window.scrollY>50?'blur(28px) saturate(1.8)':'blur(20px) saturate(1.6)';},{passive:true});
+const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu'),hb1=document.getElementById('hb1'),hb2=document.getElementById('hb2'),hb3=document.getElementById('hb3'); let menuOpen=false; hamburger.addEventListener('click',()=>{menuOpen=!menuOpen;mobileMenu.style.display=menuOpen?'flex':'none';document.body.style.overflow=menuOpen?'hidden':'';if(menuOpen){hb1.style.transform='rotate(45deg) translate(5px,5px)';hb2.style.opacity='0';hb2.style.transform='scaleX(0)';hb3.style.transform='rotate(-45deg) translate(5px,-5px)';}else{hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';}}); mobileMenu.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{menuOpen=false;mobileMenu.style.display='none';document.body.style.overflow='';hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';});});
+/* ── Scroll progress ── */
+window.addEventListener('scroll',()=>{const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);document.getElementById('scrollProgress').style.width=p*100+'%';},{passive:true});
+/* ── Parallax ── */
+window.addEventListener('scroll',()=>{document.querySelectorAll('.parallax-bg').forEach(el=>{const s=parseFloat(el.dataset.speed||'0.3');el.style.transform=`translateY(${window.scrollY*s}px)`;});},{passive:true});
+/* ── Reveal ── */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{threshold:0.08}); document.querySelectorAll('.rv').forEach(el=>revObs.observe(el));
+</script>
 </body>
 </html>
