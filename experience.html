@@ -1,134 +1,667 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Experience - Adnan Ardiansyah</title>
-<meta name="description" content="Pengalaman kerja dan pendidikan Adnan Ardiansyah - full-stack developer dan UI/UX enthusiast.">
+<title>Experience — Adnan Ardiansyah</title>
+<meta name="description" content="Pengalaman kerja dan pendidikan Adnan Ardiansyah — full-stack developer dan UI/UX enthusiast.">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script>(function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark'); })();</script>
+<link rel="stylesheet" href="dist/output.css">
+<style>
+  /* Theme apply before paint */
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #080810; color: #f0f0f5; font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; min-height: 100vh; }
+
+  /* ── Custom cursor ── */
+  #cur-dot, #cur-ring {
+    position: fixed; pointer-events: none; z-index: 9999;
+    border-radius: 50%; transform: translate(-50%,-50%); will-change: left, top;
+  }
+  #cur-dot  { width:5px; height:5px; background:#c8a96d; transition: width .18s, height .18s; }
+  #cur-ring { width:28px; height:28px; border:1.5px solid rgba(200,169,109,0.5); transition: width .22s, height .22s; }
+  body.cursor-h #cur-dot  { width:8px; height:8px; background:#e8cc94; }
+  body.cursor-h #cur-ring { width:44px; height:44px; border-color:rgba(200,169,109,0.25); }
+  @media (pointer:coarse){ #cur-dot,#cur-ring{display:none;} body{cursor:auto;} }
+
+  /* ── BG noise ── */
+  .bg-noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:200px; }
+
+  /* ── Reveal ── */
+  .rv { opacity:0; transform:translateY(28px); transition: opacity .75s cubic-bezier(0.16,1,0.3,1), transform .75s cubic-bezier(0.16,1,0.3,1); }
+  .rv.d1 { transition-delay:.08s; }
+  .rv.d2 { transition-delay:.16s; }
+  .rv.d3 { transition-delay:.24s; }
+  .rv.d4 { transition-delay:.32s; }
+  .rv.d5 { transition-delay:.40s; }
+  .rv.in { opacity:1; transform:none; }
+
+  /* ── Skill bar ── */
+  .sk-fill { transform-origin:left; transform:scaleX(0); transition: transform 1.1s cubic-bezier(0.16,1,0.3,1); }
+  .sk-card.in .sk-fill { transform:scaleX(1); }
+
+  /* ── Timeline dot pulse ── */
+  .tl-dot-inner { animation: pulseDot 2.5s ease-in-out infinite; }
+
+  /* ── Marquee ── */
+  .marquee-track { animation: marquee 22s linear infinite; }
+  .marquee-section:hover .marquee-track { animation-play-state: paused; }
+
+  /* ── Tab active ── */
+  .tab-item { transition: all .25s; border-left: 2px solid transparent; }
+  .tab-item.active, .tab-item:hover { border-left-color: #c8a96d; background: rgba(200,169,109,0.07); }
+  .tab-item.active .tab-role { color: #f0f0f5; }
+
+  /* ── Card hover glow ── */
+  .exp-card { position:relative; overflow:hidden; transition: border-color .3s, transform .35s; }
+  .exp-card::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 20% 80%, rgba(200,169,109,0.06), transparent 60%); opacity:0; transition:opacity .4s; }
+  .exp-card:hover::before { opacity:1; }
+  .exp-card:hover { border-color: rgba(200,169,109,0.22) !important; }
+
+  /* ── Gold gradient text ── */
+  .text-gold-gradient { background: linear-gradient(135deg, #c8a96d, #e8cc94); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+  /* ── Keyframes ── */
+  @keyframes spin     { to { transform:rotate(360deg); } }
+  @keyframes navIn    { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
+  @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
+  @keyframes marquee  { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
+</style>
 </head>
 <body>
 
+<!-- Cursor -->
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
-<div class="bg-fx" aria-hidden="true">
-  <div class="bg-noise"></div><div class="bg-glow1"></div><div class="bg-glow2"></div><div class="bg-grid"></div>
+
+<!-- Background FX -->
+<div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+  <div class="bg-noise absolute inset-0 opacity-[0.035]"></div>
+  <div class="absolute w-[700px] h-[700px] rounded-full -top-48 -right-24" style="background:radial-gradient(circle,rgba(200,169,109,0.06) 0%,transparent 70%)"></div>
+  <div class="absolute w-[600px] h-[600px] rounded-full bottom-1/4 -left-36" style="background:radial-gradient(circle,rgba(79,142,247,0.04) 0%,transparent 70%)"></div>
+  <div class="absolute inset-0" style="background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;"></div>
 </div>
 
-<nav id="nav">
-  <a class="nav-logo" href="index.html"><span class="nav-logo-dot"></span>Adnan Ardiansyah</a>
-  <div class="nav-right">
-    <ul class="nav-menu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="projects.html">Projects</a></li>
-      <li><a href="experience.html" class="on" aria-current="page">Experience</a></li>
-      <li><a href="contact.html" class="cta">Contact</a></li>
+<!-- ═══════════ NAV ═══════════ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-[800] h-[68px] flex items-center justify-between px-10 md:px-20 border-b border-white/[0.06]"
+  style="background:rgba(8,8,16,0.85);backdrop-filter:blur(20px) saturate(1.6);animation:navIn .7s cubic-bezier(0.16,1,0.3,1) both;">
+  <a href="index.html" class="flex items-center gap-2 font-serif text-xl font-bold text-[#c8a96d] tracking-tight no-underline">
+    <span class="w-1.5 h-1.5 rounded-full bg-[#c8a96d]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+    Adnan Ardiansyah
+  </a>
+  <div class="flex items-center gap-1">
+    <ul class="hidden md:flex items-center gap-0.5 list-none">
+      <li><a href="index.html"      class="px-3.5 py-1.5 rounded text-[0.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[0.07] transition-all no-underline">Home</a></li>
+      <li><a href="about.html"      class="px-3.5 py-1.5 rounded text-[0.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[0.07] transition-all no-underline">About</a></li>
+      <li><a href="services.html"   class="px-3.5 py-1.5 rounded text-[0.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[0.07] transition-all no-underline">Services</a></li>
+      <li><a href="projects.html"   class="px-3.5 py-1.5 rounded text-[0.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[0.07] transition-all no-underline">Projects</a></li>
+      <li><a href="experience.html" aria-current="page" class="px-3.5 py-1.5 rounded text-[0.82rem] font-medium tracking-widest uppercase text-[#f0f0f5] bg-white/[0.07] no-underline">Experience</a></li>
+      <li><a href="contact.html"    class="px-4 py-1.5 rounded-full text-[0.82rem] font-medium tracking-widest uppercase text-[#c8a96d] border border-[rgba(200,169,109,0.35)] hover:bg-[rgba(200,169,109,0.1)] hover:border-[#c8a96d] transition-all no-underline ml-1">Contact</a></li>
     </ul>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-      <span class="t-icon icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
-      <span class="t-icon icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    <!-- Theme toggle -->
+    <button id="themeToggle" class="w-10 h-10 rounded-lg border border-white/10 bg-transparent flex items-center justify-center text-[#8888aa] ml-2 hover:border-[#c8a96d] hover:text-[#c8a96d] hover:bg-[rgba(200,169,109,0.12)] transition-all" aria-label="Toggle theme">
+      <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg id="icon-sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <!-- Hamburger -->
+    <button id="hamburger" class="flex md:hidden flex-col gap-1.5 p-2 bg-transparent border-none" aria-label="Menu">
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300"></span>
+    </button>
   </div>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a>
-  <a href="projects.html">Projects</a><a href="experience.html">Experience</a><a href="contact.html">Contact</a>
-  <div class="mobile-theme"><button class="mobile-theme-btn theme-toggle" aria-label="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><span class="theme-label">Light Mode</span></button></div>
+<!-- Mobile menu -->
+<div id="mobileMenu" class="md:hidden fixed top-[68px] left-0 right-0 bottom-0 z-[700] flex-col p-6 pt-4 border-t border-white/[0.06] overflow-y-auto hidden"
+  style="background:rgba(8,8,16,0.97);backdrop-filter:blur(24px);">
+  <a href="index.html"      class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Home <span class="opacity-35 text-sm">→</span></a>
+  <a href="about.html"      class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">About <span class="opacity-35 text-sm">→</span></a>
+  <a href="services.html"   class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Services <span class="opacity-35 text-sm">→</span></a>
+  <a href="projects.html"   class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Projects <span class="opacity-35 text-sm">→</span></a>
+  <a href="experience.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#c8a96d] text-base no-underline">Experience <span class="opacity-35 text-sm">→</span></a>
+  <a href="contact.html"    class="flex justify-between items-center py-4 text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Contact <span class="opacity-35 text-sm">→</span></a>
 </div>
 
-<div class="page-header">
-  <div class="page-header-inner">
-    <span class="label-tag rv">Experience</span>
-    <h1 class="rv d1">Career <em>Highlights</em></h1>
-    <p class="rv d2">Perjalanan profesional saya di dunia full-stack development, SaaS, dan UI/UX design · diceritakan lewat peran, tanggung jawab, dan hasil nyata.</p>
+<!-- ═══════════ PAGE HEADER ═══════════ -->
+<div class="relative z-10 min-h-[42vh] flex items-end px-10 md:px-20 pb-16 pt-[120px] border-b border-white/[0.06]">
+  <div class="max-w-[1280px] mx-auto w-full">
+    <div class="rv flex items-center gap-3 mb-5">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[0.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Experience</span>
+    </div>
+    <h1 class="rv d1 font-serif font-black leading-[.93] tracking-[-0.03em] mb-5" style="font-size:clamp(3.2rem,6.5vw,6.5rem);">
+      Career <em class="not-italic text-gold-gradient">Highlights</em>
+    </h1>
+    <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[580px]">
+      Perjalanan profesional saya di dunia full-stack development, SaaS, dan UI/UX design —
+      diceritakan lewat peran, tanggung jawab, dan hasil nyata.
+    </p>
   </div>
 </div>
 
-<section id="experience">
-  <div class="section-inner">
-    <div class="exp-grid">
-      <aside class="exp-sidebar">
-        <button class="exp-sidebar-item on" type="button">
-          <div class="exp-sidebar-yr">2024 · Sekarang</div>
-          <div class="exp-sidebar-title">Full-Stack Developer · SnapNext</div>
-        </button>
-        <button class="exp-sidebar-item" type="button">
-          <div class="exp-sidebar-yr">2022 · 2024</div>
-          <div class="exp-sidebar-title">Product Engineer · Startup Fintech</div>
-        </button>
-        <button class="exp-sidebar-item" type="button">
-          <div class="exp-sidebar-yr">2021 · 2022</div>
-          <div class="exp-sidebar-title">UI/UX Developer · Freelance Projects</div>
-        </button>
+<!-- ═══════════ STATS BAR ═══════════ -->
+<div class="relative z-10 border-b border-white/[0.06]" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto px-10 md:px-20">
+    <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/[0.06]">
+      <div class="rv d1 py-7 px-6 text-center">
+        <div class="font-serif text-3xl font-bold text-[#c8a96d] mb-1" data-count="3" data-suffix="+">0+</div>
+        <div class="font-mono text-[0.68rem] tracking-[.1em] uppercase text-[#5a5a78]">Years Exp.</div>
+      </div>
+      <div class="rv d2 py-7 px-6 text-center">
+        <div class="font-serif text-3xl font-bold text-[#c8a96d] mb-1" data-count="25" data-suffix="+">0+</div>
+        <div class="font-mono text-[0.68rem] tracking-[.1em] uppercase text-[#5a5a78]">Projects Done</div>
+      </div>
+      <div class="rv d3 py-7 px-6 text-center">
+        <div class="font-serif text-3xl font-bold text-[#c8a96d] mb-1" data-count="15" data-suffix="+">0+</div>
+        <div class="font-mono text-[0.68rem] tracking-[.1em] uppercase text-[#5a5a78]">Happy Clients</div>
+      </div>
+      <div class="rv d4 py-7 px-6 text-center">
+        <div class="font-serif text-3xl font-bold text-[#c8a96d] mb-1" data-count="50" data-suffix="+">0+</div>
+        <div class="font-mono text-[0.68rem] tracking-[.1em] uppercase text-[#5a5a78]">Outlets Served</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MARQUEE ═══════════ -->
+<div class="marquee-section relative z-10 border-b border-white/[0.06] py-3 overflow-hidden" style="background:rgba(13,13,24,0.5);" aria-hidden="true">
+  <div class="marquee-track flex gap-8 w-max">
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">React.js</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Next.js</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">TypeScript</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Node.js</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Python</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">FastAPI</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Figma</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">PostgreSQL</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Docker</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">SaaS</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">React.js</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Next.js</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">TypeScript</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Node.js</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Python</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">FastAPI</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Figma</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">PostgreSQL</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">Docker</span>
+    <span class="font-serif italic text-[0.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[0.5rem] after:opacity-70">SaaS</span>
+  </div>
+</div>
+
+<!-- ═══════════ EXPERIENCE SECTION ═══════════ -->
+<section id="experience" class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv flex items-center gap-3 mb-3">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[0.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Work History</span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mb-16" style="font-size:clamp(2.4rem,4vw,4rem);">
+      Where I've <em class="not-italic text-gold-gradient">Been</em>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-12 lg:gap-20">
+
+      <!-- SIDEBAR TABS -->
+      <aside class="rv d1">
+        <div class="sticky top-24 flex flex-col gap-1">
+          <button class="tab-item active text-left px-4 py-4 rounded-r" data-tab="0">
+            <div class="font-mono text-[0.67rem] tracking-[.08em] text-[#5a5a78] mb-1">2024 · Sekarang</div>
+            <div class="tab-role text-sm font-medium text-[#8888aa] leading-snug">Full-Stack Developer · SnapNext</div>
+          </button>
+          <button class="tab-item text-left px-4 py-4 rounded-r" data-tab="1">
+            <div class="font-mono text-[0.67rem] tracking-[.08em] text-[#5a5a78] mb-1">2022 · 2024</div>
+            <div class="tab-role text-sm font-medium text-[#8888aa] leading-snug">Product Engineer · Startup Fintech</div>
+          </button>
+          <button class="tab-item text-left px-4 py-4 rounded-r" data-tab="2">
+            <div class="font-mono text-[0.67rem] tracking-[.08em] text-[#5a5a78] mb-1">2021 · 2022</div>
+            <div class="tab-role text-sm font-medium text-[#8888aa] leading-snug">UI/UX Developer · Freelance</div>
+          </button>
+          <div class="mt-4 pt-4 border-t border-white/[0.06]">
+            <div class="font-mono text-[0.65rem] tracking-[.1em] uppercase text-[#5a5a78] px-4 mb-2">Education</div>
+            <button class="tab-item text-left px-4 py-4 rounded-r" data-tab="3">
+              <div class="font-mono text-[0.67rem] tracking-[.08em] text-[#5a5a78] mb-1">2024 · 2028</div>
+              <div class="tab-role text-sm font-medium text-[#8888aa] leading-snug">D4 TRKJ · Politeknik Negeri Lhokseumawe</div>
+            </button>
+          </div>
+        </div>
       </aside>
 
-      <div>
-        <article class="exp-entry">
-          <div class="exp-date">2024 · Sekarang</div>
-          <h3>Full-Stack Developer</h3>
-          <div class="exp-where"><strong>SnapNext</strong> · Remote / Lhokseumawe</div>
-          <p class="exp-body">Memimpin pengembangan end-to-end platform SaaS photo booth profesional yang melayani vendor event dan pelanggan ritel. Bertanggung jawab atas arsitektur front-end, API backend, integrasi pembayaran QRIS, serta optimasi performa dan uptime.</p>
-          <div class="exp-tags">
-            <span class="ptag">Next.js</span>
-            <span class="ptag">TypeScript</span>
-            <span class="ptag">Node.js</span>
-            <span class="ptag">PostgreSQL</span>
-            <span class="ptag">SaaS</span>
+      <!-- CONTENT PANELS -->
+      <div class="rv d2">
+
+        <!-- Tab 0: SnapNext -->
+        <article id="tab-0" class="exp-panel">
+          <div class="exp-card border border-white/[0.06] rounded-xl p-8 bg-[#10101e] mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6 pb-6 border-b border-white/[0.06]">
+              <div>
+                <div class="font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-2">2024 · Sekarang</div>
+                <h3 class="font-serif text-3xl font-bold leading-tight mb-1">Full-Stack Developer</h3>
+                <div class="text-[#8888aa] text-sm"><span class="text-[#c8a96d] font-medium">SnapNext</span> · Remote / Lhokseumawe</div>
+              </div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[rgba(200,169,109,0.25)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.67rem] tracking-[.08em] text-[#c8a96d] whitespace-nowrap self-start">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+                Current Role
+              </span>
+            </div>
+            <p class="text-[#8888aa] text-[0.92rem] leading-[1.9] mb-6">
+              Memimpin pengembangan end-to-end platform SaaS photo booth profesional yang melayani vendor event dan pelanggan ritel di seluruh Indonesia. Bertanggung jawab atas arsitektur front-end, API backend, integrasi pembayaran QRIS, serta optimasi performa dan uptime.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center">
+                <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">10K+</div>
+                <div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Photos Captured</div>
+              </div>
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center">
+                <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">50</div>
+                <div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Outlets Active</div>
+              </div>
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center">
+                <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">99.9%</div>
+                <div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Uptime</div>
+              </div>
+            </div>
+            <ul class="flex flex-col gap-2.5 mb-6">
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Merancang arsitektur multi-tenant yang mendukung ratusan vendor secara bersamaan</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Mengintegrasikan QRIS payment gateway dan silent printing untuk pengalaman seamless</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Membangun GIF engine real-time dan digital gallery berbasis cloud</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Optimasi performa hingga mencapai 99.9% uptime di seluruh outlet</li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">Next.js</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">TypeScript</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">Node.js</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">PostgreSQL</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">SaaS</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">Multi-tenant</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">QRIS</span>
+            </div>
+          </div>
+          <a href="https://photobox-saas-main-ews1.vercel.app/" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-2 text-[0.82rem] text-[#8888aa] hover:text-[#c8a96d] no-underline transition-colors">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Lihat Live Demo — SnapNext
+          </a>
+        </article>
+
+        <!-- Tab 1: Fintech -->
+        <article id="tab-1" class="exp-panel hidden">
+          <div class="exp-card border border-white/[0.06] rounded-xl p-8 bg-[#10101e] mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6 pb-6 border-b border-white/[0.06]">
+              <div>
+                <div class="font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-2">2022 · 2024</div>
+                <h3 class="font-serif text-3xl font-bold leading-tight mb-1">Product Engineer</h3>
+                <div class="text-[#8888aa] text-sm"><span class="text-[#c8a96d] font-medium">Startup Fintech</span> · Medan, Indonesia</div>
+              </div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/[0.1] bg-white/[0.04] font-mono text-[0.67rem] tracking-[.08em] text-[#8888aa] whitespace-nowrap self-start">2 Years</span>
+            </div>
+            <p class="text-[#8888aa] text-[0.92rem] leading-[1.9] mb-6">Mengembangkan sistem marketplace dan dashboard analytics untuk produk finansial digital. Berkolaborasi erat dengan tim desain dan produk untuk menghadirkan fitur onboarding, pemantauan transaksi, dan reporting otomatis yang meningkatkan retensi pengguna secara signifikan.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center"><div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">↑ 40%</div><div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">User Retention</div></div>
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center"><div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">5K+</div><div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Active Users</div></div>
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center"><div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">8+</div><div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Features Shipped</div></div>
+            </div>
+            <ul class="flex flex-col gap-2.5 mb-6">
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Membangun dashboard analytics real-time untuk monitoring transaksi keuangan</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Merancang sistem onboarding pengguna baru yang meningkatkan konversi 40%</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Implementasi automated reporting dan notifikasi berbasis event</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Setup CI/CD pipeline dan containerisasi dengan Docker untuk deployment konsisten</li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">React</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">FastAPI</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">Docker</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">CI/CD</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">UI/UX</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">PostgreSQL</span>
+            </div>
           </div>
         </article>
 
-        <article class="exp-entry">
-          <div class="exp-date">2022 · 2024</div>
-          <h3>Product Engineer</h3>
-          <div class="exp-where"><strong>Startup Fintech</strong> · Medan</div>
-          <p class="exp-body">Mengembangkan sistem marketplace dan dashboard analytics untuk produk finansial digital. Berkolaborasi dengan tim desain dan produk untuk menghadirkan fitur onboarding, pemantauan transaksi, dan reporting otomatis yang meningkatkan retensi pengguna.</p>
-          <div class="exp-tags">
-            <span class="ptag">React</span>
-            <span class="ptag">FastAPI</span>
-            <span class="ptag">Docker</span>
-            <span class="ptag">CI/CD</span>
-            <span class="ptag">UI/UX</span>
+        <!-- Tab 2: Freelance -->
+        <article id="tab-2" class="exp-panel hidden">
+          <div class="exp-card border border-white/[0.06] rounded-xl p-8 bg-[#10101e] mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6 pb-6 border-b border-white/[0.06]">
+              <div>
+                <div class="font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-2">2021 · 2022</div>
+                <h3 class="font-serif text-3xl font-bold leading-tight mb-1">UI/UX Developer</h3>
+                <div class="text-[#8888aa] text-sm"><span class="text-[#c8a96d] font-medium">Freelance</span> · Aceh, Indonesia</div>
+              </div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/[0.1] bg-white/[0.04] font-mono text-[0.67rem] tracking-[.08em] text-[#8888aa] whitespace-nowrap self-start">1 Year</span>
+            </div>
+            <p class="text-[#8888aa] text-[0.92rem] leading-[1.9] mb-6">Mendesain dan mengimplementasikan antarmuka untuk website brand lokal dan aplikasi internal. Fokus pada prototype interaktif, design system yang konsisten, dan pengalaman pengguna yang mudah diadopsi oleh klien dengan berbagai latar belakang bisnis.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center"><div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">10+</div><div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Clients Served</div></div>
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center"><div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">15+</div><div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Designs Delivered</div></div>
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02] text-center"><div class="font-serif text-2xl font-bold text-[#c8a96d] mb-0.5">100%</div><div class="font-mono text-[0.65rem] tracking-[.08em] uppercase text-[#5a5a78]">Satisfaction Rate</div></div>
+            </div>
+            <ul class="flex flex-col gap-2.5 mb-6">
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Membuat design system dan style guide untuk brand lokal Aceh</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Mengembangkan prototype interaktif Figma siap handover ke developer</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Implementasi landing page dan website company profile dengan HTML/CSS/JS</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Konsultasi branding dan identitas visual untuk UMKM lokal</li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">Figma</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">HTML</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">CSS</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">JavaScript</span>
+              <span class="px-2.5 py-1 rounded-sm border border-[rgba(200,169,109,0.2)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.7rem] text-[#c8a96d]">Branding</span>
+            </div>
           </div>
         </article>
 
-        <article class="exp-entry">
-          <div class="exp-date">2021 · 2022</div>
-          <h3>UI/UX Developer</h3>
-          <div class="exp-where"><strong>Freelance</strong> · Aceh</div>
-          <p class="exp-body">Mendesain dan mengimplementasikan antarmuka untuk website brand lokal dan aplikasi internal. Fokus pada prototype interaktif, sistem gaya, dan pengalaman pengguna yang mudah diadopsi oleh klien dengan berbagai latar belakang bisnis.</p>
-          <div class="exp-tags">
-            <span class="ptag">Figma</span>
-            <span class="ptag">HTML</span>
-            <span class="ptag">CSS</span>
-            <span class="ptag">JavaScript</span>
-            <span class="ptag">Branding</span>
+        <!-- Tab 3: Education -->
+        <article id="tab-3" class="exp-panel hidden">
+          <div class="exp-card border border-white/[0.06] rounded-xl p-8 bg-[#10101e] mb-6" style="border-left:3px solid #c8a96d;">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6 pb-6 border-b border-white/[0.06]">
+              <div>
+                <div class="font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-2">2024 · 2028</div>
+                <h3 class="font-serif text-3xl font-bold leading-tight mb-1">D4 Teknologi Rekayasa Komputer &amp; Jaringan</h3>
+                <div class="text-[#8888aa] text-sm"><span class="text-[#c8a96d] font-medium">Politeknik Negeri Lhokseumawe</span> · Lhokseumawe, Aceh</div>
+              </div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[rgba(200,169,109,0.25)] bg-[rgba(200,169,109,0.08)] font-mono text-[0.67rem] tracking-[.08em] text-[#c8a96d] whitespace-nowrap self-start">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#4ade80]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+                Ongoing
+              </span>
+            </div>
+            <p class="text-[#8888aa] text-[0.92rem] leading-[1.9] mb-6">Mendalami arsitektur jaringan, perangkat lunak embedded, dan pengembangan sistem terdistribusi. Pengalaman akademis yang mendukung kemampuan dalam mengintegrasikan solusi teknis yang kuat dengan produk digital yang mudah digunakan.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02]"><div class="font-mono text-[0.67rem] tracking-[.08em] uppercase text-[#5a5a78] mb-1">Fokus Studi</div><div class="text-sm text-[#f0f0f5]">Network Architecture, Embedded Systems, Software Engineering</div></div>
+              <div class="rounded-lg p-4 border border-white/[0.05] bg-white/[0.02]"><div class="font-mono text-[0.67rem] tracking-[.08em] uppercase text-[#5a5a78] mb-1">Kegiatan</div><div class="text-sm text-[#f0f0f5]">Developer Community, Riset Jaringan, Hackathon Lokal</div></div>
+            </div>
+            <ul class="flex flex-col gap-2.5">
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Program D4 setara dengan S1 dengan fokus praktis dan industri</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Menggabungkan teori akademis dengan pengalaman profesional nyata</li>
+              <li class="flex gap-3 text-[0.88rem] text-[#8888aa] leading-relaxed"><span class="mt-1 w-1 h-1 rounded-full bg-[#c8a96d] flex-shrink-0"></span>Aktif berkontribusi di komunitas developer dan open-source lokal</li>
+            </ul>
           </div>
         </article>
 
-        <div class="edu-block">
-          <div class="edu-yr">2024 · 2028</div>
-          <h3>D4 Teknologi Rekayasa Komputer & Jaringan</h3>
-          <div class="edu-school">Politeknik Negeri Lhokseumawe</div>
-          <p>Mendalami arsitektur jaringan, perangkat lunak embedded, dan pengembangan sistem. Pengalaman akademis mendukung kemampuan saya dalam mengintegrasikan solusi teknis yang kuat dengan produk digital yang mudah digunakan.</p>
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="foot-l">Designed &amp; Built by <strong>Adnan Ardiansyah</strong> · 2025</div>
-  <ul class="foot-links"><li><a href="about.html">About</a></li><li><a href="projects.html">Projects</a></li><li><a href="contact.html">Contact</a></li></ul>
-  <div class="foot-r">AA · Portfolio</div>
+<!-- ═══════════ TIMELINE ═══════════ -->
+<section class="relative z-10 py-24 px-10 md:px-20" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv flex items-center gap-3 mb-3">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[0.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Timeline</span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mb-16" style="font-size:clamp(2.4rem,4vw,4rem);">
+      Full <em class="not-italic text-gold-gradient">Journey</em>
+    </h2>
+    <div class="relative">
+      <div class="absolute left-[19px] top-2 bottom-2 w-[1px] md:left-[50%]" style="background:linear-gradient(to bottom,rgba(200,169,109,0.5),rgba(200,169,109,0.05));"></div>
+      <div class="flex flex-col gap-12">
+
+        <div class="rv d1 relative flex items-start gap-8 md:grid md:grid-cols-2 md:gap-12">
+          <div class="hidden md:flex justify-end pr-12 pt-1.5"><div class="text-right"><div class="font-mono text-[0.72rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2024 · Sekarang</div><div class="font-serif text-base font-semibold text-[#f0f0f5]">SnapNext</div><div class="text-xs text-[#5a5a78] mt-0.5">Remote / Lhokseumawe</div></div></div>
+          <div class="absolute left-0 md:left-[50%] top-1.5 md:-translate-x-1/2 flex-shrink-0 z-10">
+            <div class="w-10 h-10 rounded-full border-2 border-[#c8a96d] bg-[#080810] flex items-center justify-center">
+              <span class="tl-dot-inner w-2.5 h-2.5 rounded-full bg-[#c8a96d]"></span>
+            </div>
+          </div>
+          <div class="pl-16 md:pl-12">
+            <div class="md:hidden font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2024 · Sekarang</div>
+            <div class="border border-white/[0.06] rounded-lg p-5 bg-[#10101e] hover:border-[rgba(200,169,109,0.2)] transition-colors">
+              <h4 class="font-serif text-lg font-semibold mb-1">Full-Stack Developer</h4>
+              <p class="text-xs text-[#8888aa] mb-3">Platform SaaS photo booth all-in-one untuk vendor event Indonesia</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">Next.js</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">TypeScript</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">SaaS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rv d2 relative flex items-start gap-8 md:grid md:grid-cols-2 md:gap-12">
+          <div class="hidden md:flex justify-end pr-12 pt-1.5"><div class="text-right"><div class="font-mono text-[0.72rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2022 · 2024</div><div class="font-serif text-base font-semibold text-[#f0f0f5]">Startup Fintech</div><div class="text-xs text-[#5a5a78] mt-0.5">Medan, Indonesia</div></div></div>
+          <div class="absolute left-0 md:left-[50%] top-1.5 md:-translate-x-1/2 flex-shrink-0 z-10">
+            <div class="w-10 h-10 rounded-full border-2 border-[rgba(200,169,109,0.4)] bg-[#080810] flex items-center justify-center">
+              <span class="w-2.5 h-2.5 rounded-full bg-[rgba(200,169,109,0.5)]"></span>
+            </div>
+          </div>
+          <div class="pl-16 md:pl-12">
+            <div class="md:hidden font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2022 · 2024</div>
+            <div class="border border-white/[0.06] rounded-lg p-5 bg-[#10101e] hover:border-[rgba(200,169,109,0.2)] transition-colors">
+              <h4 class="font-serif text-lg font-semibold mb-1">Product Engineer</h4>
+              <p class="text-xs text-[#8888aa] mb-3">Marketplace & analytics dashboard untuk produk finansial digital</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">React</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">FastAPI</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">Docker</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rv d3 relative flex items-start gap-8 md:grid md:grid-cols-2 md:gap-12">
+          <div class="hidden md:flex justify-end pr-12 pt-1.5"><div class="text-right"><div class="font-mono text-[0.72rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2021 · 2022</div><div class="font-serif text-base font-semibold text-[#f0f0f5]">Freelance</div><div class="text-xs text-[#5a5a78] mt-0.5">Aceh, Indonesia</div></div></div>
+          <div class="absolute left-0 md:left-[50%] top-1.5 md:-translate-x-1/2 flex-shrink-0 z-10">
+            <div class="w-10 h-10 rounded-full border-2 border-[rgba(200,169,109,0.3)] bg-[#080810] flex items-center justify-center">
+              <span class="w-2.5 h-2.5 rounded-full bg-[rgba(200,169,109,0.35)]"></span>
+            </div>
+          </div>
+          <div class="pl-16 md:pl-12">
+            <div class="md:hidden font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2021 · 2022</div>
+            <div class="border border-white/[0.06] rounded-lg p-5 bg-[#10101e] hover:border-[rgba(200,169,109,0.2)] transition-colors">
+              <h4 class="font-serif text-lg font-semibold mb-1">UI/UX Developer</h4>
+              <p class="text-xs text-[#8888aa] mb-3">Design & implementasi interface untuk brand lokal dan UMKM Aceh</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">Figma</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">HTML/CSS</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">Branding</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rv d4 relative flex items-start gap-8 md:grid md:grid-cols-2 md:gap-12">
+          <div class="hidden md:flex justify-end pr-12 pt-1.5"><div class="text-right"><div class="font-mono text-[0.72rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2024 · 2028</div><div class="font-serif text-base font-semibold text-[#f0f0f5]">Politeknik Negeri Lhokseumawe</div><div class="text-xs text-[#5a5a78] mt-0.5">Lhokseumawe, Aceh</div></div></div>
+          <div class="absolute left-0 md:left-[50%] top-1.5 md:-translate-x-1/2 flex-shrink-0 z-10">
+            <div class="w-10 h-10 rounded-full border-2 border-[rgba(200,169,109,0.25)] bg-[#080810] flex items-center justify-center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2" opacity="0.7"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+          </div>
+          <div class="pl-16 md:pl-12">
+            <div class="md:hidden font-mono text-[0.7rem] tracking-[.1em] uppercase text-[#c8a96d] mb-1">2024 · 2028</div>
+            <div class="border border-[rgba(200,169,109,0.15)] rounded-lg p-5 bg-[rgba(200,169,109,0.03)] hover:border-[rgba(200,169,109,0.25)] transition-colors">
+              <h4 class="font-serif text-lg font-semibold mb-1">D4 Teknologi Rekayasa Komputer &amp; Jaringan</h4>
+              <p class="text-xs text-[#8888aa] mb-3">Politeknik Negeri Lhokseumawe · Ongoing</p>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">Network</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">Embedded</span>
+                <span class="px-2 py-0.5 rounded-sm bg-[rgba(200,169,109,0.08)] font-mono text-[0.65rem] text-[#c8a96d]">Systems</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SKILLS ═══════════ -->
+<section class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv flex items-center gap-3 mb-3">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[0.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Skills & Expertise</span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mb-12" style="font-size:clamp(2.4rem,4vw,4rem);">
+      What I <em class="not-italic text-gold-gradient">Bring</em>
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="sk-card rv d1 bg-[#10101e] border border-white/[0.06] rounded-xl p-6 hover:border-[rgba(200,169,109,0.22)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#c8a96d] before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+        <div class="text-2xl mb-3">⚡</div><h4 class="font-serif text-base font-semibold mb-2">Frontend Development</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">React, Next.js, TypeScript — pixel-perfect interfaces dengan performa tinggi dan aksesibilitas baik.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1"><div class="sk-fill h-full rounded-full" style="width:90%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div></div>
+        <div class="font-mono text-[0.65rem] text-[#5a5a78]">React / Next.js — 90%</div>
+      </div>
+      <div class="sk-card rv d2 bg-[#10101e] border border-white/[0.06] rounded-xl p-6 hover:border-[rgba(200,169,109,0.22)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#c8a96d] before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+        <div class="text-2xl mb-3">🛠</div><h4 class="font-serif text-base font-semibold mb-2">Backend Development</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">Node.js, FastAPI, Python — scalable REST APIs dan microservices dengan arsitektur clean.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1"><div class="sk-fill h-full rounded-full" style="width:82%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div></div>
+        <div class="font-mono text-[0.65rem] text-[#5a5a78]">Node / Python / FastAPI — 82%</div>
+      </div>
+      <div class="sk-card rv d3 bg-[#10101e] border border-white/[0.06] rounded-xl p-6 hover:border-[rgba(200,169,109,0.22)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#c8a96d] before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+        <div class="text-2xl mb-3">🎨</div><h4 class="font-serif text-base font-semibold mb-2">UI/UX Design</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">Figma, design systems, high-fidelity prototypes — dari research hingga handoff ke developer.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1"><div class="sk-fill h-full rounded-full" style="width:85%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div></div>
+        <div class="font-mono text-[0.65rem] text-[#5a5a78]">Figma / Design Systems — 85%</div>
+      </div>
+      <div class="sk-card rv d4 bg-[#10101e] border border-white/[0.06] rounded-xl p-6 hover:border-[rgba(200,169,109,0.22)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#c8a96d] before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+        <div class="text-2xl mb-3">🗄</div><h4 class="font-serif text-base font-semibold mb-2">Database & DevOps</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">PostgreSQL, Docker, CI/CD pipelines — deployment reliable dan monitoring efektif.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1"><div class="sk-fill h-full rounded-full" style="width:75%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div></div>
+        <div class="font-mono text-[0.65rem] text-[#5a5a78]">PostgreSQL / Docker — 75%</div>
+      </div>
+      <div class="sk-card rv d3 bg-[#10101e] border border-white/[0.06] rounded-xl p-6 hover:border-[rgba(200,169,109,0.22)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#c8a96d] before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+        <div class="text-2xl mb-3">📱</div><h4 class="font-serif text-base font-semibold mb-2">Mobile Development</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">React Native, Expo — aplikasi cross-platform dengan pengalaman native yang smooth.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1"><div class="sk-fill h-full rounded-full" style="width:68%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div></div>
+        <div class="font-mono text-[0.65rem] text-[#5a5a78]">React Native / Expo — 68%</div>
+      </div>
+      <div class="sk-card rv d4 bg-[#10101e] border border-white/[0.06] rounded-xl p-6 hover:border-[rgba(200,169,109,0.22)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#c8a96d] before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity">
+        <div class="text-2xl mb-3">🤖</div><h4 class="font-serif text-base font-semibold mb-2">AI Integration</h4>
+        <p class="text-[#5a5a78] text-xs leading-[1.75] mb-4">OpenAI API, LangChain, Hugging Face — integrasi AI ke dalam aplikasi web modern.</p>
+        <div class="h-[2px] bg-white/[0.07] rounded-full overflow-hidden mb-1"><div class="sk-fill h-full rounded-full" style="width:72%;background:linear-gradient(90deg,#c8a96d,#e8cc94);"></div></div>
+        <div class="font-mono text-[0.65rem] text-[#5a5a78]">AI APIs / LangChain — 72%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="relative z-10 py-28 px-10 md:px-20" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto text-center">
+    <div class="rv flex items-center gap-3 mb-5 justify-center">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[0.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Let's Work Together</span>
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mb-5" style="font-size:clamp(2.4rem,4vw,4rem);">
+      Ready to <em class="not-italic text-gold-gradient">Collaborate?</em>
+    </h2>
+    <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-md mx-auto mb-10">Mari wujudkan ide kamu menjadi produk digital yang luar biasa bersama.</p>
+    <div class="rv d3 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
+        Hubungi Saya <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="projects.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-transparent text-[#8888aa] border border-white/10 rounded text-sm font-medium hover:text-[#f0f0f5] hover:border-white/20 hover:-translate-y-0.5 hover:bg-white/[0.04] transition-all no-underline">Lihat Portfolio</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="relative z-10 border-t border-white/[0.06] px-10 md:px-20 py-8 flex flex-col md:flex-row items-center justify-between gap-4" style="background:rgba(5,5,12,0.7);">
+  <div class="text-[0.82rem] text-[#5a5a78]">Designed &amp; Built by <strong class="text-[#c8a96d] font-medium">Adnan Ardiansyah</strong> · 2025</div>
+  <ul class="flex gap-5 list-none">
+    <li><a href="about.html"    class="text-[0.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">About</a></li>
+    <li><a href="projects.html" class="text-[0.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Projects</a></li>
+    <li><a href="contact.html"  class="text-[0.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Contact</a></li>
+  </ul>
+  <div class="font-mono text-[0.7rem] text-[#5a5a78] tracking-[.05em]">AA · Portfolio</div>
 </footer>
-<script src="script.js"></script>
+
+<script>
+/* ── Theme ── */
+(function(){
+  const saved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.className = saved;
+  if (saved === 'light') {
+    document.body.style.background = '#f8f7f2';
+    document.body.style.color = '#1a1810';
+  }
+})();
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const isDark = document.documentElement.classList.contains('dark');
+  document.documentElement.className = isDark ? 'light' : 'dark';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  document.getElementById('icon-moon').classList.toggle('hidden', isDark);
+  document.getElementById('icon-sun').classList.toggle('hidden', !isDark);
+  document.body.style.background = isDark ? '#f8f7f2' : '#080810';
+  document.body.style.color = isDark ? '#1a1810' : '#f0f0f5';
+});
+
+/* ── Custom cursor ── */
+(function(){
+  const dot = document.getElementById('cur-dot');
+  const ring = document.getElementById('cur-ring');
+  if (!dot || window.matchMedia('(pointer:coarse)').matches) return;
+  let mx=-100,my=-100,rx=-100,ry=-100;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+  (function anim(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+  document.querySelectorAll('a,button,.exp-card,.sk-card,.tab-item').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-h'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-h'));
+  });
+})();
+
+/* ── Nav scroll ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.backdropFilter = window.scrollY > 50 ? 'blur(28px) saturate(1.8)' : 'blur(20px) saturate(1.6)';
+}, { passive: true });
+
+/* ── Mobile menu ── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('hidden');
+  mobileMenu.style.display = open ? 'none' : 'flex';
+  document.body.style.overflow = open ? '' : 'hidden';
+});
+
+/* ── Reveal on scroll ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv, .sk-card').forEach(el => obs.observe(el));
+
+/* ── Count-up ── */
+const cObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '+';
+    let cur = 0; const step = target / (900/16);
+    const t = setInterval(() => { cur = Math.min(cur+step, target); el.textContent=Math.round(cur)+suffix; if(cur>=target)clearInterval(t); }, 16);
+    cObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => cObs.observe(el));
+
+/* ── Tab switching ── */
+document.querySelectorAll('.tab-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    item.classList.add('active');
+    document.querySelectorAll('.exp-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('tab-' + item.dataset.tab).classList.remove('hidden');
+  });
+});
+
+/* ── Smooth scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.getElementById(a.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+  });
+});
+</script>
 </body>
 </html>

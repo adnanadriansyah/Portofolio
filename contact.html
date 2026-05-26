@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Adnan Ardiansyah</title>
+<meta name="description" content="Hubungi Adnan Ardiansyah — Full-Stack Developer & UI/UX Designer dari Medan, Indonesia.">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS CDN (Development) -->
+<!-- PRODUCTION: Ganti dengan Tailwind yang sudah di-build (lihat instruksi di bawah) -->
+<link rel="stylesheet" href="dist/output.css">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          serif:  ['Playfair Display', 'Georgia', 'serif'],
+          sans:   ['Outfit', 'sans-serif'],
+          mono:   ['JetBrains Mono', 'monospace'],
+        },
+        colors: {
+          gold: {
+            DEFAULT: '#c8a96d',
+            light:   '#e8cc94',
+            dark:    '#9a7035',
+            muted:   'rgba(200,169,109,0.12)',
+          },
+        },
+        animation: {
+          'fade-up':   'fadeUp 0.75s cubic-bezier(0.16,1,0.3,1) forwards',
+          'pulse-dot': 'pulseDot 2s ease-in-out infinite',
+          'nav-in':    'navIn 0.7s cubic-bezier(0.16,1,0.3,1) both',
+          'spin-slow': 'spin 1s linear infinite',
+        },
+        keyframes: {
+          fadeUp:   { from:{ opacity:'0', transform:'translateY(28px)' }, to:{ opacity:'1', transform:'none' } },
+          pulseDot: { '0%,100%':{ opacity:'1',transform:'scale(1)' }, '50%':{ opacity:'.4',transform:'scale(.7)' } },
+          navIn:    { from:{ transform:'translateY(-100%)',opacity:'0' }, to:{ transform:'none',opacity:'1' } },
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  /* ── Base ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #080810;
+    color: #f0f0f5;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    min-height: 100vh;
+    transition: background .4s ease, color .4s ease;
+  }
+  body.light-mode {
+    background: #f8f7f2;
+    color: #1a1810;
+  }
+
+  /* ── Custom Cursor ── */
+  #cur-dot, #cur-ring {
+    position: fixed; pointer-events: none; z-index: 9999;
+    border-radius: 50%; transform: translate(-50%,-50%); will-change: left, top;
+  }
+  #cur-dot  { width:5px; height:5px; background:#c8a96d; transition: width .18s, height .18s; }
+  #cur-ring { width:28px; height:28px; border:1.5px solid rgba(200,169,109,0.5); transition: width .22s, height .22s; }
+  body.cursor-h #cur-dot  { width:8px; height:8px; background:#e8cc94; }
+  body.cursor-h #cur-ring { width:44px; height:44px; border-color:rgba(200,169,109,0.22); }
+  @media (pointer:coarse) { #cur-dot, #cur-ring { display:none; } body { cursor:auto; } }
+
+  /* ── BG Noise ── */
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height%3D'100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  /* ── Reveal Animations ── */
+  .rv {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .75s cubic-bezier(0.16,1,0.3,1), transform .75s cubic-bezier(0.16,1,0.3,1);
+  }
+  .rv.d1 { transition-delay: .08s; }
+  .rv.d2 { transition-delay: .16s; }
+  .rv.d3 { transition-delay: .24s; }
+  .rv.d4 { transition-delay: .32s; }
+  .rv.d5 { transition-delay: .40s; }
+  .rv.in  { opacity: 1; transform: none; }
+
+  /* ── Gold Gradient Text ── */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #c8a96d, #e8cc94);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Nav animation ── */
+  @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
+  @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* ── Card Glow ── */
+  .contact-card {
+    position: relative;
+    overflow: hidden;
+    transition: border-color .35s, transform .35s;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(200,169,109,0.06), transparent 60%);
+    opacity: 0;
+    transition: opacity .4s;
+  }
+  .contact-card:hover::before { opacity: 1; }
+  .contact-card:hover { border-color: rgba(200,169,109,0.25) !important; transform: translateY(-3px); }
+
+  /* ── Info Row ── */
+  .info-row { transition: background .25s; }
+  .info-row:hover { background: rgba(200,169,109,0.04); }
+
+  /* ── Socials ── */
+  .soc-btn { transition: border-color .25s, color .25s, background .25s, transform .3s; }
+  .soc-btn:hover { border-color: #c8a96d; color: #c8a96d; background: rgba(200,169,109,0.12); transform: translateY(-3px); }
+
+  /* ── Form Fields ── */
+  .form-field {
+    width: 100%;
+    padding: .8rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    color: #f0f0f5;
+    font-family: 'Outfit', sans-serif;
+    font-size: .9rem;
+    outline: none;
+    resize: none;
+    transition: border-color .25s, background .25s;
+  }
+  .form-field:focus { border-color: #c8a96d; background: rgba(200,169,109,0.07); }
+  .form-field::placeholder { color: #5a5a78; }
+
+  /* Light mode form fields */
+  body.light-mode .form-field {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.12);
+    color: #1a1810;
+  }
+  body.light-mode .form-field:focus { background: rgba(154,112,53,0.07); }
+  body.light-mode .form-field::placeholder { color: #a09880; }
+
+  /* ── Marquee ── */
+  .marquee-track { animation: marquee 22s linear infinite; }
+  .marquee-section:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ── Map Pin pulse ── */
+  .pin-pulse {
+    animation: pinPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pinPulse {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
+  }
+
+  /* ── Light mode overrides ── */
+  body.light-mode { --card-bg: #ffffff; --border: rgba(0,0,0,0.07); }
+  body.light-mode .contact-card { background: #ffffff !important; }
+  body.light-mode .cinfo-card   { background: #f5f2eb !important; }
+  body.light-mode .page-section { background: #eeeae0 !important; }
+  body.light-mode .nav-bar      { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode footer        { background: rgba(238,234,224,0.7) !important; }
+  body.light-mode .text-\[\#8888aa\] { color: #65604e !important; }
+  body.light-mode .text-\[\#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[\#f0f0f5\] { color: #1a1810 !important; }
+  body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
+  body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
+  body.light-mode .bg-\[\#10101e\] { background: #ffffff !important; }
+  body.light-mode .bg-\[\#080810\] { background: #f8f7f2 !important; }
+  body.light-mode .marquee-section { background: rgba(238,234,224,0.6) !important; }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- Background FX -->
+<div class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+  <div class="bg-noise absolute inset-0 opacity-[0.035]"></div>
+  <div class="absolute w-[700px] h-[700px] rounded-full -top-48 -right-24"
+    style="background:radial-gradient(circle,rgba(200,169,109,0.06) 0%,transparent 70%)"></div>
+  <div class="absolute w-[600px] h-[600px] rounded-full bottom-1/4 -left-36"
+    style="background:radial-gradient(circle,rgba(79,142,247,0.04) 0%,transparent 70%)"></div>
+  <div class="absolute inset-0"
+    style="background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;"></div>
+</div>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav id="nav" class="nav-bar fixed top-0 left-0 right-0 z-[800] h-[68px] flex items-center justify-between px-10 md:px-20 border-b border-white/[0.06]"
+  style="background:rgba(8,8,16,0.85);backdrop-filter:blur(20px) saturate(1.6);animation:navIn .7s cubic-bezier(0.16,1,0.3,1) both;">
+
+  <a href="index.html" class="flex items-center gap-2 font-serif text-xl font-bold text-[#c8a96d] tracking-tight no-underline">
+    <span class="w-1.5 h-1.5 rounded-full bg-[#c8a96d]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+    Adnan Ardiansyah
+  </a>
+
+  <div class="flex items-center gap-1">
+    <ul class="hidden md:flex items-center gap-0.5 list-none">
+      <li><a href="index.html"      class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Home</a></li>
+      <li><a href="about.html"      class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">About</a></li>
+      <li><a href="services.html"   class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Services</a></li>
+      <li><a href="projects.html"   class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Projects</a></li>
+      <li><a href="experience.html" class="px-3.5 py-1.5 rounded text-[.82rem] font-medium tracking-widest uppercase text-[#8888aa] hover:text-[#f0f0f5] hover:bg-white/[.07] transition-all no-underline">Experience</a></li>
+      <li>
+        <a href="contact.html" aria-current="page"
+          class="px-4 py-1.5 rounded-full text-[.82rem] font-medium tracking-widest uppercase text-[#c8a96d] border border-[rgba(200,169,109,0.35)] bg-[rgba(200,169,109,0.08)] no-underline ml-1">
+          Contact
+        </a>
+      </li>
+    </ul>
+
+    <!-- Theme toggle -->
+    <button id="themeToggle"
+      class="w-10 h-10 rounded-lg border border-white/10 bg-transparent flex items-center justify-center text-[#8888aa] ml-2 hover:border-[#c8a96d] hover:text-[#c8a96d] hover:bg-[rgba(200,169,109,0.12)] transition-all"
+      aria-label="Toggle theme">
+      <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+      </svg>
+      <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+
+    <!-- Hamburger -->
+    <button id="hamburger" class="flex md:hidden flex-col gap-1.5 p-2 bg-transparent border-none ml-1" aria-label="Menu">
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb1"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300" id="hb2"></span>
+      <span class="block w-[22px] h-[1.5px] bg-[#8888aa] transition-all duration-300 origin-center" id="hb3"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu"
+  class="md:hidden fixed top-[68px] left-0 right-0 bottom-0 z-[700] flex-col p-6 pt-4 border-t border-white/[0.06] overflow-y-auto"
+  style="background:rgba(8,8,16,0.97);backdrop-filter:blur(24px);display:none;">
+  <a href="index.html"      class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Home <span class="opacity-35">→</span></a>
+  <a href="about.html"      class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">About <span class="opacity-35">→</span></a>
+  <a href="services.html"   class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Services <span class="opacity-35">→</span></a>
+  <a href="projects.html"   class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Projects <span class="opacity-35">→</span></a>
+  <a href="experience.html" class="flex justify-between items-center py-4 border-b border-white/[0.06] text-[#8888aa] text-base no-underline hover:text-[#c8a96d] hover:pl-2 transition-all">Experience <span class="opacity-35">→</span></a>
+  <a href="contact.html"    class="flex justify-between items-center py-4 text-[#c8a96d] text-base no-underline">Contact <span class="opacity-35">→</span></a>
+</div>
+
+<!-- ══════════════ PAGE HEADER ══════════════ -->
+<div class="relative z-10 min-h-[42vh] flex items-end px-10 md:px-20 pb-16 pt-[120px] border-b border-white/[0.06]">
+  <div class="max-w-[1280px] mx-auto w-full">
+    <div class="rv flex items-center gap-3 mb-5">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Let's Connect</span>
+    </div>
+    <h1 class="rv d1 font-serif font-black leading-[.93] tracking-[-0.03em] mb-5"
+      style="font-size:clamp(3.2rem,6.5vw,6.5rem);">
+      Get In <em class="not-italic text-gold-gradient">Touch</em>
+    </h1>
+    <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[540px]">
+      Punya proyek menarik, ide kolaborasi, atau sekadar ingin ngobrol tentang teknologi dan desain?
+      Saya selalu senang mendengar dari kamu.
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════ MARQUEE ══════════════ -->
+<div class="marquee-section relative z-10 border-b border-white/[0.06] py-3 overflow-hidden"
+  style="background:rgba(13,13,24,0.5);" aria-hidden="true">
+  <div class="marquee-track flex gap-8 w-max">
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Open to Work</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Full-Stack Developer</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">UI/UX Design</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">SaaS Development</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Medan, Indonesia</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Remote Friendly</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Response in 24h</span>
+    <!-- duplicate -->
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Open to Work</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Full-Stack Developer</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">UI/UX Design</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">SaaS Development</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Medan, Indonesia</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Remote Friendly</span>
+    <span class="font-serif italic text-[.85rem] text-[#5a5a78] whitespace-nowrap after:content-['◆'] after:ml-8 after:text-[#c8a96d] after:not-italic after:text-[.5rem] after:opacity-70">Response in 24h</span>
+  </div>
+</div>
+
+<!-- ══════════════ MAIN CONTACT SECTION ══════════════ -->
+<section id="contact" class="relative z-10 py-24 px-10 md:px-20">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 xl:gap-20 items-start">
+
+      <!-- LEFT: Info -->
+      <div>
+        <!-- Heading -->
+        <div class="rv flex items-center gap-3 mb-4">
+          <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+          <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">Reach Out</span>
+        </div>
+        <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mb-5" style="font-size:clamp(2.2rem,4vw,4rem);">
+          Let's Build Something <em class="not-italic text-gold-gradient">Amazing</em>
+        </h2>
+        <p class="rv d2 text-[#8888aa] text-[.96rem] leading-[1.9] mb-8 max-w-[440px]">
+          Saya selalu terbuka untuk peluang baru, kolaborasi kreatif, proyek freelance, atau sekadar diskusi
+          tentang ide-ide menarik di dunia tech.
+        </p>
+
+        <!-- Email CTA -->
+        <div class="rv d3 mb-10">
+          <a href="mailto:adnanadriansyah5@gmail.com"
+            class="inline-flex items-center gap-3 px-7 py-4 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            adnanadriansyah5@gmail.com
+          </a>
+        </div>
+
+        <!-- Contact Info Cards -->
+        <div class="rv d3 cinfo-card border border-white/[0.06] rounded-xl overflow-hidden mb-8 bg-[#10101e]">
+          <!-- Row: Location -->
+          <div class="info-row flex items-center gap-4 px-5 py-4 border-b border-white/[0.06]">
+            <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center flex-shrink-0 text-[#c8a96d]">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-mono text-[.66rem] tracking-[.08em] uppercase text-[#5a5a78] mb-[2px]">Lokasi</div>
+              <div class="text-[.88rem] text-[#f0f0f5]">Medan, Sumatera Utara, Indonesia</div>
+            </div>
+          </div>
+          <!-- Row: Availability -->
+          <div class="info-row flex items-center gap-4 px-5 py-4 border-b border-white/[0.06]">
+            <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center flex-shrink-0 text-[#c8a96d]">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-mono text-[.66rem] tracking-[.08em] uppercase text-[#5a5a78] mb-[2px]">Waktu Respons</div>
+              <div class="text-[.88rem] text-[#f0f0f5]">Biasanya dalam <span class="text-[#c8a96d] font-medium">1–2 hari kerja</span></div>
+            </div>
+          </div>
+          <!-- Row: Status -->
+          <div class="info-row flex items-center gap-4 px-5 py-4 border-b border-white/[0.06]">
+            <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center flex-shrink-0 text-[#c8a96d]">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-mono text-[.66rem] tracking-[.08em] uppercase text-[#5a5a78] mb-[2px]">Status</div>
+              <div class="flex items-center gap-2 text-[.88rem]">
+                <span class="w-2 h-2 rounded-full bg-[#4ade80]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
+                <span class="text-[#4ade80] font-medium">Open to Opportunities</span>
+              </div>
+            </div>
+          </div>
+          <!-- Row: Remote -->
+          <div class="info-row flex items-center gap-4 px-5 py-4">
+            <div class="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center flex-shrink-0 text-[#c8a96d]">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-mono text-[.66rem] tracking-[.08em] uppercase text-[#5a5a78] mb-[2px]">Tipe Kerja</div>
+              <div class="text-[.88rem] text-[#f0f0f5]">Remote / Hybrid / On-site</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="rv d4">
+          <div class="font-mono text-[.68rem] tracking-[.1em] uppercase text-[#5a5a78] mb-3">Temukan Saya Di</div>
+          <div class="flex gap-2.5 flex-wrap">
+            <!-- GitHub -->
+            <a href="#" class="soc-btn w-11 h-11 border border-white/10 rounded-lg flex items-center justify-center text-[#8888aa] no-underline" aria-label="GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+              </svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="#" class="soc-btn w-11 h-11 border border-white/10 rounded-lg flex items-center justify-center text-[#8888aa] no-underline" aria-label="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+                <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+            <!-- Twitter / X -->
+            <a href="#" class="soc-btn w-11 h-11 border border-white/10 rounded-lg flex items-center justify-center text-[#8888aa] no-underline" aria-label="Twitter">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <!-- Instagram -->
+            <a href="#" class="soc-btn w-11 h-11 border border-white/10 rounded-lg flex items-center justify-center text-[#8888aa] no-underline" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            <!-- Figma -->
+            <a href="#" class="soc-btn w-11 h-11 border border-white/10 rounded-lg flex items-center justify-center text-[#8888aa] no-underline" aria-label="Figma">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 5.5A3.5 3.5 0 018.5 2H12v7H8.5A3.5 3.5 0 015 5.5z"/>
+                <path d="M12 2h3.5a3.5 3.5 0 110 7H12V2z"/>
+                <path d="M12 12.5a3.5 3.5 0 117 0 3.5 3.5 0 01-7 0z"/>
+                <path d="M5 12.5A3.5 3.5 0 018.5 9H12v7H8.5A3.5 3.5 0 015 12.5z"/>
+                <path d="M5 19.5A3.5 3.5 0 018.5 16H12v3.5a3.5 3.5 0 11-7 0z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Contact Form -->
+      <div class="rv d2 lg:sticky lg:top-24">
+        <div class="contact-card border border-white/[0.06] rounded-xl p-8 bg-[#10101e]">
+          <!-- Card Header -->
+          <div class="mb-7 pb-6 border-b border-white/[0.06]">
+            <h3 class="font-serif text-2xl font-bold mb-1">Kirim Pesan</h3>
+            <p class="text-[#8888aa] text-sm leading-relaxed">Isi form di bawah dan saya akan membalas secepatnya.</p>
+          </div>
+
+          <!-- Form -->
+          <form id="contactForm" class="flex flex-col gap-5">
+            <!-- Name + Email -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-[6px]">
+                <label class="font-mono text-[.67rem] tracking-[.1em] uppercase text-[#5a5a78]">
+                  Nama Lengkap <span class="text-[#c8a96d]">*</span>
+                </label>
+                <input type="text" name="name" placeholder="Adnan Ardiansyah" required class="form-field" />
+              </div>
+              <div class="flex flex-col gap-[6px]">
+                <label class="font-mono text-[.67rem] tracking-[.1em] uppercase text-[#5a5a78]">
+                  Email <span class="text-[#c8a96d]">*</span>
+                </label>
+                <input type="email" name="email" placeholder="adnanadriansyah5@gmail.com" required class="form-field" />
+              </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="flex flex-col gap-[6px]">
+              <label class="font-mono text-[.67rem] tracking-[.1em] uppercase text-[#5a5a78]">Subjek</label>
+              <select name="subject" class="form-field" style="appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%235a5a78' stroke-width='1.5'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 1rem center;">
+                <option value="" disabled selected>Pilih topik pembicaraan</option>
+                <option value="project">💼 Proyek Baru</option>
+                <option value="collab">🤝 Kolaborasi</option>
+                <option value="freelance">🔧 Pekerjaan Freelance</option>
+                <option value="saas">🚀 SaaS Development</option>
+                <option value="design">🎨 UI/UX Design</option>
+                <option value="other">💬 Lainnya</option>
+              </select>
+            </div>
+
+            <!-- Budget (optional) -->
+            <div class="flex flex-col gap-[6px]">
+              <label class="font-mono text-[.67rem] tracking-[.1em] uppercase text-[#5a5a78]">Estimasi Budget <span class="text-[#5a5a78] normal-case font-sans">(opsional)</span></label>
+              <select name="budget" class="form-field" style="appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%235a5a78' stroke-width='1.5'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 1rem center;">
+                <option value="" disabled selected>Pilih range budget</option>
+                <option value="1-3">Rp 1 – 3 juta</option>
+                <option value="3-8">Rp 3 – 8 juta</option>
+                <option value="8-20">Rp 8 – 20 juta</option>
+                <option value="20+">Rp 20 juta+</option>
+                <option value="discuss">Diskusi dulu</option>
+              </select>
+            </div>
+
+            <!-- Message -->
+            <div class="flex flex-col gap-[6px]">
+              <label class="font-mono text-[.67rem] tracking-[.1em] uppercase text-[#5a5a78]">
+                Pesan <span class="text-[#c8a96d]">*</span>
+              </label>
+              <textarea name="message" placeholder="Ceritakan proyekmu, ide yang ingin dieksplor, atau pertanyaan yang ada di benakmu..." rows="5" required class="form-field"></textarea>
+            </div>
+
+            <!-- Status -->
+            <div id="formStatus" class="hidden text-center text-sm px-4 py-3 rounded"></div>
+
+            <!-- Submit -->
+            <button type="submit" id="formBtn"
+              class="flex items-center justify-center gap-2.5 w-full py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,169,109,0.25)] active:translate-y-0 transition-all">
+              Kirim Pesan
+              <svg id="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+
+            <p class="font-mono text-[.65rem] text-[#5a5a78] text-center">
+              🔒 Pesanmu aman. Tidak ada spam, tidak ada data dijual.
+            </p>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FAQ SECTION ══════════════ -->
+<section class="relative z-10 py-24 px-10 md:px-20 page-section" style="background:rgba(13,13,24,0.6);">
+  <div class="max-w-[1280px] mx-auto">
+    <div class="rv flex items-center gap-3 mb-3">
+      <span class="block w-7 h-[1px] bg-[#c8a96d]"></span>
+      <span class="font-mono text-[.7rem] tracking-[.14em] uppercase text-[#c8a96d]">FAQ</span>
+    </div>
+    <h2 class="rv d1 font-serif font-bold leading-tight tracking-tight mb-12" style="font-size:clamp(2.2rem,4vw,3.5rem);">
+      Pertanyaan yang Sering <em class="not-italic text-gold-gradient">Ditanyakan</em>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[900px]">
+
+      <div class="rv d1 contact-card border border-white/[0.06] rounded-xl p-6 bg-[#10101e]">
+        <h4 class="font-serif text-base font-semibold mb-2.5">Berapa lama waktu pengerjaan proyek?</h4>
+        <p class="text-[#8888aa] text-sm leading-[1.8]">Tergantung kompleksitas. Landing page: 3–7 hari. Web app full-stack: 2–4 minggu. Platform SaaS: 1–3 bulan. Estimasi pasti setelah briefing awal.</p>
+      </div>
+
+      <div class="rv d2 contact-card border border-white/[0.06] rounded-xl p-6 bg-[#10101e]">
+        <h4 class="font-serif text-base font-semibold mb-2.5">Apakah kamu menerima proyek remote?</h4>
+        <p class="text-[#8888aa] text-sm leading-[1.8]">Ya, 100%! Saya sudah terbiasa bekerja remote dengan klien dari berbagai kota di Indonesia maupun luar negeri. Komunikasi via WhatsApp, Slack, atau platform pilihan kamu.</p>
+      </div>
+
+      <div class="rv d3 contact-card border border-white/[0.06] rounded-xl p-6 bg-[#10101e]">
+        <h4 class="font-serif text-base font-semibold mb-2.5">Bagaimana sistem pembayarannya?</h4>
+        <p class="text-[#8888aa] text-sm leading-[1.8]">Biasanya 50% di awal sebagai DP, 50% setelah proyek selesai. Untuk proyek besar bisa dicicil per milestone. Transfer bank / QRIS tersedia.</p>
+      </div>
+
+      <div class="rv d4 contact-card border border-white/[0.06] rounded-xl p-6 bg-[#10101e]">
+        <h4 class="font-serif text-base font-semibold mb-2.5">Apakah ada garansi setelah proyek selesai?</h4>
+        <p class="text-[#8888aa] text-sm leading-[1.8]">Ya! Semua paket sudah termasuk support 1–6 bulan (tergantung paket). Selama masa support, bug-fix gratis dan penyesuaian minor tanpa biaya tambahan.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="relative z-10 border-t border-white/[0.06] px-10 md:px-20 py-8 flex flex-col md:flex-row items-center justify-between gap-4"
+  style="background:rgba(5,5,12,0.7);">
+  <div class="text-[.82rem] text-[#5a5a78]">
+    Designed &amp; Built by <strong class="text-[#c8a96d] font-medium">Adnan Ardiansyah</strong> · 2025
+  </div>
+  <ul class="flex gap-5 list-none">
+    <li><a href="about.html"    class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">About</a></li>
+    <li><a href="projects.html" class="text-[.8rem] text-[#5a5a78] no-underline hover:text-[#c8a96d] transition-colors">Projects</a></li>
+    <li><a href="contact.html"  class="text-[.8rem] text-[#c8a96d] no-underline">Contact</a></li>
+  </ul>
+  <div class="font-mono text-[.7rem] text-[#5a5a78] tracking-[.05em]">AA · Portfolio</div>
+</footer>
+
+
+<!-- ══════════════ SCRIPTS ══════════════ -->
+<script>
+/* ── Theme ── */
+(function(){
+  const saved = localStorage.getItem('theme') || 'dark';
+  if (saved === 'light') {
+    document.body.classList.add('light-mode');
+    document.getElementById('icon-moon').classList.add('hidden');
+    document.getElementById('icon-sun').classList.remove('hidden');
+  }
+})();
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  document.getElementById('icon-moon').classList.toggle('hidden', isLight);
+  document.getElementById('icon-sun').classList.toggle('hidden', !isLight);
+});
+
+/* ── Custom Cursor ── */
+(function(){
+  const dot  = document.getElementById('cur-dot');
+  const ring = document.getElementById('cur-ring');
+  if (!dot || window.matchMedia('(pointer:coarse)').matches) return;
+  let mx=-100, my=-100, rx=-100, ry=-100;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx+'px'; dot.style.top = my+'px';
+  });
+  (function anim(){
+    rx += (mx-rx)*.11; ry += (my-ry)*.11;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(anim);
+  })();
+  document.querySelectorAll('a, button, .contact-card, .soc-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-h'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-h'));
+  });
+})();
+
+/* ── Nav Scroll ── */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  nav.style.backdropFilter = window.scrollY > 50
+    ? 'blur(28px) saturate(1.8)'
+    : 'blur(20px) saturate(1.6)';
+}, { passive: true });
+
+/* ── Mobile Menu ── */
+const hamburger   = document.getElementById('hamburger');
+const mobileMenu  = document.getElementById('mobileMenu');
+const hb1 = document.getElementById('hb1');
+const hb2 = document.getElementById('hb2');
+const hb3 = document.getElementById('hb3');
+let menuOpen = false;
+
+hamburger.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileMenu.style.display = menuOpen ? 'flex' : 'none';
+  document.body.style.overflow = menuOpen ? 'hidden' : '';
+  if (menuOpen) {
+    hb1.style.transform = 'rotate(45deg) translate(5px, 5px)';
+    hb2.style.opacity = '0'; hb2.style.transform = 'scaleX(0)';
+    hb3.style.transform = 'rotate(-45deg) translate(5px, -5px)';
+  } else {
+    hb1.style.transform = ''; hb2.style.opacity = ''; hb2.style.transform = '';
+    hb3.style.transform = '';
+  }
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    menuOpen = false;
+    mobileMenu.style.display = 'none';
+    document.body.style.overflow = '';
+    hb1.style.transform = ''; hb2.style.opacity = ''; hb2.style.transform = '';
+    hb3.style.transform = '';
+  });
+});
+
+/* ── Reveal on Scroll ── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => revObs.observe(el));
+
+/* ── Contact Form (Formspree) ── */
+const form      = document.getElementById('contactForm');
+const formBtn   = document.getElementById('formBtn');
+const formStatus = document.getElementById('formStatus');
+const btnArrow  = document.getElementById('btn-arrow');
+
+// ⚠️  GANTI 'YOUR_FORM_ID' dengan Form ID dari https://formspree.io
+const FORMSPREE_ID = 'YOUR_FORM_ID';
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // Validate
+  const name    = form.querySelector('[name="name"]').value.trim();
+  const email   = form.querySelector('[name="email"]').value.trim();
+  const message = form.querySelector('[name="message"]').value.trim();
+
+  if (!name || !email || !message) {
+    showStatus('error', '⚠️ Mohon isi semua field yang wajib diisi.');
+    return;
+  }
+
+  // Loading state
+  formBtn.disabled = true;
+  formBtn.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      style="animation:spin 0.8s linear infinite">
+      <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0"/>
+    </svg>
+    Mengirim...
+  `;
+
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form),
+    });
+
+    if (res.ok) {
+      showStatus('success', '✅ Pesan berhasil terkirim! Saya akan membalas dalam 1–2 hari kerja.');
+      form.reset();
+    } else {
+      const data = await res.json();
+      const msg = data?.errors?.map(e => e.message).join(', ') || 'Terjadi kesalahan.';
+      showStatus('error', '❌ ' + msg);
+    }
+  } catch (err) {
+    showStatus('error', '❌ Gagal mengirim. Coba hubungi via email langsung.');
+  } finally {
+    formBtn.disabled = false;
+    formBtn.innerHTML = `
+      Kirim Pesan
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    `;
+  }
+});
+
+function showStatus(type, msg) {
+  formStatus.textContent = msg;
+  formStatus.className = type === 'success'
+    ? 'text-center text-sm px-4 py-3 rounded border bg-[rgba(74,222,128,0.1)] text-[#4ade80] border-[rgba(74,222,128,0.2)]'
+    : 'text-center text-sm px-4 py-3 rounded border bg-[rgba(248,113,113,0.1)] text-[#f87171] border-[rgba(248,113,113,0.2)]';
+  setTimeout(() => {
+    formStatus.className = 'hidden';
+  }, 6000);
+}
+</script>
+
+</body>
+</html>
