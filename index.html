@@ -9,6 +9,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="dist/output.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <script>
   tailwind.config = {
     darkMode: 'class',
@@ -92,6 +99,25 @@
   .about-img-wrap::after { content:''; position:absolute; bottom:12px; left:12px; width:28px; height:28px; border-bottom:2px solid #c8a96d; border-left:2px solid #c8a96d; border-radius:0 0 0 3px; opacity:.4; z-index:2; }
   body.light-mode .bg-\[#10101e\] { background: #ffffff !important; }
   body.light-mode .bg-\[#080810\] { background: #f8f7f2 !important; }
+
+#particles-js { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; pointer-events:none; }
+.glass { background:rgba(255,255,255,0.04); backdrop-filter:blur(20px) saturate(1.6); border:1px solid rgba(255,255,255,0.08); }
+.glass-card { background:rgba(16,16,30,0.55); backdrop-filter:blur(24px) saturate(1.6); border:1px solid rgba(255,255,255,0.07); }
+body.light-mode .glass-card { background:rgba(255,255,255,0.7); border-color:rgba(0,0,0,0.08); }
+body.light-mode .glass { background:rgba(255,255,255,0.6); border-color:rgba(0,0,0,0.08); }
+.float-shape { position:absolute; border-radius:50%; pointer-events:none; opacity:0.12; will-change:transform; }
+.float-shape-1 { width:70px; height:70px; background:linear-gradient(135deg,#c8a96d,#e8cc94); top:18%; left:6%; animation:float1 8s ease-in-out infinite; }
+.float-shape-2 { width:44px; height:44px; border:2px solid rgba(200,169,109,0.25); top:65%; left:4%; animation:float2 10s ease-in-out infinite; border-radius:12px; }
+.float-shape-3 { width:90px; height:90px; background:radial-gradient(circle,rgba(79,142,247,0.07),transparent); bottom:25%; right:6%; animation:float1 12s ease-in-out infinite; }
+.float-shape-4 { width:32px; height:32px; border:1.5px solid rgba(200,169,109,0.18); transform:rotate(45deg); top:28%; right:12%; animation:float2 7s ease-in-out infinite; border-radius:4px; }
+.float-shape-5 { width:50px; height:50px; background:rgba(200,169,109,0.06); bottom:40%; left:12%; animation:float1 9s ease-in-out infinite; border:1px solid rgba(200,169,109,0.1); }
+@keyframes float1 { 0%,100%{transform:translateY(0) rotate(0deg)} 33%{transform:translateY(-20px) rotate(3deg)} 66%{transform:translateY(12px) rotate(-2deg)} }
+@keyframes float2 { 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-16px) translateX(10px)} }
+.text-glow { text-shadow:0 0 40px rgba(200,169,109,0.15),0 0 80px rgba(200,169,109,0.08); }
+.border-glow { box-shadow:0 0 30px rgba(200,169,109,0.06),inset 0 0 30px rgba(200,169,109,0.03); }
+.card-3d { transform-style:preserve-3d; perspective:800px; }
+.typed-cursor { color:#c8a96d; font-size:1.4rem; opacity:0.8; animation:blink 1s step-end infinite; font-weight:300; }
+@keyframes blink { 50%{opacity:0} }
 </style>
 </head>
 <body>
@@ -106,6 +132,8 @@
   <div class="absolute w-[600px] h-[600px] rounded-full bottom-1/4 -left-36 parallax-bg" data-speed="-0.15" style="background:radial-gradient(circle,rgba(79,142,247,0.04) 0%,transparent 70%)"></div>
   <div class="absolute inset-0" style="background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;"></div>
 </div>
+
+<div id="particles-js"></div>
 
 <nav id="nav" class="nav-bar fixed top-0 left-0 right-0 z-[800] h-[68px] flex items-center justify-between px-10 md:px-20 border-b border-white/[0.06]" style="background:rgba(8,8,16,0.85);backdrop-filter:blur(20px) saturate(1.6);animation:navIn .7s cubic-bezier(0.16,1,0.3,1) both;">
   <a href="index.html" class="flex items-center gap-2 font-serif text-xl font-bold text-[#c8a96d] tracking-tight no-underline">
@@ -143,17 +171,26 @@
 </div>
 
 <section id="hero" class="relative z-10 min-h-screen flex items-center px-10 md:px-20 pt-[90px] pb-16">
+  <div class="float-shape float-shape-1"></div>
+  <div class="float-shape float-shape-2"></div>
+  <div class="float-shape float-shape-3"></div>
+  <div class="float-shape float-shape-4"></div>
+  <div class="float-shape float-shape-5"></div>
   <div class="max-w-[1300px] mx-auto w-full grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-16 items-center">
     <div>
       <div class="rv flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(200,169,109,0.25)] bg-[rgba(200,169,109,0.05)] w-fit mb-8">
         <span class="w-2 h-2 rounded-full bg-[#4ade80]" style="animation:pulseDot 2s ease-in-out infinite;"></span>
         <span class="font-mono text-[.72rem] tracking-[.08em] text-[#c8a96d]">Open to Opportunities</span>
       </div>
-      <h1 class="rv d1 font-serif font-black leading-[.9] tracking-[-0.03em]" style="font-size:clamp(3.5rem,7vw,8rem);">
+      <h1 class="rv font-serif font-black leading-[.9] tracking-[-0.03em] text-glow" style="font-size:clamp(3.5rem,7vw,8rem);">
         Adnan
         <span class="block italic font-normal text-gold-gradient" style="font-size:clamp(2.8rem,6vw,7rem);">Ardiansyah</span>
       </h1>
-      <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[440px] mt-7">
+      <div class="rv d1 mt-6">
+        <span class="font-sans font-light text-[1.3rem] md:text-[1.6rem] text-[#5a5a78]">I build </span>
+        <span class="font-sans font-medium text-[1.3rem] md:text-[1.6rem] text-[#c8a96d]" id="typed-text"></span>
+      </div>
+      <p class="rv d2 text-[#8888aa] text-base leading-[1.9] max-w-[440px] mt-6">
         Crafting <strong class="text-[#f0f0f5] font-medium">digital experiences</strong> that merge design &amp; engineering —
         full-stack developer &amp; UI/UX enthusiast building products people love to use.
       </p>
@@ -168,7 +205,7 @@
       </div>
     </div>
     <div class="rv d2">
-      <div class="hero-photo-wrap relative aspect-[4/5] rounded-xl overflow-hidden border border-white/[0.1] bg-[#10101e] max-w-[380px] mx-auto shadow-[0_40px_80px_rgba(0,0,0,0.5)] transition-shadow duration-400 hover:shadow-[0_50px_100px_rgba(0,0,0,0.6)]">
+      <div class="hero-photo-wrap relative aspect-[4/5] rounded-xl overflow-hidden border border-[rgba(200,169,109,0.15)] bg-[#10101e] max-w-[380px] mx-auto border-glow" data-tilt data-tilt-glare data-tilt-max-glare="0.12" data-tilt-max="6" data-tilt-speed="400">
         <img src="image.png" alt="Adnan Ardiansyah" loading="eager" class="w-full h-full object-cover object-top block">
         <div class="absolute bottom-0 left-0 right-0 p-6 pt-8" style="background:linear-gradient(to top,rgba(5,5,15,0.97),transparent);">
           <div class="font-serif text-lg font-bold text-[#f0f0f5] mb-1">Adnan Ardiansyah</div>
@@ -176,19 +213,19 @@
         </div>
       </div>
       <div class="grid grid-cols-2 gap-3 max-w-[380px] mx-auto mt-4 w-full">
-        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+        <div class="hstat glass-card rounded-lg p-4" data-tilt data-tilt-max="4" data-tilt-speed="300" data-tilt-glare data-tilt-max-glare="0.08">
           <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="25" data-suffix="+">0+</div>
           <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Projects Done</div>
         </div>
-        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+        <div class="hstat glass-card rounded-lg p-4" data-tilt data-tilt-max="4" data-tilt-speed="300" data-tilt-glare data-tilt-max-glare="0.08">
           <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="3" data-suffix="+">0+</div>
           <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Years Exp.</div>
         </div>
-        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+        <div class="hstat glass-card rounded-lg p-4" data-tilt data-tilt-max="4" data-tilt-speed="300" data-tilt-glare data-tilt-max-glare="0.08">
           <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="15" data-suffix="+">0+</div>
           <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Happy Clients</div>
         </div>
-        <div class="hstat bg-[#10101e] border border-white/[0.06] rounded-lg p-4">
+        <div class="hstat glass-card rounded-lg p-4" data-tilt data-tilt-max="4" data-tilt-speed="300" data-tilt-glare data-tilt-max-glare="0.08">
           <div class="font-serif text-2xl font-bold text-[#c8a96d] mb-1" data-count="50" data-suffix="+">0+</div>
           <div class="text-[.75rem] text-[#5a5a78] tracking-[.04em]">Outlets Served</div>
         </div>
@@ -264,7 +301,7 @@
     </h2>
     <p class="rv d2 text-[#8888aa] text-[.97rem] leading-[1.9] max-w-[560px] mb-12">Solusi digital end-to-end — dari desain konsep hingga deployment produksi.</p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden">
+      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden card-3d" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.12">
         <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">01</div>
         <div class="w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d] transition-all duration-300">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
@@ -276,7 +313,7 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden">
+      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden card-3d" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.12">
         <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">02</div>
         <div class="w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d] transition-all duration-300">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -288,7 +325,7 @@
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
-      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden">
+      <div class="svc-card bg-[#10101e] border border-white/[0.06] rounded-xl p-8 relative overflow-hidden card-3d" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.12">
         <div class="font-mono text-[.68rem] text-[#c8a96d] tracking-[.12em] mb-6 opacity-70">03</div>
         <div class="w-12 h-12 border border-[rgba(200,169,109,0.2)] rounded-lg flex items-center justify-center mb-6 text-[#c8a96d] transition-all duration-300">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
@@ -318,7 +355,7 @@
       </div>
     </div>
     <div class="rv d2">
-      <div class="proj-card bg-[#10101e] border border-white/[0.06] rounded-xl overflow-hidden lg:grid lg:grid-cols-[1fr_1.2fr]">
+      <div class="proj-card bg-[#10101e] border border-white/[0.06] rounded-xl overflow-hidden lg:grid lg:grid-cols-[1fr_1.2fr] card-3d" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
         <div class="h-[320px] overflow-hidden">
           <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-8" style="background:linear-gradient(135deg,#ede9fe 0%,#f3e8ff 50%,#fce7f3 100%);">
             <div class="max-w-[480px] w-full bg-white rounded-md overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]" style="transform:perspective(600px) rotateX(2deg);">
@@ -415,18 +452,89 @@
 </footer>
 
 <script>
-(function(){ const saved = localStorage.getItem('theme') || 'dark'; if (saved === 'light') { document.body.classList.add('light-mode'); document.getElementById('icon-moon').classList.add('hidden'); document.getElementById('icon-sun').classList.remove('hidden'); } })();
-document.getElementById('themeToggle').addEventListener('click', () => { const isLight = document.body.classList.toggle('light-mode'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); document.getElementById('icon-moon').classList.toggle('hidden', isLight); document.getElementById('icon-sun').classList.toggle('hidden', !isLight); });
-(function(){ const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring'); if(!dot||window.matchMedia('(pointer:coarse)').matches) return; let mx=-100,my=-100,rx=-100,ry=-100; document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';}); (function anim(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})(); document.querySelectorAll('a,button,.svc-card,.proj-card,.hstat').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-h'));el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-h'));}); })();
-window.addEventListener('scroll',()=>{const nav=document.getElementById('nav');nav.style.backdropFilter=window.scrollY>50?'blur(28px) saturate(1.8)':'blur(20px) saturate(1.6)';},{passive:true});
-const hamburger=document.getElementById('hamburger'),mobileMenu=document.getElementById('mobileMenu'),hb1=document.getElementById('hb1'),hb2=document.getElementById('hb2'),hb3=document.getElementById('hb3'); let menuOpen=false; hamburger.addEventListener('click',()=>{menuOpen=!menuOpen;mobileMenu.style.display=menuOpen?'flex':'none';document.body.style.overflow=menuOpen?'hidden':'';if(menuOpen){hb1.style.transform='rotate(45deg) translate(5px,5px)';hb2.style.opacity='0';hb2.style.transform='scaleX(0)';hb3.style.transform='rotate(-45deg) translate(5px,-5px)';}else{hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';}}); mobileMenu.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{menuOpen=false;mobileMenu.style.display='none';document.body.style.overflow='';hb1.style.transform='';hb2.style.opacity='';hb2.style.transform='';hb3.style.transform='';});});
-/* ── Scroll progress ── */
+(function(){ const s=localStorage.getItem('theme')||'dark'; if(s==='light'){document.body.classList.add('light-mode');document.getElementById('icon-moon').classList.add('hidden');document.getElementById('icon-sun').classList.remove('hidden');} })();
+document.getElementById('themeToggle').addEventListener('click',()=>{const l=document.body.classList.toggle('light-mode');localStorage.setItem('theme',l?'light':'dark');document.getElementById('icon-moon').classList.toggle('hidden',l);document.getElementById('icon-sun').classList.toggle('hidden',!l);});
+(function(){const d=document.getElementById('cur-dot'),r=document.getElementById('cur-ring');if(!d||window.matchMedia('(pointer:coarse)').matches)return;let mx=-100,my=-100,rx=-100,ry=-100;document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px';});(function a(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();document.querySelectorAll('a,button,.svc-card,.proj-card,.hstat').forEach(e=>{e.addEventListener('mouseenter',()=>document.body.classList.add('cursor-h'));e.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-h'));});})();
+window.addEventListener('scroll',()=>{const n=document.getElementById('nav');n.style.backdropFilter=window.scrollY>50?'blur(28px) saturate(1.8)':'blur(20px) saturate(1.6)';},{passive:true});
+const ham=document.getElementById('hamburger'),mM=document.getElementById('mobileMenu'),h1=document.getElementById('hb1'),h2=document.getElementById('hb2'),h3=document.getElementById('hb3');let mO=false;ham.addEventListener('click',()=>{mO=!mO;mM.style.display=mO?'flex':'none';document.body.style.overflow=mO?'hidden':'';if(mO){h1.style.transform='rotate(45deg) translate(5px,5px)';h2.style.opacity='0';h2.style.transform='scaleX(0)';h3.style.transform='rotate(-45deg) translate(5px,-5px)';}else{h1.style.transform='';h2.style.opacity='';h2.style.transform='';h3.style.transform='';}});mM.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{mO=false;mM.style.display='none';document.body.style.overflow='';h1.style.transform='';h2.style.opacity='';h2.style.transform='';h3.style.transform='';});});
 window.addEventListener('scroll',()=>{const p=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight);document.getElementById('scrollProgress').style.width=p*100+'%';},{passive:true});
-/* ── Parallax ── */
-window.addEventListener('scroll',()=>{document.querySelectorAll('.parallax-bg').forEach(el=>{const s=parseFloat(el.dataset.speed||'0.3');el.style.transform=`translateY(${window.scrollY*s}px)`;});},{passive:true});
-/* ── Reveal ── */
-const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});},{threshold:0.08}); document.querySelectorAll('.rv').forEach(el=>revObs.observe(el));
-const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;const target=parseInt(el.dataset.count);const suffix=el.dataset.suffix||'+';let cur=0;const step=target/(900/16);const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=Math.round(cur)+suffix;if(cur>=target)clearInterval(t);},16);cObs.unobserve(el);});},{threshold:0.5}); document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+window.addEventListener('scroll',()=>{document.querySelectorAll('.parallax-bg').forEach(e=>{const s=parseFloat(e.dataset.speed||'0.3');e.style.transform='translateY('+(window.scrollY*s)+'px)';});},{passive:true});
+
+/* ── Count-up ── */
+const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;const t=parseInt(el.dataset.count);const sf=el.dataset.suffix||'+';let c=0;const st=t/(900/16);const id=setInterval(()=>{c=Math.min(c+st,t);el.textContent=Math.round(c)+sf;if(c>=t)clearInterval(id);},16);cObs.unobserve(el);});},{threshold:0.5});document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+
+/* ── GSAP (guarded) ── */
+if (typeof gsap !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+const isTouch = window.matchMedia('(pointer:coarse)').matches;
+const heroRV = document.querySelectorAll('#hero .rv');
+if (isTouch || typeof gsap === 'undefined') {
+  heroRV.forEach(el => el.classList.add('in'));
+} else {
+  gsap.set(heroRV, { opacity: 0, y: 60, scale: 0.96, filter: 'blur(4px)' });
+  const heroTL = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  heroTL.to(heroRV, { y: 0, opacity: 1, scale: 1, filter: 'blur(0)', duration: 1.1, stagger: 0.15 });
+}
+if (typeof gsap !== 'undefined') {
+  document.querySelectorAll('.rv').forEach(el => {
+    if (el.closest('#hero')) return;
+    gsap.fromTo(el,
+      { y: 50, opacity: 0, scale: 0.96, filter: 'blur(4px)' },
+      {
+        y: 0, opacity: 1, scale: 1, filter: 'blur(0)',
+        duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 86%', toggleActions: 'play none none none' }
+      }
+    );
+  });
+  gsap.utils.toArray('.marquee-track').forEach(el => {
+    ScrollTrigger.create({
+      trigger: el.closest('.marquee-section'),
+      start: 'top bottom',
+      end: 'bottom top',
+      onUpdate: self => { el.style.transform = 'translateX(-' + (self.progress * 25) + '%)'; }
+    });
+  });
+}
+
+/* ── Typed.js ── */
+new Typed('#typed-text', {
+  strings: ['Full-Stack Developer.', 'UI/UX Designer.', 'SaaS Builder.', 'Problem Solver.'],
+  typeSpeed: 60, backSpeed: 40, backDelay: 1800, loop: true, cursorChar: ''
+});
+
+/* ── Vanilla Tilt ── */
+if (!isTouch) {
+  VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { max: 8, speed: 400, glare: true, 'max-glare': 0.15, scale: 1.02 });
+}
+
+/* ── tsParticles ── */
+if (typeof tsParticles !== 'undefined') {
+  tsParticles.load('particles-js', {
+    fpsLimit: 60,
+    particles: {
+      number: { value: 60, density: { enable: true } },
+      color: { value: ['#c8a96d', '#e8cc94', '#5a5a78', '#8888aa'] },
+      shape: { type: ['circle', 'triangle'] },
+      opacity: { value: 0.15, random: true },
+      size: { value: 2.5, random: true },
+      links: { enable: true, distance: 150, color: '#c8a96d', opacity: 0.06, width: 1 },
+      move: { enable: true, speed: 0.6, direction: 'none', random: true, straight: false, outModes: 'bounce' }
+    },
+    interactivity: {
+      events: {
+        onHover: { enable: true, mode: 'grab' },
+        onClick: { enable: true, mode: 'push' }
+      },
+      modes: {
+        grab: { distance: 180, links: { opacity: 0.15 } },
+        push: { quantity: 3 }
+      }
+    },
+    retina_detect: true
+  });
+}
 </script>
 </body>
 </html>
