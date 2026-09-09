@@ -77,6 +77,9 @@
   .rv.d3 { transition-delay:.26s; }
   .rv.d4 { transition-delay:.34s; }
   .rv.d5 { transition-delay:.42s; }
+  .rv.d6 { transition-delay:.50s; }
+  .rv.d7 { transition-delay:.58s; }
+  .rv.d8 { transition-delay:.66s; }
   .rv.in { opacity:1; transform:none; filter:blur(0); }
   #scrollProgress { position:fixed; top:0; left:0; width:0%; height:2px; background:linear-gradient(90deg,#c8a96d,#e8cc94); z-index:9999; transition:width .1s linear; pointer-events:none; }
   .parallax-bg { will-change:transform; }
@@ -113,13 +116,24 @@
   /* ── Nav spin keyframe ── */
   @keyframes spin { to { transform:rotate(360deg); } }
   @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
+  @keyframes floatU { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+  @keyframes steamUp { 0%{opacity:0;transform:translateY(3px) scaleX(1)} 35%{opacity:.75} 100%{opacity:0;transform:translateY(-16px) scaleX(1.6)} }
+  @keyframes barWide { from{width:0} }
+  @keyframes blinkSoft { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes shimmerGold { 0%{background-position:-150% 0} 100%{background-position:250% 0} }
+  .btn-sheen { position:relative; overflow:hidden; }
+  .btn-sheen::after { content:''; position:absolute; top:0; left:-150%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent); animation:shimmerGold 4.5s ease-in-out infinite; }
+  .exp-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,#c8a96d,transparent); opacity:0; transition:opacity .35s; }
+  .exp-card:hover::after { opacity:.7; }
+  .sk-card:hover .text-2xl { transform:translateY(-2px) rotate(-3deg); }
+  .sk-card .text-2xl { transition: transform .3s; }
 
   /* ── Light mode overrides ── */
   body.light-mode { background: #f8f7f2; color: #1a1810; }
   body.light-mode .nav-bar { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode footer { background: rgba(238,234,224,0.7) !important; }
-  body.light-mode .text-\[\#8888aa\] { color: #65604e !important; }
-  body.light-mode .text-\[\#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[\#8888aa\] { color: #4f4c3f !important; }
+  body.light-mode .text-\[\#5a5a78\] { color: #7d7560 !important; }
   body.light-mode .text-\[\#f0f0f5\] { color: #1a1810 !important; }
   body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
@@ -790,7 +804,7 @@
       Mari wujudkan ide kamu menjadi produk digital yang luar biasa bersama.
     </p>
     <div class="rv d3 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
+      <a href="contact.html" class="btn-sheen inline-flex items-center gap-2 px-7 py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
         Hubungi Saya
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>

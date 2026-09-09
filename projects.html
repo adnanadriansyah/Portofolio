@@ -64,6 +64,12 @@
   @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
   @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
   @keyframes spin { to{transform:rotate(360deg)} }
+  @keyframes floatU { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+  @keyframes steamUp { 0%{opacity:0;transform:translateY(3px) scaleX(1)} 35%{opacity:.75} 100%{opacity:0;transform:translateY(-16px) scaleX(1.6)} }
+  @keyframes barWide { from{width:0} }
+  @keyframes blinkSoft { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes shimmerGold { 0%{background-position:-150% 0} 100%{background-position:250% 0} }
+  @keyframes shimmerBlue { 0%{background-position:-150% 0} 100%{background-position:250% 0} }
   .filter-btn { transition: all .25s; }
   .filter-btn:hover, .filter-btn.on { background: rgba(200,169,109,0.12); border-color: rgba(200,169,109,0.4); color: #c8a96d; }
   .proj-card { transition: border-color .35s, transform .35s; }
@@ -73,8 +79,8 @@
   body.light-mode .proj-card { background: #ffffff !important; }
   body.light-mode .nav-bar { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode footer { background: rgba(238,234,224,0.7) !important; }
-  body.light-mode .text-\[#8888aa\] { color: #65604e !important; }
-  body.light-mode .text-\[#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[#8888aa\] { color: #4f4c3f !important; }
+  body.light-mode .text-\[#5a5a78\] { color: #7d7560 !important; }
   body.light-mode .text-\[#f0f0f5\] { color: #1a1810 !important; }
   body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
@@ -337,36 +343,44 @@
       <!-- COFFEESPACE -->
       <div class="proj-card bg-[#10101e] border border-white/[0.06] rounded-xl overflow-hidden rv d4" data-category="web">
         <div class="h-[250px] overflow-hidden">
-          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-6" style="background:linear-gradient(160deg,#f9edda,#eccfa6);">
-            <div class="relative" style="width:150px;height:200px;background:linear-gradient(145deg,#2b1c0f,#180e06);border:1px solid #3d2c17;border-radius:16px;box-shadow:0 24px 50px rgba(0,0,0,0.55), inset 0 0 0 1px #241608;transform:perspective(900px) rotateX(2deg) rotateY(-7deg);">
-              <div class="absolute" style="top:7px;left:7px;right:7px;bottom:7px;border-radius:11px;overflow:hidden;background:#f7ecd9;">
-                <div class="flex items-center gap-1 pl-2 pr-2 pt-2 pb-1.5" style="background:#4a2f17;">
-                  <div style="width:12px;height:12px;border-radius:50%;background:#d9a05b;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.2);"></div>
-                  <span class="text-[8px] font-bold" style="color:#fae7c3;">CoffeeSpace</span>
-                  <span class="ml-auto flex flex-col items-end gap-[2px]"><span class="block" style="width:10px;height:1px;background:#e8c79a;"></span><span class="block" style="width:10px;height:1px;background:#e8c79a;"></span><span class="block" style="width:10px;height:1px;background:#e8c79a;"></span></span>
+          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-8" style="background:linear-gradient(135deg,#fdf3e3 0%,#f7e3c3 100%);">
+            <div class="max-w-[330px] w-full bg-white rounded-md overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.55)]" style="transform:perspective(600px) rotateX(2deg);">
+              <div class="flex items-center gap-1 px-2 py-1" style="background:#ece6da;">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#ff5f57"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#febc2e"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#28c840"></span>
+                <span class="ml-2 font-mono text-[9px]" style="color:#6b7280;">coffeespace.id</span>
+                <span class="ml-auto text-[8px] px-1.5 py-0.5 rounded-sm font-semibold" style="color:#047857;background:rgba(16,185,129,0.12);">● Online</span>
+              </div>
+              <div class="p-4 flex flex-col gap-3" style="background:linear-gradient(150deg,#fff9f0,#f3e3c8);">
+                <div class="flex items-center gap-2">
+                  <div class="w-[16px] h-[16px] rounded-full" style="background:radial-gradient(circle at 35% 30%,#e8b87e,#8a5a2b 75%);box-shadow:inset 0 0 0 2px rgba(255,255,255,0.4);"></div>
+                  <span class="text-[10px] font-extrabold" style="color:#3a2512;">CoffeeSpace</span>
+                  <div class="ml-auto flex items-center gap-2"><span class="text-[8px] font-medium" style="color:#8a5a2b;">Menu</span><span class="text-[8px] font-medium" style="color:#8a5a2b;">Offer</span><span class="text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:#8a5a2b;color:#fff3e0;">Pesan →</span></div>
                 </div>
-                <div class="px-2 pt-2 pb-1.5" style="background:linear-gradient(135deg,#6b421f,#8a5a2b);">
-                  <div class="text-[5.5px] font-semibold uppercase tracking-[0.14em]" style="color:#f3d9a8;">Roasted Daily</div>
-                  <div class="text-[10px] font-extrabold leading-[1.15]" style="color:#fff7ea;">Specialty Coffee, Crafted With Love</div>
-                  <div class="mt-1 inline-block rounded px-1.5 py-[2px] text-[6px] font-bold" style="background:#f7ecd9;color:#6b421f;">4.9 ★ · 2.4K</div>
+                <div class="grid grid-cols-2 gap-3 items-center">
+                  <div>
+                    <div class="text-[8px] font-semibold uppercase tracking-widest" style="color:#b07a3e;">Roasted Daily</div>
+                    <div class="text-[20px] font-extrabold leading-[1.05] mt-1" style="color:#2b1a0a;">Ngopi Nikmat,<br>Pesan Cepat.</div>
+                    <div class="text-[8.5px] mt-1.5 leading-relaxed" style="color:#7a5a33;">Menu digital &amp; loyalty rewards untuk coffee shop modern.</div>
+                    <div class="mt-2 inline-block rounded-md px-3 py-1.5 text-[9px] font-bold text-white" style="background:linear-gradient(135deg,#8a5a2b,#c08a4a);animation:blinkSoft 2.4s ease-in-out infinite;">Mulai Sesi →</div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <div class="w-[92px] h-[92px] rounded-full" style="background:radial-gradient(circle at 35% 30%,#e8b87e,#8a5a2b 75%);box-shadow:0 14px 30px rgba(138,90,43,0.45);animation:floatU 3.4s ease-in-out infinite;"></div>
+                    <div class="absolute left-1/2 top-0" style="transform:translateX(-50%);"><div class="w-[3px] h-[14px] rounded-full" style="background:#d9a05b;animation:steamUp 2.2s ease-in-out infinite;"></div></div>
+                    <div class="absolute left-[38%] top-0" style="transform:translateX(-50%);"><div class="w-[3px] h-[10px] rounded-full" style="background:#d9a05b;animation:steamUp 2.6s ease-in-out .5s infinite;"></div></div>
+                    <div class="absolute -right-1 top-1/4 rounded-md px-1.5 py-1 bg-white shadow-md"><span class="text-[7px] font-bold" style="color:#8a5a2b;">Espresso · 25K</span></div>
+                  </div>
                 </div>
-                <div class="px-2 pt-1.5 flex flex-col gap-1">
-                  <div class="flex items-center"><span class="w-1 h-1 rounded-full" style="background:#b07a3e;"></span><span class="text-[7px] font-semibold" style="color:#4a2f17;">Caffè Latte</span><span class="ml-auto text-[7px] font-bold" style="color:#6b421f;">28K</span></div>
-                  <div class="flex items-center"><span class="w-1 h-1 rounded-full" style="background:#b07a3e;"></span><span class="text-[7px] font-semibold" style="color:#4a2f17;">Cappuccino</span><span class="ml-auto text-[7px] font-bold" style="color:#6b421f;">26K</span></div>
-                  <div class="flex items-center"><span class="w-1 h-1 rounded-full" style="background:#b07a3e;"></span><span class="text-[7px] font-semibold" style="color:#4a2f17;">Caramel Mocha</span><span class="ml-auto text-[7px] font-bold" style="color:#6b421f;">32K</span></div>
+                <div class="flex gap-1.5">
+                  <div class="flex-1 rounded-md px-2 py-1.5 bg-white border" style="border-color:rgba(138,90,43,0.18);"><div class="text-[8px] font-bold" style="color:#3a2512;">Caffè Latte</div><div class="text-[7px]" style="color:#8a5a2b;">28K · ★4.9</div></div>
+                  <div class="flex-1 rounded-md px-2 py-1.5 bg-white border" style="border-color:rgba(138,90,43,0.18);"><div class="text-[8px] font-bold" style="color:#3a2512;">Cappuccino</div><div class="text-[7px]" style="color:#8a5a2b;">26K · ★4.8</div></div>
+                  <div class="flex-1 rounded-md px-2 py-1.5 bg-white border" style="border-color:rgba(138,90,43,0.18);"><div class="text-[8px] font-bold" style="color:#3a2512;">Caramel Mocha</div><div class="text-[7px]" style="color:#8a5a2b;">32K · ★4.9</div></div>
                 </div>
-                <div class="px-2 pt-1.5">
-                  <div class="rounded-md py-2 text-center" style="background:linear-gradient(135deg,#8a5a2b,#b07a3e);"><span class="text-[7px] font-bold" style="color:#fff7ea;">Pesan Sekarang ▶</span></div>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 flex" style="background:#4a2f17;">
-                  <div class="flex-1 py-1.5 text-center border-r" style="border-color:rgba(255,255,255,0.08);"><span class="text-[6.5px] font-semibold" style="color:#e8c79a;">Beranda</span></div>
-                  <div class="flex-1 py-1.5 text-center border-r" style="background:rgba(217,160,91,0.15);border-color:rgba(255,255,255,0.08);"><span class="text-[6.5px] font-semibold" style="color:#d9a05b;">Menu</span></div>
-                  <div class="flex-1 py-1.5 text-center"><span class="text-[6.5px] font-semibold" style="color:#e8c79a;">Loyalty</span></div>
+                <div class="rounded-md px-3 py-1.5 flex items-center" style="background:linear-gradient(90deg,#8a5a2b,#c08a4a,#8a5a2b);background-size:200% 100%;animation:shimmerGold 3s linear infinite;">
+                  <span class="text-[8px] font-bold text-white">★ Loyalty Reward</span><span class="ml-auto text-[8px] font-semibold" style="color:rgba(255,255,255,0.9);">+200 poin / pesanan</span>
                 </div>
               </div>
-              <div style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#1a0f06;box-shadow:inset 0 0 0 1px #3d2c17;"></div>
-              <div style="position:absolute;top:56px;right:-3px;width:3px;height:26px;border-radius:0 3px 3px 0;background:#1d1208;"></div>
-              <div style="position:absolute;top:76px;left:-3px;width:3px;height:30px;border-radius:3px 0 0 3px;background:#1d1208;"></div>
             </div>
           </div>
         </div>
@@ -390,34 +404,38 @@
       <!-- NUSANTARA TECH -->
       <div class="proj-card bg-[#10101e] border border-white/[0.06] rounded-xl overflow-hidden rv d5" data-category="web">
         <div class="h-[250px] overflow-hidden">
-          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-6" style="background:linear-gradient(160deg,#0b1426,#0a1a33);">
-            <div class="relative" style="width:150px;height:200px;background:linear-gradient(145deg,#101b2e,#0a101f);border:1px solid #243650;border-radius:16px;box-shadow:0 24px 50px rgba(0,0,0,0.55), inset 0 0 0 1px #0b1322;transform:perspective(900px) rotateX(2deg) rotateY(-7deg);">
-              <div class="absolute" style="top:7px;left:7px;right:7px;bottom:7px;border-radius:11px;overflow:hidden;background:#0b1426;">
-                <div class="flex items-center gap-1 pl-2 pr-2 pt-2 pb-1.5" style="background:#0d1830;border-bottom:1px solid rgba(59,130,246,0.15);">
-                  <div style="width:13px;height:13px;border-radius:4px;background:linear-gradient(135deg,#3b82f6,#22d3ee);"></div>
-                  <span class="text-[8px] font-bold" style="color:#e2e8f0;">Nusantara Tech</span>
-                  <span class="ml-auto text-[6px] font-semibold rounded px-1.5 py-[2px]" style="background:rgba(59,130,246,0.15);color:#60a5fa;">SIAP</span>
-                </div>
-                <div class="px-2 pt-2.5 pb-1.5" style="background:linear-gradient(160deg,rgba(37,99,235,0.25),rgba(34,211,238,0.08));">
-                  <div class="text-[5.5px] font-semibold uppercase tracking-[0.14em]" style="color:#38bdf8;">Transformasi Digital</div>
-                  <div class="text-[9.5px] font-extrabold leading-[1.15]" style="color:#f8fafc;">Agen Transformasi Digital Indonesia</div>
-                  <div class="mt-1 text-[7px]" style="color:#94a3b8;">Software · Cloud · Data · AI</div>
-                </div>
-                <div class="px-2 pt-1.5 flex flex-col gap-1">
-                  <div class="flex-1 rounded-md px-2 py-1.5" style="background:rgba(30,58,138,0.35);border:1px solid rgba(59,130,246,0.2);"><div class="text-[6px] font-bold" style="color:#bfdbfe;">Pengembangan Software</div><div class="text-[5.5px]" style="color:#64748b;">Web, mobile &amp; enterprise</div></div>
-                  <div class="flex-1 rounded-md px-2 py-1.5" style="background:rgba(30,58,138,0.35);border:1px solid rgba(59,130,246,0.2);"><div class="text-[6px] font-bold" style="color:#bfdbfe;">Cloud &amp; Infrastruktur</div><div class="text-[5.5px]" style="color:#64748b;">Skalabel, aman, terkelola</div></div>
-                </div>
-                <div class="px-2 pt-1.5 flex gap-1">
-                  <div class="flex-1 rounded-md py-1.5 text-center" style="background:#2563eb;"><span class="text-[6.5px] font-bold" style="color:#eff6ff;">120+ Proyek</span></div>
-                  <div class="flex-1 rounded-md py-1.5 text-center" style="background:#0e7490;"><span class="text-[6.5px] font-bold" style="color:#ecfeff;">48 Klien</span></div>
-                </div>
-                <div class="px-2 pt-1.5">
-                  <div class="rounded-md py-2 text-center" style="background:linear-gradient(135deg,#1d4ed8,#0891b2);"><span class="text-[7px] font-bold" style="color:#f8fafc;">Jelajahi Layanan →</span></div>
-                </div>
+          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-8" style="background:linear-gradient(160deg,#0a1220,#0b1f3a);">
+            <div class="max-w-[330px] w-full bg-[#0d1424] rounded-md overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]" style="transform:perspective(600px) rotateX(2deg);">
+              <div class="flex items-center gap-1 px-2 py-1" style="background:#111a2e;border-bottom:1px solid rgba(59,130,246,0.12);">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#ff5f57"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#febc2e"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#28c840"></span>
+                <span class="ml-2 font-mono text-[9px]" style="color:#64748b;">nusantara.tech</span>
+                <span class="ml-auto text-[8px] px-1.5 py-0.5 rounded-sm font-semibold" style="color:#38bdf8;background:rgba(56,189,248,0.12);">● Onboard</span>
               </div>
-              <div style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#0a101f;box-shadow:inset 0 0 0 1px #243650;"></div>
-              <div style="position:absolute;top:56px;right:-3px;width:3px;height:26px;border-radius:0 3px 3px 0;background:#0e1626;"></div>
-              <div style="position:absolute;top:76px;left:-3px;width:3px;height:30px;border-radius:3px 0 0 3px;background:#0e1626;"></div>
+              <div class="p-4 flex flex-col gap-3" style="background:linear-gradient(165deg,#0d1424,#081c38);">
+                <div class="flex items-center gap-2">
+                  <div class="w-[16px] h-[16px] rounded-md" style="background:linear-gradient(135deg,#3b82f6,#22d3ee);"></div>
+                  <span class="text-[10px] font-extrabold" style="color:#e2e8f0;">Nusantara Tech</span>
+                  <div class="ml-auto flex items-center gap-2"><span class="text-[8px]" style="color:#94a3b8;">Layanan</span><span class="text-[8px]" style="color:#94a3b8;">Produk</span><span class="text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:#2563eb;color:#fff;">Mulai</span></div>
+                </div>
+                <div>
+                  <div class="text-[8px] font-semibold uppercase tracking-widest" style="color:#38bdf8;">Transformasi Digital</div>
+                  <div class="text-[17px] font-extrabold leading-[1.1] mt-1" style="color:#f8fafc;">Agen Transformasi Digital Indonesia</div>
+                  <div class="text-[8.5px] mt-1.5" style="color:#94a3b8;">Pengembangan software, cloud, dan data untuk bisnis Anda.</div>
+                </div>
+                <div class="grid grid-cols-3 gap-1.5">
+                  <div class="rounded-md py-2 text-center" style="background:rgba(37,99,235,0.18);border:1px solid rgba(59,130,246,0.25);"><div class="text-[12px] font-extrabold" style="color:#60a5fa;">120+</div><div class="text-[6.5px] text-[#94a3b8]">Proyek</div></div>
+                  <div class="rounded-md py-2 text-center" style="background:rgba(37,99,235,0.18);border:1px solid rgba(59,130,246,0.25);"><div class="text-[12px] font-extrabold" style="color:#60a5fa;">48</div><div class="text-[6.5px] text-[#94a3b8]">Klien</div></div>
+                  <div class="rounded-md py-2 text-center" style="background:rgba(37,99,235,0.18);border:1px solid rgba(59,130,246,0.25);"><div class="text-[12px] font-extrabold" style="color:#60a5fa;">98%</div><div class="text-[6.5px] text-[#94a3b8]">Kepuasan</div></div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <div><div class="flex justify-between text-[7.5px] mb-1"><span style="color:#cbd5e1;">Pengembangan Software</span><span style="color:#38bdf8;">96%</span></div><div class="h-[5px] rounded-full overflow-hidden" style="background:rgba(59,130,246,0.15);"><div style="width:96%;height:100%;border-radius:9999px;background:linear-gradient(90deg,#2563eb,#38bdf8);animation:barWide 1.4s ease-out both;margin-left:0;"></div></div></div>
+                  <div><div class="flex justify-between text-[7.5px] mb-1"><span style="color:#cbd5e1;">Cloud &amp; DevOps</span><span style="color:#38bdf8;">88%</span></div><div class="h-[5px] rounded-full overflow-hidden" style="background:rgba(59,130,246,0.15);"><div style="width:88%;height:100%;border-radius:9999px;background:linear-gradient(90deg,#2563eb,#38bdf8);animation:barWide 1.4s ease-out .15s both;"></div></div></div>
+                  <div><div class="flex justify-between text-[7.5px] mb-1"><span style="color:#cbd5e1;">Data &amp; AI</span><span style="color:#38bdf8;">92%</span></div><div class="h-[5px] rounded-full overflow-hidden" style="background:rgba(59,130,246,0.15);"><div style="width:92%;height:100%;border-radius:9999px;background:linear-gradient(90deg,#2563eb,#38bdf8);animation:barWide 1.4s ease-out .3s both;"></div></div></div>
+                </div>
+                <div class="rounded-md py-2 text-center" style="background:linear-gradient(90deg,#1d4ed8,#0ea5e9,#1d4ed8);background-size:200% 100%;animation:shimmerBlue 3s linear infinite;"><span class="text-[9px] font-bold" style="color:#f8fafc;">Jelajahi Layanan →</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -441,32 +459,42 @@
       <!-- APOTEK SEHAT -->
       <div class="proj-card bg-[#10101e] border border-white/[0.06] rounded-xl overflow-hidden rv d6" data-category="web">
         <div class="h-[250px] overflow-hidden">
-          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-6" style="background:linear-gradient(160deg,#e3f5ec,#c9ecdd);">
-            <div class="relative" style="width:150px;height:200px;background:linear-gradient(145deg,#123b2a,#0a2419);border:1px solid #1d5b3f;border-radius:16px;box-shadow:0 24px 50px rgba(0,0,0,0.55), inset 0 0 0 1px #0d2f20;transform:perspective(900px) rotateX(2deg) rotateY(-7deg);">
-              <div class="absolute" style="top:7px;left:7px;right:7px;bottom:7px;border-radius:11px;overflow:hidden;background:#f2faf5;">
-                <div class="flex items-center gap-1 pl-2 pr-2 pt-2 pb-1.5" style="background:#047857;">
-                  <div style="position:relative;width:13px;height:13px;background:#fff;border-radius:4px;"><div style="position:absolute;left:5px;top:2px;width:3px;height:9px;background:#047857;border-radius:1px;"></div><div style="position:absolute;left:2px;top:5px;width:9px;height:3px;background:#047857;border-radius:1px;"></div></div>
-                  <span class="text-[8px] font-bold" style="color:#ecfdf5;">Apotek Sehat</span>
-                  <span class="ml-auto rounded px-1.5 py-[2px] text-[6px] font-semibold" style="background:rgba(255,255,255,0.15);color:#a7f3d0;">Open 24 Jam</span>
-                </div>
-                <div class="px-2 pt-1.5">
-                  <div class="flex items-center gap-1 rounded-md px-2 py-1.5" style="background:#fff;border:1px solid rgba(4,120,87,0.2);"><div style="width:7px;height:7px;border-radius:50%;background:#34d399;"></div><span class="text-[7px]" style="color:#94a3b8;">Cari obat, vitamin, alat medis...</span></div>
-                </div>
-                <div class="px-2 pt-1.5 flex flex-col gap-1">
-                  <div class="flex items-center gap-1 rounded-md px-2 py-1.5" style="background:#fff;border:1px solid rgba(4,120,87,0.12);"><span class="w-1.5 h-1.5 rounded-sm" style="background:#10b981;"></span><span class="text-[7px] font-semibold" style="color:#065f46;">Paracetamol 500mg</span><span class="ml-auto text-[7px] font-bold" style="color:#047857;">Rp3.5K</span></div>
-                  <div class="flex items-center gap-1 rounded-md px-2 py-1.5" style="background:#fff;border:1px solid rgba(4,120,87,0.12);"><span class="w-1.5 h-1.5 rounded-sm" style="background:#10b981;"></span><span class="text-[7px] font-semibold" style="color:#065f46;">Amoxicillin 500mg</span><span class="ml-auto text-[7px] font-bold" style="color:#047857;">Rp12K</span></div>
-                  <div class="flex items-center gap-1 rounded-md px-2 py-1.5" style="background:#fff;border:1px solid rgba(4,120,87,0.12);"><span class="w-1.5 h-1.5 rounded-sm" style="background:#10b981;"></span><span class="text-[7px] font-semibold" style="color:#065f46;">Vitamin C 1000mg</span><span class="ml-auto text-[7px] font-bold" style="color:#047857;">Rp9K</span></div>
-                </div>
-                <div class="px-2 pt-1.5 grid grid-cols-2 gap-1">
-                  <div class="rounded-md py-2 text-center" style="background:#059669;"><span class="text-[6px] font-bold text-white">Katalog Obat</span></div>
-                  <div class="rounded-md py-2 text-center" style="background:#0ea5e9;"><span class="text-[6px] font-bold text-white">Konsultasi</span></div>
-                  <div class="rounded-md py-2 text-center" style="background:#0e7490;"><span class="text-[6px] font-bold text-white">Reservasi</span></div>
-                  <div class="rounded-md py-2 text-center" style="background:#064e3b;"><span class="text-[6px] font-bold" style="color:#a7f3d0;">Info Obat</span></div>
-                </div>
+          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-8" style="background:linear-gradient(135deg,#e6f6ee 0%,#d0efdf 100%);">
+            <div class="max-w-[330px] w-full bg-white rounded-md overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)]" style="transform:perspective(600px) rotateX(2deg);">
+              <div class="flex items-center gap-1 px-2 py-1" style="background:#e3efe9;">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#ff5f57"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#febc2e"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#28c840"></span>
+                <span class="ml-2 font-mono text-[9px]" style="color:#4b5563;">apoteksehat.id</span>
+                <span class="ml-auto text-[8px] px-1.5 py-0.5 rounded-sm font-semibold" style="color:#059669;background:rgba(16,185,129,0.12);animation:blinkSoft 2.2s ease-in-out infinite;">● Open 24 Jam</span>
               </div>
-              <div style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#0a2419;box-shadow:inset 0 0 0 1px #1d5b3f;"></div>
-              <div style="position:absolute;top:56px;right:-3px;width:3px;height:26px;border-radius:0 3px 3px 0;background:#0d2c1f;"></div>
-              <div style="position:absolute;top:76px;left:-3px;width:3px;height:30px;border-radius:3px 0 0 3px;background:#0d2c1f;"></div>
+              <div class="p-4 flex flex-col gap-3" style="background:linear-gradient(150deg,#f4fcf8,#eaf7f0);">
+                <div class="flex items-center gap-2">
+                  <div style="position:relative;width:16px;height:16px;background:#059669;border-radius:5px;"><div style="position:absolute;left:6px;top:3px;width:4px;height:10px;background:#fff;border-radius:1px;"></div><div style="position:absolute;left:3px;top:6px;width:10px;height:4px;background:#fff;border-radius:1px;"></div></div>
+                  <span class="text-[10px] font-extrabold" style="color:#064e3b;">Apotek Sehat</span>
+                  <div class="ml-auto flex items-center gap-2"><span class="text-[8px]" style="color:#047857;">Obat</span><span class="text-[8px]" style="color:#047857;">Konsultasi</span><span class="text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:#059669;color:#fff;">Daftar</span></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 items-center">
+                  <div>
+                    <div class="text-[8px] font-semibold uppercase tracking-widest" style="color:#059669;">Layanan Kesehatan</div>
+                    <div class="text-[17px] font-extrabold leading-[1.1] mt-1" style="color:#022c22;">Kesehatan Keluarga, Sehat Selalu.</div>
+                    <div class="text-[8.5px] mt-1.5 leading-relaxed" style="color:#3d6b57;">Katalog obat, reservasi konsultasi, dan info obat tepercaya.</div>
+                    <div class="flex gap-1.5 mt-2">
+                      <div class="rounded-md px-2.5 py-1.5 text-[8.5px] font-bold text-white" style="background:#059669;animation:blinkSoft 2.6s ease-in-out infinite;">Konsultasi</div>
+                      <div class="rounded-md px-2.5 py-1.5 text-[8.5px] font-bold border" style="border-color:rgba(5,150,105,0.4);color:#047857;">Info Obat</div>
+                    </div>
+                  </div>
+                  <div class="relative flex items-center justify-center">
+                    <div class="rounded-full" style="width:58px;height:26px;background:linear-gradient(180deg,#ffffff 30%,#d1fae5 30%);border:2px solid #10b981;box-shadow:0 10px 24px rgba(5,150,105,0.35);animation:floatU 3.6s ease-in-out infinite;"></div>
+                    <div class="rounded-full flex items-center justify-center" style="position:absolute;right:0;bottom:8px;width:44px;height:44px;background:#0d9488;box-shadow:0 8px 20px rgba(13,148,136,0.4);animation:floatU 3s ease-in-out .6s infinite;"><div style="position:relative;width:14px;height:10px;background:#fff;border-radius:2px 2px 4px 4px;"><div style="position:absolute;left:1px;top:-2px;width:3px;height:3px;border-radius:50%;background:#fff;"></div><div style="position:absolute;right:1px;top:-2px;width:3px;height:3px;border-radius:50%;background:#fff;"></div></div></div>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <div class="flex items-center gap-1.5 rounded-md px-2 py-1.5 bg-white border" style="border-color:rgba(5,150,105,0.14);"><div class="rounded-sm" style="width:22px;height:22px;background:linear-gradient(180deg,#34d399,#059669);"></div><div><div class="text-[8px] font-bold" style="color:#064e3b;">Paracetamol 500mg</div><div class="text-[6.5px]" style="color:#3d6b57;">Stok tersedia</div></div><span class="ml-auto text-[8px] font-bold" style="color:#047857;">Rp3.5K</span></div>
+                  <div class="flex items-center gap-1.5 rounded-md px-2 py-1.5 bg-white border" style="border-color:rgba(5,150,105,0.14);"><div class="rounded-sm" style="width:22px;height:22px;background:linear-gradient(180deg,#38bdf8,#0284c7);"></div><div><div class="text-[8px] font-bold" style="color:#064e3b;">Amoxicillin 500mg</div><div class="text-[6.5px]" style="color:#3d6b57;">Stok tersedia</div></div><span class="ml-auto text-[8px] font-bold" style="color:#047857;">Rp12K</span></div>
+                </div>
+                <div class="rounded-md px-3 py-2 flex items-center" style="background:linear-gradient(90deg,#059669,#10b981,#059669);background-size:200% 100%;animation:shimmerGold 3s linear infinite;"><span class="text-[8px] font-bold text-white">Konsultasi Dokter Gratis Hari Ini</span><span class="ml-auto block rounded-full" style="width:6px;height:6px;background:#fff;animation:pulseDot 1.6s ease-in-out infinite;"></span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -490,37 +518,38 @@
       <!-- SIKAMLING DIGITAL -->
       <div class="proj-card bg-[#10101e] border border-white/[0.06] rounded-xl overflow-hidden rv d7" data-category="web">
         <div class="h-[250px] overflow-hidden">
-          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-6" style="background:linear-gradient(160deg,#221010,#331515);">
-            <div class="relative" style="width:150px;height:200px;background:linear-gradient(145deg,#241414,#150a0a);border:1px solid #4a2222;border-radius:16px;box-shadow:0 24px 50px rgba(0,0,0,0.55), inset 0 0 0 1px #200d0d;transform:perspective(900px) rotateX(2deg) rotateY(-7deg);">
-              <div class="absolute" style="top:7px;left:7px;right:7px;bottom:7px;border-radius:11px;overflow:hidden;background:#170d0d;">
-                <div class="flex items-center gap-1 pl-2 pr-2 pt-2 pb-1.5" style="background:#200f0f;border-bottom:1px solid rgba(248,113,113,0.15);">
-                  <div style="width:12px;height:12px;border-radius:4px;background:linear-gradient(135deg,#ef4444,#b91c1c);"></div>
-                  <span class="text-[8px] font-bold" style="color:#fecaca;">SiKamling</span>
-                  <span class="ml-auto flex items-center gap-1 text-[6px] font-semibold" style="color:#34d399;"><span class="block rounded-full" style="width:5px;height:5px;background:#34d399;box-shadow:0 0 6px rgba(52,211,153,0.8);"></span>SISTEM AKTIF</span>
-                </div>
-                <div class="px-2 pt-2 pb-1.5" style="background:linear-gradient(160deg,rgba(239,68,68,0.18),rgba(153,27,27,0.06));">
-                  <div class="text-[5.5px] font-semibold uppercase tracking-[0.14em]" style="color:#f87171;">Gampong Aman, Warga Tenang</div>
-                  <div class="text-[10px] font-extrabold leading-[1.15]" style="color:#fef2f2;">Jadwal Ronda Hari Ini</div>
-                </div>
-                <div class="px-2 pt-1.5 flex flex-col gap-1">
-                  <div class="flex items-center rounded-md px-2 py-1.5" style="background:rgba(127,29,29,0.35);border:1px solid rgba(239,68,68,0.2);"><span class="text-[6.5px] font-bold" style="color:#fca5a5;">Pos 01</span><span class="ml-auto text-[6.5px]" style="color:#fecaca;">19.00 – 21.00</span></div>
-                  <div class="flex items-center rounded-md px-2 py-1.5" style="background:rgba(127,29,29,0.35);border:1px solid rgba(239,68,68,0.2);"><span class="text-[6.5px] font-bold" style="color:#fca5a5;">Pos 02</span><span class="ml-auto text-[6.5px]" style="color:#fecaca;">21.00 – 23.00</span></div>
-                  <div class="flex items-center rounded-md px-2 py-1.5" style="background:rgba(127,29,29,0.35);border:1px solid rgba(239,68,68,0.2);"><span class="text-[6.5px] font-bold" style="color:#fca5a5;">Pos 03</span><span class="ml-auto text-[6.5px]" style="color:#fecaca;">23.00 – 01.00</span></div>
-                </div>
-                <div class="px-2 pt-1.5">
-                  <div class="rounded-md py-2 text-center" style="background:linear-gradient(135deg,#dc2626,#7f1d1d);box-shadow:0 4px 14px rgba(220,38,38,0.35);"><span class="text-[7px] font-bold" style="color:#fff1f1;">Lapor Kamtibmas</span></div>
-                </div>
-                <div class="px-2 pt-1.5 flex gap-1">
-                  <div class="flex-1 rounded-md py-1.5 text-center" style="background:#f59e0b;"><span class="text-[6.5px] font-bold" style="color:#451a03;">SOS Darurat</span></div>
-                  <div class="flex-1 rounded-md py-1.5 text-center" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);"><span class="text-[6.5px] font-bold" style="color:#fbbf24;">Hub. Polsek</span></div>
-                </div>
-                <div class="px-2 pt-1.5">
-                  <div class="text-center text-[6px]" style="color:#7f1d1d;">● 3 petugas aktif · 1 laporan terverifikasi</div>
-                </div>
+          <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-8" style="background:linear-gradient(160deg,#1a0c0c,#331414);">
+            <div class="max-w-[330px] w-full bg-[#161010] rounded-md overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]" style="transform:perspective(600px) rotateX(2deg);">
+              <div class="flex items-center gap-1 px-2 py-1" style="background:#1e1313;border-bottom:1px solid rgba(248,113,113,0.14);">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#ff5f57"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#febc2e"></span>
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#28c840"></span>
+                <span class="ml-2 font-mono text-[9px]" style="color:#7f5153;">sikamling.gampong</span>
+                <span class="ml-auto flex items-center gap-1 text-[8px] px-1.5 py-0.5 rounded-sm font-semibold" style="color:#34d399;background:rgba(52,211,153,0.1);"><span class="block rounded-full" style="width:5px;height:5px;background:#34d399;box-shadow:0 0 8px rgba(52,211,153,0.9);animation:blinkSoft 1.6s ease-in-out infinite;"></span>LIVE</span>
               </div>
-              <div style="position:absolute;top:3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#150a0a;box-shadow:inset 0 0 0 1px #4a2222;"></div>
-              <div style="position:absolute;top:56px;right:-3px;width:3px;height:26px;border-radius:0 3px 3px 0;background:#1a0c0c;"></div>
-              <div style="position:absolute;top:76px;left:-3px;width:3px;height:30px;border-radius:3px 0 0 3px;background:#1a0c0c;"></div>
+              <div class="p-4 flex flex-col gap-3" style="background:linear-gradient(170deg,#1a0c0c,#260f0f);">
+                <div class="flex items-center gap-2">
+                  <div style="width:16px;height:16px;border-radius:5px;background:linear-gradient(135deg,#ef4444,#7f1d1d);"></div>
+                  <span class="text-[10px] font-extrabold" style="color:#fecaca;">SiKamling Digital</span>
+                  <div class="ml-auto flex items-center gap-2"><span class="text-[8px]" style="color:#ea8b8b;">Ronda</span><span class="text-[8px]" style="color:#ea8b8b;">Laporan</span><span class="text-[8px] font-bold px-2 py-0.5 rounded-full" style="background:#dc2626;color:#fff;">Siaga</span></div>
+                </div>
+                <div>
+                  <div class="text-[8px] font-semibold uppercase tracking-widest" style="color:#f87171;">Gampong Aman, Warga Tenang</div>
+                  <div class="text-[17px] font-extrabold leading-[1.1] mt-1" style="color:#fff1f1;">Keamanan Gampong, Satu Platform.</div>
+                  <div class="text-[8.5px] mt-1.5" style="color:#c98484;">Jadwal ronda real-time &amp; laporan kamtibmas terverifikasi.</div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <div class="flex items-center gap-1.5 rounded-md px-2 py-1.5" style="background:rgba(127,29,29,0.3);border:1px solid rgba(239,68,68,0.2);"><span class="text-[8px] font-bold" style="color:#fca5a5;">Pos 01</span><div class="h-[3px] flex-1 rounded-full overflow-hidden" style="background:rgba(239,68,68,0.12);"><div style="width:70%;height:100%;background:linear-gradient(90deg,#ef4444,#f87171);animation:barWide 1.2s ease-out both;"></div></div><span class="text-[7px]" style="color:#fecaca;">19.00 – 21.00</span><span class="text-[6px] px-1 py-0.5 rounded-sm" style="background:rgba(52,211,153,0.12);color:#34d399;animation:blinkSoft 2s ease-in-out infinite;">BERJALAN</span></div>
+                  <div class="flex items-center gap-1.5 rounded-md px-2 py-1.5" style="background:rgba(127,29,29,0.3);border:1px solid rgba(239,68,68,0.2);"><span class="text-[8px] font-bold" style="color:#fca5a5;">Pos 02</span><div class="h-[3px] flex-1 rounded-full overflow-hidden" style="background:rgba(239,68,68,0.12);"><div style="width:35%;height:100%;background:linear-gradient(90deg,#ef4444,#f87171);animation:barWide 1.2s ease-out .2s both;"></div></div><span class="text-[7px]" style="color:#fecaca;">21.00 – 23.00</span></div>
+                  <div class="flex items-center gap-1.5 rounded-md px-2 py-1.5" style="background:rgba(127,29,29,0.3);border:1px solid rgba(239,68,68,0.2);"><span class="text-[8px] font-bold" style="color:#fca5a5;">Pos 03</span><div class="h-[3px] flex-1 rounded-full overflow-hidden" style="background:rgba(239,68,68,0.12);"><div style="width:10%;height:100%;background:linear-gradient(90deg,#ef4444,#f87171);animation:barWide 1.2s ease-out .35s both;"></div></div><span class="text-[7px]" style="color:#fecaca;">23.00 – 01.00</span></div>
+                </div>
+                <div class="rounded-md py-2.5 text-center" style="background:linear-gradient(135deg,#dc2626,#991b1b);box-shadow:0 6px 20px rgba(220,38,38,0.4);animation:blinkSoft 3s ease-in-out infinite;"><span class="text-[9px] font-bold" style="color:#fff1f1;">Lapor Kamtibmas</span></div>
+                <div class="flex gap-1.5">
+                  <div class="flex-1 rounded-md py-2 text-center" style="background:linear-gradient(135deg,#f59e0b,#d97706);"><span class="text-[8px] font-bold" style="color:#451a03;">SOS Darurat</span></div>
+                  <div class="flex-1 rounded-md py-2 text-center" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.35);"><span class="text-[8px] font-bold" style="color:#fbbf24;">Hub. Polsek</span></div>
+                </div>
+                <div class="text-center text-[7px]" style="color:#b97575;">● 3 petugas aktif · 1 laporan terverifikasi</div>
+              </div>
             </div>
           </div>
         </div>
@@ -547,34 +576,37 @@
         <div class="lg:grid lg:grid-cols-[1fr_1.2fr]">
           <div class="h-[320px] overflow-hidden">
             <div class="proj-thumb-inner w-full h-full flex items-center justify-center p-8" style="background:linear-gradient(135deg,#e7f6ee 0%,#d9f2e4 50%,#cdeff0 100%);">
-              <div class="relative" style="width:168px;height:224px;background:linear-gradient(145deg,#0f3d2e,#0a2a20);border:1px solid #0e4a36;border-radius:18px;box-shadow:0 24px 50px rgba(0,0,0,0.55), inset 0 0 0 1px #123c2c;transform:perspective(900px) rotateX(2deg) rotateY(-7deg);">
-                <div class="absolute" style="top:8px;left:8px;right:8px;bottom:8px;border-radius:12px;overflow:hidden;background:#f2fbf4;">
-                  <div class="flex items-center gap-1 px-2.5 pt-2 pb-1.5" style="background:#0e4a36;">
-                    <div style="width:14px;height:14px;border-radius:5px;background:#34d399;"></div>
-                    <span class="text-[8px] font-bold" style="color:#d1fae5;">SuGes</span>
-                    <span class="ml-auto rounded px-1.5 py-[2px] text-[6px] font-semibold" style="background:rgba(52,211,153,0.15);color:#6ee7b7;">BETA</span>
-                  </div>
-                  <div class="px-2.5 pt-2 pb-1.5" style="background:linear-gradient(135deg,#0e4a36,#065f46);">
-                    <div class="text-[6px] font-semibold uppercase tracking-wider" style="color:#6ee7b7;">Pilkades 2026</div>
-                    <div class="text-[9px] font-extrabold leading-tight" style="color:#ecfdf5;">Pemungutan Suara Digital</div>
-                    <div class="flex gap-1 mt-1.5">
-                      <div class="flex-1 rounded h-[5px] overflow-hidden" style="background:rgba(255,255,255,0.15);"><div style="width:62%;height:100%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
-                      <div class="flex-1 rounded h-[5px] overflow-hidden" style="background:rgba(255,255,255,0.15);"><div style="width:38%;height:100%;background:linear-gradient(90deg,#0ea5e9,#38bdf8);"></div></div>
-                    </div>
-                  </div>
-                  <div class="p-2 flex flex-col gap-1.5">
-                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full" style="background:#10b981;"></span><span class="text-[7px] font-bold" style="color:#064e3b;">Aspirasi Terbaru</span><span class="ml-auto text-[6px]" style="color:#059669;">12 baru</span></div>
-                    <div class="rounded-md px-2 py-1.5" style="background:#e7f9ed;border:1px solid rgba(16,185,129,0.25);"><span class="text-[6.5px] leading-snug" style="color:#065f46;">Perbaikan jalan gampong Blang Batee disetujui 87% warga</span></div>
-                    <div class="flex gap-1.5 mt-0.5">
-                      <div class="flex-1 rounded-md py-2 text-center" style="background:#10b981;"><span class="text-[7px] font-bold" style="color:#ecfdf5;">Aspirasi</span></div>
-                      <div class="flex-1 rounded-md py-2 text-center" style="background:#0ea5e9;"><span class="text-[7px] font-bold" style="color:#ecfeff;">Pengaduan</span></div>
-                    </div>
-                    <div class="rounded-md py-2 text-center" style="background:#064e3b;"><span class="text-[7px] font-bold" style="color:#a7f3d0;">Berikan Suara ▶</span></div>
-                  </div>
+              <div class="max-w-[380px] w-full bg-white rounded-md overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)]" style="transform:perspective(600px) rotateX(2deg);">
+                <div class="flex items-center gap-1 px-2 py-1" style="background:#e2eee8;">
+                  <span class="w-1.5 h-1.5 rounded-full" style="background:#ff5f57"></span>
+                  <span class="w-1.5 h-1.5 rounded-full" style="background:#febc2e"></span>
+                  <span class="w-1.5 h-1.5 rounded-full" style="background:#28c840"></span>
+                  <span class="ml-2 font-mono text-[9px]" style="color:#4b5563;">suges.desa.id</span>
+                  <span class="ml-auto text-[8px] px-1.5 py-0.5 rounded-sm font-semibold" style="color:#059669;background:rgba(16,185,129,0.12);">● BETA</span>
                 </div>
-                <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#0b2a1e;box-shadow:inset 0 0 0 1px #1a4a36;"></div>
-                <div style="position:absolute;top:64px;right:-3px;width:3px;height:28px;border-radius:0 3px 3px 0;background:#0e2c20;"></div>
-                <div style="position:absolute;top:84px;left:-3px;width:3px;height:30px;border-radius:3px 0 0 3px;background:#0e2c20;"></div>
+                <div class="p-5 flex flex-col gap-3.5" style="background:linear-gradient(150deg,#f3fcf7,#eaf7ef);">
+                  <div class="flex items-center gap-2">
+                    <div style="width:17px;height:17px;border-radius:5px;background:linear-gradient(135deg,#10b981,#065f46);"></div>
+                    <span class="text-[11px] font-extrabold" style="color:#064e3b;">SuGes</span>
+                    <div class="ml-auto flex items-center gap-2"><span class="text-[9px]" style="color:#047857;">Aspirasi</span><span class="text-[9px]" style="color:#047857;">Pengaduan</span><span class="text-[9px] font-bold px-2 py-0.5 rounded-full" style="background:#059669;color:#fff;">Berikan Suara →</span></div>
+                  </div>
+                  <div>
+                    <div class="text-[8px] font-semibold uppercase tracking-widest" style="color:#059669;">Pilkades 2026 · Pemungutan Suara Digital</div>
+                    <div class="text-[20px] font-extrabold leading-[1.08] mt-1" style="color:#022c22;">Suara Warga,<br>Keputusan Desa.</div>
+                    <div class="text-[9px] mt-1.5" style="color:#3d6b57;">Transparansi tata kelola, aspirasi, pengaduan &amp; voting digital terverifikasi.</div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3 items-center">
+                    <div class="flex flex-col gap-2">
+                      <div><div class="flex justify-between text-[8px] mb-1"><span class="font-bold" style="color:#047857;">Kandidat A</span><span class="font-extrabold" style="color:#059669;">62%</span></div><div class="h-[6px] rounded-full overflow-hidden" style="background:rgba(16,185,129,0.12);"><div style="width:62%;height:100%;border-radius:9999px;background:linear-gradient(90deg,#059669,#34d399);animation:barWide 1.3s ease-out both;"></div></div></div>
+                      <div><div class="flex justify-between text-[8px] mb-1"><span class="font-bold" style="color:#0369a1;">Kandidat B</span><span class="font-extrabold" style="color:#0284c7;">38%</span></div><div class="h-[6px] rounded-full overflow-hidden" style="background:rgba(14,165,233,0.12);"><div style="width:38%;height:100%;border-radius:9999px;background:linear-gradient(90deg,#0284c7,#38bdf8);animation:barWide 1.3s ease-out .2s both;"></div></div></div>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                      <div class="rounded-md px-2.5 py-2 text-white" style="background:linear-gradient(135deg,#059669,#10b981);animation:blinkSoft 2.6s ease-in-out infinite;"><div class="text-[8px] font-bold">Sampaikan Aspirasi</div></div>
+                      <div class="rounded-md px-2.5 py-2 text-center" style="background:#eaf9f0;border:1px solid rgba(5,150,105,0.3);"><span class="text-[8px] font-bold" style="color:#047857;">Lihat Pengaduan</span></div>
+                    </div>
+                  </div>
+                  <div class="rounded-md px-3 py-2 flex items-center" style="background:linear-gradient(90deg,#065f46,#059669,#065f46);background-size:200% 100%;animation:shimmerGold 3.2s linear infinite;"><span class="text-[8.5px] font-bold" style="color:#a7f3d0;">✓ Aspirasi terverifikasi real-time</span><span class="ml-auto text-[8px]" style="color:#d1fae5;">87% warga</span></div>
+                </div>
               </div>
             </div>
           </div>

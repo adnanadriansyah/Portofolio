@@ -56,7 +56,7 @@
   .bg-noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
   .rv { opacity:0; transform:translateY(40px) scale(0.96); filter:blur(4px); transition: opacity .9s cubic-bezier(0.16,1,0.3,1), transform .9s cubic-bezier(0.16,1,0.3,1), filter .9s cubic-bezier(0.16,1,0.3,1); }
   .rv.d1 { transition-delay:.10s; } .rv.d2 { transition-delay:.18s; } .rv.d3 { transition-delay:.26s; }
-  .rv.d4 { transition-delay:.34s; } .rv.d5 { transition-delay:.42s; } .rv.d6 { transition-delay:.50s; }
+  .rv.d4 { transition-delay:.34s; } .rv.d5 { transition-delay:.42s; } .rv.d6 { transition-delay:.50s; } .rv.d7 { transition-delay:.58s; } .rv.d8 { transition-delay:.66s; }
   .rv.in { opacity:1; transform:none; filter:blur(0); }
   #scrollProgress { position:fixed; top:0; left:0; width:0%; height:2px; background:linear-gradient(90deg,#c8a96d,#e8cc94); z-index:9999; transition:width .1s linear; pointer-events:none; }
   .parallax-bg { will-change:transform; }
@@ -64,10 +64,20 @@
   @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
   @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
   @keyframes spin { to{transform:rotate(360deg)} }
+  @keyframes floatU { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+  @keyframes steamUp { 0%{opacity:0;transform:translateY(3px) scaleX(1)} 35%{opacity:.75} 100%{opacity:0;transform:translateY(-16px) scaleX(1.6)} }
+  @keyframes barWide { from{width:0} }
+  @keyframes blinkSoft { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes shimmerGold { 0%{background-position:-150% 0} 100%{background-position:250% 0} }
+  .btn-sheen { position:relative; overflow:hidden; }
+  .btn-sheen::after { content:''; position:absolute; top:0; left:-150%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent); animation:shimmerGold 4.5s ease-in-out infinite; }
+  .svc-card:hover .svc-icon { transform:translateY(-2px) rotate(-3deg); box-shadow:0 0 24px rgba(200,169,109,0.18); }
+  .pricing-card.featured::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#c8a96d,#e8cc94,#c8a96d); background-size:200% 100%; animation:shimmerGold 3.5s linear infinite; display:block; }
+  .process-item:hover .process-num { border-color:rgba(200,169,109,0.7); color:#e8cc94; background:rgba(200,169,109,0.1); }
   .svc-card { transition: border-color .35s, transform .35s, background .35s; position: relative; overflow: hidden; }
   .svc-card:hover { border-color: rgba(200,169,109,0.25) !important; transform: translateY(-4px); }
   .svc-card:hover .svc-icon { border-color: rgba(200,169,109,0.4); background: rgba(200,169,109,0.12); }
-  .svc-icon { transition: border-color .3s, background .3s; }
+  .svc-icon { transition: border-color .3s, background .3s, transform .3s, box-shadow .3s; }
   .pricing-card { transition: border-color .3s, transform .3s, background .4s; position: relative; overflow: hidden; }
   .pricing-card:hover { border-color: rgba(200,169,109,0.25) !important; transform: translateY(-4px); }
   .pricing-card.featured { border-color: rgba(200,169,109,0.4); }
@@ -79,15 +89,15 @@
   body.light-mode .process-item:hover { background: rgba(154,112,53,0.03); }
   body.light-mode .nav-bar { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode footer { background: rgba(238,234,224,0.7) !important; }
-  body.light-mode .text-\[#8888aa\] { color: #65604e !important; }
-  body.light-mode .text-\[#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[#8888aa\] { color: #4f4c3f !important; }
+  body.light-mode .text-\[#5a5a78\] { color: #7d7560 !important; }
   body.light-mode .text-\[#f0f0f5\] { color: #1a1810 !important; }
   body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
   body.light-mode .bg-\[#10101e\] { background: #ffffff !important; }
   body.light-mode .bg-\[#080810\] { background: #f8f7f2 !important; }
   body.light-mode .page-section { background: #eeeae0 !important; }
-  .process-num { width: 48px; height: 48px; border: 1px solid rgba(200,169,109,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: #c8a96d; flex-shrink: 0; }
+  .process-num { width: 48px; height: 48px; border: 1px solid rgba(200,169,109,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: .75rem; color: #c8a96d; flex-shrink: 0; transition: border-color .3s, color .3s, background .3s; }
 </style>
 </head>
 <body>
@@ -275,7 +285,7 @@
           <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>Dashboard admin</li>
           <li class="flex items-start gap-2.5 text-[.85rem] text-[#8888aa]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a96d" stroke-width="2.5" class="mt-0.5 shrink-0"><path d="M20 6L9 17l-5-5"/></svg>3 bulan support</li>
         </ul>
-        <a href="contact.html" class="block w-full text-center py-3 bg-[#c8a96d] text-[#05050a] rounded text-sm font-semibold hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,169,109,0.25)] transition-all no-underline">
+        <a href="contact.html" class="btn-sheen block w-full text-center py-3 bg-[#c8a96d] text-[#05050a] rounded text-sm font-semibold hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,169,109,0.25)] transition-all no-underline">
           Mulai Sekarang
         </a>
       </div>

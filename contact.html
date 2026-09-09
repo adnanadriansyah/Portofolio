@@ -89,6 +89,9 @@
   .rv.d3 { transition-delay:.26s; }
   .rv.d4 { transition-delay:.34s; }
   .rv.d5 { transition-delay:.42s; }
+  .rv.d6 { transition-delay:.50s; }
+  .rv.d7 { transition-delay:.58s; }
+  .rv.d8 { transition-delay:.66s; }
   .rv.in { opacity:1; transform:none; filter:blur(0); }
   #scrollProgress { position:fixed; top:0; left:0; width:0%; height:2px; background:linear-gradient(90deg,#c8a96d,#e8cc94); z-index:9999; transition:width .1s linear; pointer-events:none; }
   .parallax-bg { will-change:transform; }
@@ -105,6 +108,17 @@
   @keyframes navIn { from{transform:translateY(-100%);opacity:0} to{transform:none;opacity:1} }
   @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
   @keyframes spin { to{transform:rotate(360deg)} }
+  @keyframes floatU { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+  @keyframes steamUp { 0%{opacity:0;transform:translateY(3px) scaleX(1)} 35%{opacity:.75} 100%{opacity:0;transform:translateY(-16px) scaleX(1.6)} }
+  @keyframes barWide { from{width:0} }
+  @keyframes blinkSoft { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes shimmerGold { 0%{background-position:-150% 0} 100%{background-position:250% 0} }
+  .btn-sheen { position:relative; overflow:hidden; }
+  .btn-sheen::after { content:''; position:absolute; top:0; left:-150%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent); animation:shimmerGold 4.5s ease-in-out infinite; }
+  .contact-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,#c8a96d,transparent); opacity:0; transition:opacity .35s; }
+  .contact-card:hover::after { opacity:.7; }
+  .info-row:hover .w-9.h-9 { border-color:rgba(200,169,109,0.4); background:rgba(200,169,109,0.12); transform:translateY(-2px) rotate(-3deg); }
+  .info-row .w-9.h-9 { transition: border-color .3s, background .3s, transform .3s; }
 
   /* ── Card Glow ── */
   .contact-card {
@@ -155,7 +169,7 @@
     color: #1a1810;
   }
   body.light-mode .form-field:focus { background: rgba(154,112,53,0.07); }
-  body.light-mode .form-field::placeholder { color: #a09880; }
+  body.light-mode .form-field::placeholder { color: #7d7560; }
 
   /* ── Marquee ── */
   .marquee-track { animation: marquee 22s linear infinite; }
@@ -178,8 +192,8 @@
   body.light-mode .page-section { background: #eeeae0 !important; }
   body.light-mode .nav-bar      { background: rgba(248,247,242,0.9) !important; border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode footer        { background: rgba(238,234,224,0.7) !important; }
-  body.light-mode .text-\[\#8888aa\] { color: #65604e !important; }
-  body.light-mode .text-\[\#5a5a78\] { color: #a09880 !important; }
+  body.light-mode .text-\[\#8888aa\] { color: #4f4c3f !important; }
+  body.light-mode .text-\[\#5a5a78\] { color: #7d7560 !important; }
   body.light-mode .text-\[\#f0f0f5\] { color: #1a1810 !important; }
   body.light-mode .border-white\/\[0\.06\] { border-color: rgba(0,0,0,0.07) !important; }
   body.light-mode .border-white\/\[0\.1\] { border-color: rgba(0,0,0,0.12) !important; }
@@ -337,7 +351,7 @@
         <!-- Email CTA -->
         <div class="rv d3 mb-10">
           <a href="mailto:adnanadriansyah5@gmail.com"
-            class="inline-flex items-center gap-3 px-7 py-4 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
+            class="btn-sheen inline-flex items-center gap-3 px-7 py-4 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(200,169,109,0.28)] transition-all no-underline">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
               <polyline points="22,6 12,13 2,6"/>
@@ -516,7 +530,7 @@
 
             <!-- Submit -->
             <button type="submit" id="formBtn"
-              class="flex items-center justify-center gap-2.5 w-full py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,169,109,0.25)] active:translate-y-0 transition-all">
+              class="btn-sheen flex items-center justify-center gap-2.5 w-full py-3.5 bg-[#c8a96d] text-[#05050a] rounded font-semibold text-sm tracking-tight hover:bg-[#e8cc94] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(200,169,109,0.25)] active:translate-y-0 transition-all">
               Kirim Pesan
               <svg id="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
